@@ -1,4 +1,4 @@
-AboatMon
+ABoatMon
 ========
 
 An Arduno (hence the A) Boat Monitoring solution
@@ -10,11 +10,14 @@ A reimplementation, and extension of https://github.com/gregcope/piboatmon, as t
 
 The present version is made from COTS parts to make life easy at the deign/proto stage.  However the code should be transferable.
 
-
+Parts
+=====
+* Adafruit Ultimate GPS - any 3.3v UART GPS would do
+* Adafruit fona - any GSM modem would do, although we do use the battery charging on the fona
+* 3.7v LIPO battery
 
 Classes
 =======
-
 * Device - A class to control power to devices via Digital pins
 
 
