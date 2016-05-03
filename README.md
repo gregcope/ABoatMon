@@ -21,7 +21,7 @@ Classes
 * Device - A class to control power to devices via Digital pins
 
 HowTo
-"""""
+=====
 
 1. Open a command terminal, and change cd to where your Ardunio IDE stores code
 ```cd Documents/Arduino```
