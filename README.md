@@ -20,5 +20,13 @@ Classes
 =======
 * Device - A class to control power to devices via Digital pins
 
+HowTo
+"""""
+
+1. Open a command terminal, and change cd to where your Ardunio IDE stores code
+```cd Documents/Arduino```
+2. Clone the repo
+```git clone https://github.com/gregcope/ABoatMon.git```
+3. Open Ardunio IDE and open ```ABoatMon.ino```
 
 http://arduino.stackexchange.com/questions/348/how-to-organize-my-arduino-projects-structure-for-easy-source-control
