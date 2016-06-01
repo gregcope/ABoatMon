@@ -11,9 +11,11 @@ Device::Device(byte pin) {
 void Device::on(void) {
   // Switch device on by putting pin LOW
   digitalWrite(_powerPin, HIGH);
+  Serial.print("device on!");
 }
 
 void Device::off(void) {
   // turn off the Device by putting pin LOW
   digitalWrite(_powerPin, LOW);
+  Serial.print("device off!");
 }
