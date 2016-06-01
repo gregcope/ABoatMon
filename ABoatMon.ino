@@ -1,18 +1,31 @@
+/*
+ * Greg Cope <gregcope@gmail.com>
+ * see; https://github.com/gregcope/ABoatMon
+ * 
+ */ 
+ 
 
 
 // includes
+// External
+// https://github.com/mikalhart/TinyGPSPlus/releases 
 #include "TinyGPS++.h"
-#include "Device.h"
+// https://github.com/LowPowerLab/LowPower
 #include <LowPower.h>
+// http://www.pjrc.com/teensy/td_libs_OneWire.html
+
+// internal classes/includes
+#include "Device.h"
 
 // PIN defines
 #define GPS_POWER 0
 
 #define BUTTON_LED 13
 #define CHARGER_POWER 14
+#define FONA_POWER 99
+#define TEMP_POWER 99
 
 // debug functions
-
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
 #define DEBUGln(input) {Serial.println(input); Serial.flush();}
 
@@ -21,16 +34,15 @@ TinyGPSPlus gps;
 Device gpsDevice(GPS_POWER); 
 Device charger(CHARGER_POWER);
 Device led(BUTTON_LED);
-//Device fona
-//Device tempSensor
+//Device fona(FONA_POWER);
+//Device tempSensor(TEMP_POWER);
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600); 
   Serial.flush();
   sleep8Secs();
   DEBUGln("setup");
-  setupGPS();
+  // For sanity have setup functions per thing
   setupGPS();
   setupGSM();
 }
