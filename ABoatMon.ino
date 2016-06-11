@@ -33,6 +33,9 @@
 // 3.3M and a 1.8M resistor
 #define BATT_FORMULA(reading) reading * 0.00322 * 1.49 // >>> fine tune this parameter to match your voltage when fully charged
                                                        // details on how this works: https://lowpowerlab.com/forum/index.php/topic,1206.0.html
+
+#define R1 1800000
+#define R2 3300000
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
 #define DEBUGln(input) {Serial.println(input); Serial.flush();}
@@ -157,12 +160,17 @@ void sendMessage() {
 void checkBattery() {
     DEBUGln("checkBattery() .. battery readings: ");
     batteryReadings = 0 ;
+    // read it first and throw it away
+    analogRead(BATT_MONITOR);
     for (byte i=0; i<10; i++) {
       //take 10 samples, and average
       batteryReadings+=analogRead(BATT_MONITOR);
-      DEBUGln(batteryReadings);
     }
-    batteryVolts = BATT_FORMULA(batteryReadings / 10.0);
+    batteryReadings = batteryReadings / 10;
+    DEBUGln(batteryReadings);
+
+    float denomiator = (float)R2 / (R1+R2);
+    batteryVolts = batteryReadings / denomiator;
     DEBUGln(batteryVolts);
 
     if ( batteryVolts < BatteryAlarm ) {
