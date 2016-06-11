@@ -28,11 +28,11 @@
 #define TEMP_POWER 99
 
 // Static defines
-#define FOURMIN_CYCLES 30 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
+#define FOURMIN_CYCLES 5 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
 #define HOUR_CYCLES 450 // 8 sec sleep * 450 cyles == 3600 secs or 1 hour
+// 3.3M and a 1.8M resistor
 #define BATT_FORMULA(reading) reading * 0.00322 * 1.49 // >>> fine tune this parameter to match your voltage when fully charged
                                                        // details on how this works: https://lowpowerlab.com/forum/index.php/topic,1206.0.html
-
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
 #define DEBUGln(input) {Serial.println(input); Serial.flush();}
@@ -117,7 +117,7 @@ void loop() {
     DEBUG("4 mins check, fourMinCycleCount: ");
     DEBUGln(fourMinCycleCount);
     
-    //checkBattery();
+    checkBattery();
     //flipCharger();
     
     // reset counter
@@ -155,10 +155,15 @@ void sendMessage() {
 }
 
 void checkBattery() {
+    DEBUGln("checkBattery() .. battery readings: ");
     batteryReadings = 0 ;
-    for (byte i=0; i<10; i++) //take 10 samples, and average
-    batteryReadings+=analogRead(BATT_MONITOR);
+    for (byte i=0; i<10; i++) {
+      //take 10 samples, and average
+      batteryReadings+=analogRead(BATT_MONITOR);
+      DEBUGln(batteryReadings);
+    }
     batteryVolts = BATT_FORMULA(batteryReadings / 10.0);
+    DEBUGln(batteryVolts);
 
     if ( batteryVolts < BatteryAlarm ) {
       dtostrf(batteryVolts, 3,2, BatteryVoltsString); //update the BATStr which gets sent every BATT_CYCLES or along with the MOTION message
@@ -201,20 +206,19 @@ void setupGPS() {
 
   DEBUGln("setupGPS");
   // Setup the GPS from first use or hardreset
-  sleep8Secs();
+  sleep2Secs();
 
   // power up
   gpsDevice.on();
   // configure GPS device
   configureGPS();
 
-  sleep8Secs();
+  sleep2Secs();
   DEBUGln("gpsDevice.off()");
   gpsDevice.off();
   // start tracking
   // get A fix
   // record fix in 
-
 }
 
 void configureGPS() {
@@ -236,14 +240,14 @@ void configureGPS() {
 
 void sleep8Secs() {
   // going to kip
-  DEBUGln(". ");
+  DEBUGln("8 ");
   Serial.flush();
   LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
 }
 
 void sleep2Secs() {
   // going to kip
-  DEBUGln(". ");
+  DEBUGln("2 ");
   Serial.flush();
   LowPower.powerDown(SLEEP_2S, ADC_OFF, BOD_OFF);
 }
