@@ -97,7 +97,7 @@ void loop() {
   // check bildge Switch each loop
   if ( checkBilgeSwitch() > 0 ) {
     // panic ...
-    // have we sent a message
+    // have we sent a message?
     if ( bilgeMessageSent == 0 ) {
       needToSendMessage = 1;
       messageStr = "Bilge Switch is on";
@@ -114,8 +114,9 @@ void loop() {
   }
   
   if ( fourMinCycleCount++ == FOURMIN_CYCLES) {
-    DEBUGln("4 mins check");
-
+    DEBUG("4 mins check, fourMinCycleCount: ");
+    DEBUGln(fourMinCycleCount);
+    
     //checkBattery();
     //flipCharger();
     
