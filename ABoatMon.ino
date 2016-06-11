@@ -18,7 +18,7 @@
 #include "Device.h"
 
 // PIN defines
-#define GPS_POWER 0
+#define GPS_POWER 31
 
 #define BUTTON_LED 13
 #define CHARGER_POWER 14

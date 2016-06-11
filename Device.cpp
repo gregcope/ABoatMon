@@ -14,14 +14,14 @@ void Device::on(void) {
   // Switch device on by putting pin HIGH
   digitalWrite(_powerPin, HIGH);
   isOn = true;
-  Serial.print("device on!");
+  Serial.println("device on!");
 }
 
 void Device::off(void) {
   // turn off the Device by putting pin LOW
   digitalWrite(_powerPin, LOW);
   isOn = false;
-  Serial.print("device off!");
+  Serial.println("device off!");
 }
 
 boolean Device::powerState(void) {
