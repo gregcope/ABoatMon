@@ -2,6 +2,8 @@
  * Greg Cope <gregcope@gmail.com>
  * see; https://github.com/gregcope/ABoatMon
  * 
+ * Allot of code pinched from;
+ * https://github.com/LowPowerLab/RFM69/blob/master/Examples/MotionMote/MotionMote.ino
  */ 
 
 // includes
@@ -19,13 +21,17 @@
 #define GPS_POWER 31
 #define BUTTON_LED 12
 #define BILGE_SWITCH 13
+#define BATT_MONITOR A0
 
 #define CHARGER_POWER 99
 #define FONA_POWER 99
 #define TEMP_POWER 99
 
 // Static defines
-#define CYCLES;
+#define FOURMIN_CYCLES 30 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
+#define HOUR_CYCLES 450 // 8 sec sleep * 450 cyles == 3600 secs or 1 hour
+#define BATT_FORMULA(reading) reading * 0.00322 * 1.49 // >>> fine tune this parameter to match your voltage when fully charged
+                                                       // details on how this works: https://lowpowerlab.com/forum/index.php/topic,1206.0.html
 
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
@@ -41,9 +47,22 @@ Device buttonLed(BUTTON_LED);
 //Device tempSensor(TEMP_POWER);
 
 // Variables
-byte switchPosition = 0;
-//unsigned long loopCount;
+byte bilgeSwitchPosition = 0;
+
+unsigned long cycleCount = 0;
+byte fourMinCycleCount = 0;
+unsigned int hourCycleCount = 0;
+
+float BatteryAlarm = 2.7;
 float batteryVolts = 4;
+unsigned int batteryReadings = 0;
+char BatteryVoltsString[10]; //longest battery voltage reading message = 9chars
+
+// Message vars
+String messageStr = "";
+byte needToSendMessage = 0;
+byte batMessageSent = 0;
+byte bilgeMessageSent = 0;
 
 void setup() {
 
@@ -66,19 +85,85 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  DEBUGln("loop");
+  DEBUG("loop: ");
 
+  // up cycle Count
+  cycleCount ++;
+  DEBUGln(cycleCount);
+  
   // running so put LED on
   buttonLed.on();
 
-  // check bildge Switch
+  // check bildge Switch each loop
   if ( checkBilgeSwitch() > 0 ) {
-    DEBUGln("Panic!!!!");
+    // panic ...
+    // have we sent a message
+    if ( bilgeMessageSent == 0 ) {
+      needToSendMessage = 1;
+      messageStr = "Bilge Switch is on";
+      // assume we have sent a message to 
+      bilgeMessageSent = 1;
+    } 
+  } else {
+    // bilgeSwitch is off
+    // some sort of debounce for messages here
+    if ( bilgeMessageSent == 1 ) {
+      DEBUGln("Clearing bilgeMessageSent");
+      bilgeMessageSent = 0;  
+    }
+  }
+  
+  if ( fourMinCycleCount++ == FOURMIN_CYCLES) {
+    DEBUGln("4 mins check");
+
+    //checkBattery();
+    //flipCharger();
+    
+    // reset counter
+    fourMinCycleCount = 0;
+  } 
+
+  if ( hourCycleCount++ == HOUR_CYCLES) {
+    DEBUGln("Top of the hour ...");
+
+    checkBattery();
+    //checkPosition();
+
+    // reset counter
+    hourCycleCount = 0;
+  }
+  
+   // do we need to send a message
+  if ( needToSendMessage == 1 ) {
+    DEBUGln("Need to send massage");
+    sendMessage();
   }
 
   // finished so goto sleep
+  messageStr = "";
   buttonLed.off();
   sleep8Secs();
+}
+
+void sendMessage() {
+
+  DEBUG("Sending message: ");
+  DEBUGln(messageStr);
+  // clear needToSendMessage flag
+  needToSendMessage = 0;
+}
+
+void checkBattery() {
+    batteryReadings = 0 ;
+    for (byte i=0; i<10; i++) //take 10 samples, and average
+    batteryReadings+=analogRead(BATT_MONITOR);
+    batteryVolts = BATT_FORMULA(batteryReadings / 10.0);
+
+    if ( batteryVolts < BatteryAlarm ) {
+      dtostrf(batteryVolts, 3,2, BatteryVoltsString); //update the BATStr which gets sent every BATT_CYCLES or along with the MOTION message
+      needToSendMessage = 1;
+      messageStr = "BattLow: "; // + BatteryVoltsString + "V";
+    }
 }
 
 byte checkBilgeSwitch() {
@@ -90,14 +175,14 @@ byte checkBilgeSwitch() {
 
   if (digitalRead (BILGE_SWITCH) == LOW) {
     // bilgeSwitch if on!!!!
-    switchPosition = 1;
-    DEBUGln("setupBilgeSwitch is on!!!!");
+    bilgeSwitchPosition = 1;
+    DEBUGln("BilgeSwitch is on!!!!");
   } else {
     // bilgeSwitch must be off...
-    switchPosition = 0;
-    DEBUGln("setupBilgeSwitch is off!!!!");
+    bilgeSwitchPosition = 0;
+    DEBUGln("BilgeSwitch is off!!!!");
   }
-  return switchPosition;
+  return bilgeSwitchPosition;
 }
 
 void setupBilgeSwitch() {
@@ -121,10 +206,7 @@ void setupGPS() {
   gpsDevice.on();
   // configure GPS device
   configureGPS();
-    
-  DEBUGln("sleep8Sec()");
 
-  sleep8Secs();
   sleep8Secs();
   DEBUGln("gpsDevice.off()");
   gpsDevice.off();

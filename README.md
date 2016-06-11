@@ -22,6 +22,13 @@ Classes
 =======
 * Device - A base, or standlone class to control power to devices via a Digital pin
 
+High Level Logic
+================
+
+* Switches is on setup configures all the required bits
+* Loop every 8 secs and checks;
+* 
+
 HowTo
 =====
 
