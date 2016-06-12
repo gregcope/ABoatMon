@@ -44,8 +44,8 @@
 TinyGPSPlus gps;
 Device gpsDevice(GPS_POWER);
 Device buttonLed(BUTTON_LED);
+
 //Device charger(CHARGER_POWER);
-//Device led(BUTTON_LED);
 //Device fona(FONA_POWER);
 //Device tempSensor(TEMP_POWER);
 
@@ -177,6 +177,13 @@ void checkBattery() {
     if ( batteryVolts < BatteryAlarm ) {
       dtostrf(batteryVolts, 3,2, BatteryVoltsString); //update the BATStr which gets sent every BATT_CYCLES or along with the MOTION message
       needToSendMessage = 1;
+
+      // Do we need to add a ", " to messageStr?
+      if ( messageStr.length() > 0 ) {
+        messageStr.concat(", ");  
+      }
+
+      // add battery message
       messageStr.concat("BattLow: ");
       messageStr.concat(BatteryVoltsString);
       messageStr.concat("V");
@@ -192,7 +199,7 @@ byte checkBilgeSwitch() {
   // http://www.gammon.com.au/switches
 
   if (digitalRead (BILGE_SWITCH) == LOW) {
-    // bilgeSwitch if on!!!!
+    // bilgeSwitch is on!!!!
     bilgeSwitchPosition = 1;
   } else {
     // bilgeSwitch must be off...
@@ -216,7 +223,6 @@ void setupGPS() {
 
   DEBUGln("setupGPS");
   // Setup the GPS from first use or hardreset
-  sleep2Secs();
 
   // power up
   gpsDevice.on();
@@ -225,10 +231,7 @@ void setupGPS() {
 
   sleep2Secs();
   DEBUGln("gpsDevice.off()");
-  gpsDevice.off();
-  // start tracking
-  // get A fix
-  // record fix in 
+//  gpsDevice.off();
 }
 
 void configureGPS() {

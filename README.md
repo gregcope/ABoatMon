@@ -23,7 +23,8 @@ Parts
 Classes
 =======
 * Device - A base, or standlone class to control power to devices via a Digital pin
-* Tinggps++ - A class to deal with GPS
+* Tinygps++ - A class to deal with GPS
+* Lowpower - A class to help with Sleep modes
 
 High Level Logic
 ================
