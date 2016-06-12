@@ -30,12 +30,12 @@
 // Static defines
 #define FOURMIN_CYCLES 5 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
 #define HOUR_CYCLES 450 // 8 sec sleep * 450 cyles == 3600 secs or 1 hour
-// 3.3M and a 1.8M resistor
-#define BATT_FORMULA(reading) reading * 0.00322 * 1.49 // >>> fine tune this parameter to match your voltage when fully charged
-                                                       // details on how this works: https://lowpowerlab.com/forum/index.php/topic,1206.0.html
 
-#define R1 1800000
-#define R2 3300000
+// 3.3 (Vcc) / 1024 (ADC precision) =  0.00322
+// Motineo example 1m+470k = 470 / ( 1000 +470 ) = 0.32 rounded up
+// Ours 1.8m + 3.3m = 3300000 / ( 1800000 + 3300000 ) = 0.647 or 1.55 (inverse)
+#define BATT_FORMULA(reading) reading * 0.00322 * 1.5455 // >>> fine tune this parameter to match your voltage when fully charged
+                                                       // details on how this works: https://lowpowerlab.com/forum/index.php/topic,1206.0.html
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
 #define DEBUGln(input) {Serial.println(input); Serial.flush();}
@@ -56,7 +56,7 @@ unsigned long cycleCount = 0;
 byte fourMinCycleCount = 0;
 unsigned int hourCycleCount = 0;
 
-float BatteryAlarm = 2.7;
+float BatteryAlarm = 4.4;
 float batteryVolts = 4;
 unsigned int batteryReadings = 0;
 char BatteryVoltsString[10]; //longest battery voltage reading message = 9chars
@@ -101,7 +101,9 @@ void loop() {
   if ( checkBilgeSwitch() > 0 ) {
     // panic ...
     // have we sent a message?
+    DEBUGln("Bilgeswitch on!!!!");
     if ( bilgeMessageSent == 0 ) {
+      DEBUGln("Need to send bilge message");
       needToSendMessage = 1;
       messageStr = "Bilge Switch is on";
       // assume we have sent a message to 
@@ -166,17 +168,19 @@ void checkBattery() {
       //take 10 samples, and average
       batteryReadings+=analogRead(BATT_MONITOR);
     }
-    batteryReadings = batteryReadings / 10;
-    DEBUGln(batteryReadings);
-
-    float denomiator = (float)R2 / (R1+R2);
-    batteryVolts = batteryReadings / denomiator;
+    //DEBUGln(batteryReadings);
+    // work out the volts from the ADC value
+    batteryVolts = BATT_FORMULA(batteryReadings / 10.0);
     DEBUGln(batteryVolts);
 
+    // work out if we need to bleat
     if ( batteryVolts < BatteryAlarm ) {
       dtostrf(batteryVolts, 3,2, BatteryVoltsString); //update the BATStr which gets sent every BATT_CYCLES or along with the MOTION message
       needToSendMessage = 1;
-      messageStr = "BattLow: "; // + BatteryVoltsString + "V";
+      messageStr.concat("BattLow: ");
+      messageStr.concat(BatteryVoltsString);
+      messageStr.concat("V");
+      //messageStr = "BattLow: " + BatteryVoltsString + "V";
     }
 }
 
@@ -190,11 +194,9 @@ byte checkBilgeSwitch() {
   if (digitalRead (BILGE_SWITCH) == LOW) {
     // bilgeSwitch if on!!!!
     bilgeSwitchPosition = 1;
-    DEBUGln("BilgeSwitch is on!!!!");
   } else {
     // bilgeSwitch must be off...
     bilgeSwitchPosition = 0;
-    DEBUGln("BilgeSwitch is off!!!!");
   }
   return bilgeSwitchPosition;
 }
