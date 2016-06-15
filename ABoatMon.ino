@@ -128,7 +128,7 @@ void loop() {
   if ( fourMinCycleCount == FOURMIN_CYCLES) {
     DEBUG("4 mins check, fourMinCycleCount: ");
     
-    checkBattery();
+    lipoCheckBattery();
     //flipCharger();
     
     // reset counter
@@ -140,7 +140,7 @@ void loop() {
   if ( hourCycleCount == HOUR_CYCLES) {
     DEBUGln("Top of the hour ...");
 
-    checkBattery();
+    lipoCheckBattery();
     //checkPosition();
 
     // reset counter
@@ -167,8 +167,8 @@ void sendMessage() {
   needToSendMessage = 0;
 }
 
-void checkBattery() {
-    DEBUGln("checkBattery() .. battery readings: ");
+void lipoCheckBattery() {
+    DEBUGln("lipoCheckBattery() .. battery readings: ");
     lipoBatteryReadings = 0 ;
     // read it first and throw it away
     analogRead(BATT_MONITOR);
