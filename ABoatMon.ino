@@ -6,13 +6,13 @@
  * https://github.com/LowPowerLab/RFM69/blob/master/Examples/MotionMote/MotionMote.ino
  */ 
 
-// includes
-// External
+// External includes
 // https://github.com/mikalhart/TinyGPSPlus/releases 
 #include "TinyGPS++.h"
 // https://github.com/LowPowerLab/LowPower
 #include <LowPower.h>
 // http://www.pjrc.com/teensy/td_libs_OneWire.html
+#include <OneWire.h>
 
 // internal classes/includes
 #include "Device.h"
@@ -22,6 +22,8 @@
 #define BUTTON_LED 12
 #define BILGE_SWITCH 13
 #define BATT_MONITOR A0
+#define TEMP_POWER 30
+
 
 #define CHARGER_POWER 99
 #define FONA_POWER 99
@@ -44,6 +46,7 @@
 TinyGPSPlus gps;
 Device gpsDevice(GPS_POWER);
 Device buttonLed(BUTTON_LED);
+Device tempSensor(TEMP_POWER);
 
 //Device charger(CHARGER_POWER);
 //Device fona(FONA_POWER);
@@ -52,10 +55,12 @@ Device buttonLed(BUTTON_LED);
 // Variables
 byte bilgeSwitchPosition = 0;
 
+// Cycle Vars
 unsigned long cycleCount = 0;
 byte fourMinCycleCount = 0;
 unsigned int hourCycleCount = 0;
 
+// LipoBattery vars
 float BatteryAlarm = 4.4;
 float batteryVolts = 4;
 unsigned int batteryReadings = 0;
@@ -71,32 +76,32 @@ void setup() {
 
   // as we are on, fire up LED
   buttonLed.on();  
+
+  // Clear the serial ...
   Serial.begin(9600); 
   Serial.flush();
   DEBUGln("setup start");
-
-  // let everything settle
-  sleep2Secs();
 
   // For sanity have setup functions per thing
   setupBilgeSwitch();
   setupGPS();
   setupGSM();
+
+  // done
   buttonLed.off();
   DEBUGln("setup Done");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  
+  // running so put LED on
+  buttonLed.on();
   DEBUG("loop: ");
 
   // up cycle Count
   cycleCount ++;
   DEBUGln(cycleCount);
   
-  // running so put LED on
-  buttonLed.on();
-
   // check bildge Switch each loop
   if ( checkBilgeSwitch() > 0 ) {
     // panic ...
@@ -117,19 +122,23 @@ void loop() {
       bilgeMessageSent = 0;  
     }
   }
-  
-  if ( fourMinCycleCount++ == FOURMIN_CYCLES) {
+
+  // four minute checks
+  fourMinCycleCount++;
+  DEBUGln(fourMinCycleCount);
+  if ( fourMinCycleCount == FOURMIN_CYCLES) {
     DEBUG("4 mins check, fourMinCycleCount: ");
-    DEBUGln(fourMinCycleCount);
     
     checkBattery();
     //flipCharger();
     
     // reset counter
     fourMinCycleCount = 0;
-  } 
+  }
 
-  if ( hourCycleCount++ == HOUR_CYCLES) {
+  // Hourly checks
+  hourCycleCount++;
+  if ( hourCycleCount == HOUR_CYCLES) {
     DEBUGln("Top of the hour ...");
 
     checkBattery();
@@ -138,14 +147,14 @@ void loop() {
     // reset counter
     hourCycleCount = 0;
   }
+
   
    // do we need to send a message
   if ( needToSendMessage == 1 ) {
-    DEBUGln("Need to send massage");
     sendMessage();
   }
 
-  // finished so goto sleep
+  // finished so tidy and goto sleep
   messageStr = "";
   buttonLed.off();
   sleep8Secs();
@@ -229,9 +238,6 @@ void setupGPS() {
   // configure GPS device
   configureGPS();
 
-  sleep2Secs();
-  DEBUGln("gpsDevice.off()");
-//  gpsDevice.off();
 }
 
 void configureGPS() {
