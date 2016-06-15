@@ -24,10 +24,9 @@
 #define BATT_MONITOR A0
 #define TEMP_POWER 30
 
-
+// TBC
 #define CHARGER_POWER 99
 #define FONA_POWER 99
-#define TEMP_POWER 99
 
 // Static defines
 #define FOURMIN_CYCLES 5 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
@@ -61,10 +60,10 @@ byte fourMinCycleCount = 0;
 unsigned int hourCycleCount = 0;
 
 // LipoBattery vars
-float BatteryAlarm = 4.4;
-float batteryVolts = 4;
-unsigned int batteryReadings = 0;
-char BatteryVoltsString[10]; //longest battery voltage reading message = 9chars
+float lipoBatteryAlarm = 4.4;
+float lipoBatteryVolts= 4;
+unsigned int lipoBatteryReadings = 0;
+char lipoBatteryVoltsString[10]; //longest battery voltage reading message = 9chars
 
 // Message vars
 String messageStr = "";
@@ -170,21 +169,21 @@ void sendMessage() {
 
 void checkBattery() {
     DEBUGln("checkBattery() .. battery readings: ");
-    batteryReadings = 0 ;
+    lipoBatteryReadings = 0 ;
     // read it first and throw it away
     analogRead(BATT_MONITOR);
     for (byte i=0; i<10; i++) {
       //take 10 samples, and average
-      batteryReadings+=analogRead(BATT_MONITOR);
+      lipoBatteryReadings+=analogRead(BATT_MONITOR);
     }
-    //DEBUGln(batteryReadings);
+    //DEBUGln(lipoBatteryReadings);
     // work out the volts from the ADC value
-    batteryVolts = BATT_FORMULA(batteryReadings / 10.0);
-    DEBUGln(batteryVolts);
+    lipoBatteryVolts = BATT_FORMULA(lipoBatteryReadings / 10.0);
+    DEBUGln(lipoBatteryVolts);
 
     // work out if we need to bleat
-    if ( batteryVolts < BatteryAlarm ) {
-      dtostrf(batteryVolts, 3,2, BatteryVoltsString); //update the BATStr which gets sent every BATT_CYCLES or along with the MOTION message
+    if ( lipoBatteryVolts < lipoBatteryAlarm ) {
+      dtostrf(lipoBatteryVolts, 3,2, lipoBatteryVoltsString); //update the BATStr which gets sent every BATT_CYCLES or along with the MOTION message
       needToSendMessage = 1;
 
       // Do we need to add a ", " to messageStr?
@@ -194,9 +193,9 @@ void checkBattery() {
 
       // add battery message
       messageStr.concat("BattLow: ");
-      messageStr.concat(BatteryVoltsString);
+      messageStr.concat(lipoBatteryVoltsString);
       messageStr.concat("V");
-      //messageStr = "BattLow: " + BatteryVoltsString + "V";
+      //messageStr = "BattLow: " + lipoBatteryVoltsString + "V";
     }
 }
 
