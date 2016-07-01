@@ -19,6 +19,11 @@
 
 // PIN defines
 #define GPS_POWER 31
+#define GSM_TX 8  // serial
+#define GSM_RX 9  // serial
+#define GPS_TX 10 // serial1
+#define GPS_RX 11 // serial1
+
 #define BUTTON_LED 12
 #define BILGE_SWITCH 13
 #define BATT_MONITOR A0
@@ -37,12 +42,17 @@
 // Ours 1.8m + 3.3m = 3300000 / ( 1800000 + 3300000 ) = 0.647 or 1.55 (inverse)
 #define BATT_FORMULA(reading) reading * 0.00322 * 1.5455 // >>> fine tune this parameter to match your voltage when fully charged
                                                        // details on how this works: https://lowpowerlab.com/forum/index.php/topic,1206.0.html
+
+#define GPS_TIMEOUT 120000 // time to try and get a fix in msecs (120 secs)
+//#define GPS_TIMEOUT 800
+
+
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
 #define DEBUGln(input) {Serial.println(input); Serial.flush();}
 
 // Objects
-TinyGPSPlus gps;
+TinyGPSPlus nmea;
 Device gpsDevice(GPS_POWER);
 Device buttonLed(BUTTON_LED);
 Device tempSensor(TEMP_POWER);
@@ -58,6 +68,10 @@ byte bilgeSwitchPosition = 0;
 unsigned long cycleCount = 0;
 byte fourMinCycleCount = 0;
 unsigned int hourCycleCount = 0;
+unsigned long NOW = 0;
+unsigned long fixTimeoutMs = 0;
+boolean gpsFix = false;
+boolean gpsfixTimeoutReached = false;
 
 // LipoBattery vars
 float lipoBatteryAlarm = 4.4;
@@ -130,7 +144,9 @@ void loop() {
     
     lipoCheckBattery();
     //flipCharger();
-    
+
+    //drainNmea();
+
     // reset counter
     fourMinCycleCount = 0;
   }
@@ -236,6 +252,7 @@ void setupGPS() {
   gpsDevice.on();
   // configure GPS device
   configureGPS();
+  //gpsDevice.off();
 
 }
 
@@ -254,6 +271,67 @@ void configureGPS() {
   Serial1.print("$PMTK220,1000*1F\r\n"); // 1HZ
   //Serial1.print("$PSRF151,1*3F\r\n"); // WAAS_ON
   //Serial1.print("$PMTK513,1*28\r\n"); // Search for SBAS Sat
+
+  // http://aprs.gids.nl/nmea/#gga
+  // 0 = Invalid, 1 = GPS fix, 2 = DGPS fix
+  // 1 in this example
+  // $GPGGA,064951.000,2307.1256,N,12016.4438,E,1,8,0.95,39.9,M,17.8,M,,*65
+  TinyGPSCustom fixqual(nmea, "GPGGA", 6); // $GPGGA sentence, 6th element
+
+  // set timeout
+  fixTimeoutMs = millis() + GPS_TIMEOUT;
+  DEBUG("fixTimeoutMs: ");
+  DEBUGln(fixTimeoutMs);
+  while ( !gpsfixTimeoutReached && !gpsFix ) {
+    // do stuff
+    
+    DEBUG("millis(): ");
+    DEBUGln(millis());
+
+    drainNmea();
+
+    if ( fixTimeoutMs <= millis() ) {
+      gpsfixTimeoutReached = true;
+      DEBUGln("gpsfixTimeoutReached is now true");
+    }
+    
+    if ( nmea.location.isValid() ) {
+      gpsFix = true;
+      DEBUGln("gpFix is now true");
+      Serial.print(nmea.location.lat(), 6);
+      Serial.print(nmea.location.lng(), 6);
+      DEBUG("hdop is: ");
+      DEBUGln(nmea.hdop.value());
+    }
+  }
+  
+  DEBUG("millis(): ");
+  DEBUGln(millis());
+}
+
+void drainNmea() {
+
+  // grab all avaliable data and feed it to the gps nmea parser
+
+  DEBUGln("drainNmea()");
+    
+  while (Serial1.available() > 0) {
+    if (nmea.encode(Serial1.read())) {
+      buttonLed.on();
+      DEBUGln("got gps summat");
+      buttonLed.off();
+    }
+  }
+  DEBUG("nmea chars processed: ");
+  DEBUGln(nmea.charsProcessed());
+
+  /*
+   * nmea.hdop.value()
+   * nmea.hdop.value() < 150  && nmea.hdop.value() != 0
+   * nmea.location.lat()
+   * nmea.location.lon()
+   * nmea.location.isValid()
+   */
 }
 
 void sleep8Secs() {
