@@ -13,7 +13,7 @@
 // 31-May-2015 Test case example added, fixes, tested
 
 // the #include statment and code go here...
-#include "Arduino.h"
+#include <Arduino.h>
 
 class CRC8
 {

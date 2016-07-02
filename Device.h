@@ -13,7 +13,7 @@
  * 
  */
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 class Device
 {

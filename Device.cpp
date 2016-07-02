@@ -1,4 +1,4 @@
-#include "Arduino.h"
+#include <Arduino.h>
 #include "Device.h"
 
 Device::Device(byte pin) {

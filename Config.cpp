@@ -1,4 +1,4 @@
-#include "Arduino.h"
+#include <Arduino.h>
 #include "Config.h"
 
 Config::Config(int offset) {

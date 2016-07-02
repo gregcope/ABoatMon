@@ -1,4 +1,4 @@
-#include "Arduino.h"
+#include <Arduino.h>
 #include "CRC8.h"
 
 CRC8::CRC8(void) {
