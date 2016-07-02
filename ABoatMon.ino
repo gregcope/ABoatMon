@@ -16,6 +16,7 @@
 
 // internal classes/includes
 #include "Device.h"
+#include "Config.h"
 
 // PIN defines
 #define GPS_POWER 31
@@ -44,7 +45,7 @@
                                                        // details on how this works: https://lowpowerlab.com/forum/index.php/topic,1206.0.html
 
 #define GPS_TIMEOUT 120000 // time to try and get a fix in msecs (120 secs)
-//#define GPS_TIMEOUT 800
+// #define GPS_TIMEOUT 800
 
 
 // debug functions
@@ -69,11 +70,16 @@ unsigned long cycleCount = 0;
 byte fourMinCycleCount = 0;
 unsigned int hourCycleCount = 0;
 unsigned long NOW = 0;
+
+// GPS / Nmea vars
 unsigned long fixTimeoutMs = 0;
 boolean gpsFix = false;
 boolean gpsfixTimeoutReached = false;
+unsigned int nmeaCharsProcessed = 0;
+unsigned int nmeaPassedChecksum = 0;
+unsigned int nmeafailedChecksum = 0;
 
-// LipoBattery vars
+// LipoBattery
 float lipoBatteryAlarm = 4.4;
 float lipoBatteryVolts= 4;
 unsigned int lipoBatteryReadings = 0;
@@ -84,6 +90,8 @@ String messageStr = "";
 byte needToSendMessage = 0;
 byte batMessageSent = 0;
 byte bilgeMessageSent = 0;
+byte gpsNoFixMessageSent = 0;
+
 
 void setup() {
 
@@ -293,6 +301,14 @@ void configureGPS() {
     if ( fixTimeoutMs <= millis() ) {
       gpsfixTimeoutReached = true;
       DEBUGln("gpsfixTimeoutReached is now true");
+      needToSendMessage = 1;
+      
+      if ( messageStr.length() > 0 ) {
+        messageStr.concat(", ");  
+      }
+
+      // add No GPS Fix message
+      messageStr.concat("NO GPS Fix.  Timed out.");     
     }
     
     if ( nmea.location.isValid() ) {
@@ -302,6 +318,18 @@ void configureGPS() {
       Serial.print(nmea.location.lng(), 6);
       DEBUG("hdop is: ");
       DEBUGln(nmea.hdop.value());
+
+      if ( messageStr.length() > 0 ) {
+        messageStr.concat(", ");  
+      }
+
+      char fixMessage[50];
+      // add No GPS Fix message
+      messageStr.concat("Lat: ");
+      
+           
+      //}
+      
     }
   }
   
@@ -335,14 +363,14 @@ void drainNmea() {
 }
 
 void sleep8Secs() {
-  // going to kip
+  // going to kip 8 Secs
   DEBUGln("8 ");
   Serial.flush();
   LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
 }
 
 void sleep2Secs() {
-  // going to kip
+  // going to kip 2 Secs
   DEBUGln("2 ");
   Serial.flush();
   LowPower.powerDown(SLEEP_2S, ADC_OFF, BOD_OFF);
