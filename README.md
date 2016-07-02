@@ -20,11 +20,18 @@ Parts
 * 3.7v LIPO battery
 * Low power Atemega 1280.  This might fit into lower spec Atmegs no idea... 
 
-Classes
+External Libs
 =======
-* Device - A base, or standlone class to control power to devices via a Digital pin
+
 * Tinygps++ - A class to deal with GPS
 * Lowpower - A class to help with Sleep modes
+* Eeprom - Save Eeprom state
+
+Internal Classes
+========
+* Device - A base, or standlone class to control power to devices via a Digital pin
+* Config - A class to provide a config object to store Eeprom state
+* CRC8 - CRC checksum (for config saving)
 
 High Level Logic
 ================
