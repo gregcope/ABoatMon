@@ -15,36 +15,49 @@
 #include <EEPROM.h>
 #include "CRC8.h"
 
+#define CONFIG_START 0
+#define CONFIG_VERSION "001"
+
 class Config
 {
   public:
-    Config(int offset);
+    Config();
     boolean load(void);
     boolean save(void);
+    void setGSMPhone(const char*);
+    char* getGSMPhone(void);
+    void setSavedLat(const double*);
+    double* getSavedLat(void);
+    void setSavedLng(const double*);
+    double* getSavedLng(void);
   private:
+    CRC8 crc;
     boolean _needSave; // flag to save
-    int _offset; // Eeprom offset
-
+    byte _crcChecksum; // checksum holder
+    String _tempBuffer; // checksum buffer holder
+    unsigned long _NOW = 0; // time placeholder
+    unsigned long _timeTaken = 0; //var to hold time taken
+    
     // config goes in here ....
-    struct _config {
+    struct ConfigStruct {
       // config is versioned as the struct is fixed
-      unsigned int _version;
+      char version[4];
       // 20 chars, plus a few for luck, the leading +, and null char ending
       char gsmPhone[24];
       // FIX probably not the best name
       double savedLat;
-      double savedlon;
+      double savedLng;
       // how many writes
       unsigned int serial;
       // checksum?
       unsigned int crc;
     } _config = {
-      0,
+      CONFIG_VERSION,
       // this need double quotes?  gcc parsing bug?
       "+441234567890",
       100,
       100,
-      1,
+      0,
       0 
     };
 };

@@ -54,9 +54,12 @@
 
 // Objects
 TinyGPSPlus nmea;
+
 Device gpsDevice(GPS_POWER);
 Device buttonLed(BUTTON_LED);
 Device tempSensor(TEMP_POWER);
+
+Config config;
 
 //Device charger(CHARGER_POWER);
 //Device fona(FONA_POWER);
@@ -101,7 +104,46 @@ void setup() {
   // Clear the serial ...
   Serial.begin(9600); 
   Serial.flush();
+  delay(1000);
   DEBUGln("setup start");
+
+  config.load();
+  DEBUGln(*config.getGSMPhone());
+  char phone[12] = "+9999999888";
+  config.setGSMPhone(phone);
+  
+  DEBUG("Loaded SavedLat is: '");
+  DEBUG(*config.getSavedLat());
+  DEBUGln("'");
+  DEBUG("Loaded SavedLng is: '");
+  DEBUG(*config.getSavedLng());
+  DEBUGln("'");
+
+  double lat = -200;
+  double lng = -300;
+
+  config.setSavedLat(&lat);
+  config.setSavedLng(&lng);  
+
+  DEBUGln("save config");
+  DEBUGln(millis());
+  config.save();
+  
+  DEBUGln("load config config");
+  config.load();
+  
+  DEBUG("getGSMPhone is: ");
+  DEBUGln(config.getGSMPhone());
+
+  DEBUG("SavedLat should be -200: '");
+  DEBUG(*config.getSavedLat());
+  DEBUGln("'");
+  DEBUG("SavedLng should be -300: '");
+  DEBUG(*config.getSavedLng());
+  DEBUGln("'");
+  
+ 
+  delay(100000);
 
   // For sanity have setup functions per thing
   setupBilgeSwitch();
