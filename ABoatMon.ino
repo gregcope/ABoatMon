@@ -9,14 +9,13 @@
 // External includes
 // https://github.com/mikalhart/TinyGPSPlus/releases 
 #include <TinyGPS++.h>
-// https://github.com/LowPowerLab/LowPower
-#include <LowPower.h>
 // http://www.pjrc.com/teensy/td_libs_OneWire.html
 #include <OneWire.h>
 
 // internal classes/includes
 #include "Device.h"
 #include "Config.h"
+#include "Sleep.h"
 
 // PIN defines
 #define GPS_POWER 31
@@ -54,6 +53,8 @@
 
 // Objects
 TinyGPSPlus nmea;
+
+Sleep sleep;
 
 Device gpsDevice(GPS_POWER);
 Device buttonLed(BUTTON_LED);
@@ -223,7 +224,7 @@ void loop() {
   // finished so tidy and goto sleep
   messageStr = "";
   buttonLed.off();
-  sleep8Secs();
+  sleep.kip8Secs();
 }
 
 void sendMessage() {
@@ -334,7 +335,8 @@ void configureGPS() {
   DEBUG("fixTimeoutMs: ");
   DEBUGln(fixTimeoutMs);
   while ( !gpsfixTimeoutReached && !gpsFix ) {
-    // do stuff
+    // do while we do not have a fix
+    // OR timedout
     
     DEBUG("millis(): ");
     DEBUGln(millis());
@@ -370,7 +372,6 @@ void configureGPS() {
       // add No GPS Fix message
       messageStr.concat("Lat: ");
       
-           
       //}
       
     }
@@ -388,14 +389,10 @@ void drainNmea() {
     
   while (Serial1.available() > 0) {
     if (nmea.encode(Serial1.read())) {
-      buttonLed.on();
-      DEBUGln("got gps summat");
-      buttonLed.off();
+      // returns true if a sentence is complete
+      // updates nmea.passedChecksum()
     }
   }
-  DEBUG("nmea chars processed: ");
-  DEBUGln(nmea.charsProcessed());
-
   /*
    * nmea.hdop.value()
    * nmea.hdop.value() < 150  && nmea.hdop.value() != 0
@@ -403,18 +400,4 @@ void drainNmea() {
    * nmea.location.lng()
    * nmea.location.isValid()
    */
-}
-
-void sleep8Secs() {
-  // going to kip 8 Secs
-  DEBUGln("8 ");
-  Serial.flush();
-  LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
-}
-
-void sleep2Secs() {
-  // going to kip 2 Secs
-  DEBUGln("2 ");
-  Serial.flush();
-  LowPower.powerDown(SLEEP_2S, ADC_OFF, BOD_OFF);
 }
