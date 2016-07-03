@@ -46,20 +46,25 @@
 #define GPS_TIMEOUT 120000 // time to try and get a fix in msecs (120 secs)
 // #define GPS_TIMEOUT 800
 
+
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
 #define DEBUGln(input) {Serial.println(input); Serial.flush();}
 
 // Objects
 TinyGPSPlus nmea;
+
 Sleep sleep;
+
 Device gpsDevice(GPS_POWER);
 Device buttonLed(BUTTON_LED);
 Device tempSensor(TEMP_POWER);
+
 Config config;
 
 //Device charger(CHARGER_POWER);
 //Device fona(FONA_POWER);
+//Device tempSensor(TEMP_POWER);
 
 // Variables
 byte bilgeSwitchPosition = 0;
@@ -71,8 +76,6 @@ unsigned int hourCycleCount = 0;
 unsigned long NOW = 0;
 
 // GPS / Nmea vars
-boolean serial1Output = false; // are we getting Serial1 output
-boolean nmeaOutput = false; // are we parsing anything
 unsigned long fixTimeoutMs = 0;
 boolean gpsFix = false;
 boolean gpsfixTimeoutReached = false;
@@ -103,13 +106,9 @@ void setup() {
   // Clear the serial ...
   Serial.begin(9600); 
   Serial.flush();
-
-  // Yes, one delay to let stuff settle
-  // honest, only once and last delay();
   delay(1000);
   DEBUGln("setup start");
 
-  // we are off
   config.load();
   DEBUGln(*config.getGSMPhone());
   char phone[12] = "+9999999888";
@@ -144,6 +143,9 @@ void setup() {
   DEBUG("SavedLng should be -300: '");
   DEBUG(*config.getSavedLng());
   DEBUGln("'");
+  
+ 
+  delay(100000);
 
   // For sanity have setup functions per thing
   setupBilgeSwitch();
@@ -285,21 +287,12 @@ byte checkBilgeSwitch() {
 void setupBilgeSwitch() {
 
   // enabled internal Pull up on BILGE_SWITCH pin
-  // not much to go wrong here ..
-  // or anything to check
   pinMode (BILGE_SWITCH, INPUT_PULLUP);
- 
+  DEBUGln("setupBilgeSwitch");  
 }
 
 void setupGSM() {
   DEBUGln("setupGSM");  
-
-  // fire up GSM
-  // go get last SMS message as phoneNumber
-  // delete all messages
-  // send message to phoneNumber
-  // get SMS back from phoneNumber
-  // set phoneNumber in config
 }
 
 void setupGPS() {
@@ -307,17 +300,17 @@ void setupGPS() {
   DEBUGln("setupGPS");
   // Setup the GPS from first use or hardreset
 
-  switchAndConfigGPS();
-  
-  // done, switch it off
+  // power up
+  gpsDevice.on();
+  // configure GPS device
+  configureGPS();
   //gpsDevice.off();
+
 }
 
-void switchAndConfigGPS() {
-  // switch on 
-  gpsDevice.on();
-   
-  DEBUGln("switchAndConfigGPS()");
+void configureGPS() {
+
+  DEBUGln("configureGPS()");
     
   // Configure GPS settings at startUp/Power up
   Serial1.begin(9600); 
@@ -341,8 +334,6 @@ void switchAndConfigGPS() {
   fixTimeoutMs = millis() + GPS_TIMEOUT;
   DEBUG("fixTimeoutMs: ");
   DEBUGln(fixTimeoutMs);
-  nmeaOutput = false;
-  
   while ( !gpsfixTimeoutReached && !gpsFix ) {
     // do while we do not have a fix
     // OR timedout
@@ -390,24 +381,18 @@ void switchAndConfigGPS() {
   DEBUGln(millis());
 }
 
-boolean drainNmea() {
+void drainNmea() {
 
   // grab all avaliable data and feed it to the gps nmea parser
 
   DEBUGln("drainNmea()");
-  serial1Output = false;
-  nmeaOutput = false;
     
   while (Serial1.available() > 0) {
-    serial1Output = true;
     if (nmea.encode(Serial1.read())) {
-      nmeaOutput = true;
       // returns true if a sentence is complete
       // updates nmea.passedChecksum()
     }
   }
-
-  return serial1Output;
   /*
    * nmea.hdop.value()
    * nmea.hdop.value() < 150  && nmea.hdop.value() != 0
