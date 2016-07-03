@@ -78,9 +78,10 @@ unsigned long NOW = 0;
 unsigned long fixTimeoutMs = 0;
 boolean gpsFix = false;
 boolean gpsfixTimeoutReached = false;
-unsigned int nmeaCharsProcessed = 0;
-unsigned int nmeaPassedChecksum = 0;
-unsigned int nmeafailedChecksum = 0;
+double fixLat = 100; // invalid Lat
+double fixLng = 100; // invalid Lat
+double alarmLat = 100; // invalid Lat
+double alarmLng = 100; // invalid Lat
 
 // LipoBattery
 float lipoBatteryAlarm = 4.4;
@@ -399,7 +400,7 @@ void drainNmea() {
    * nmea.hdop.value()
    * nmea.hdop.value() < 150  && nmea.hdop.value() != 0
    * nmea.location.lat()
-   * nmea.location.lon()
+   * nmea.location.lng()
    * nmea.location.isValid()
    */
 }
