@@ -39,26 +39,29 @@ double* Config::getSavedLng(void) {
 boolean Config::load(void) {
   // load config
   _NOW = millis();
-//  _crcChecksum = 0;
-//  _tempBuffer = "PMTK313,1";
+  _crcCheckSumLoaded = 0;
+  _tempBuffer = "";
+
 //  Serial.print("chars from eeProm: '");
 
   if (EEPROM.read(CONFIG_START + 0) == CONFIG_VERSION[0] &&
       EEPROM.read(CONFIG_START + 1) == CONFIG_VERSION[1] &&
       EEPROM.read(CONFIG_START + 2) == CONFIG_VERSION[2])
     for (unsigned int t = 0; t < sizeof(_config); t++) {
- 
-      *((char*)&_config + t) = EEPROM.read(CONFIG_START + t);
+
+      _c = EEPROM.read(CONFIG_START + t);
+      //*((char*)&_config + t) = EEPROM.read(CONFIG_START + t);
+      *((char*)&_config + t) = _c;
       Serial.print("'");
       // http://stackoverflow.com/questions/17158890/transform-char-array-into-string
-//      _tempBuffer += EEPROM.read(CONFIG_START + t);
+      _tempBuffer += _c;
       Serial.print(EEPROM.read(CONFIG_START + t));
   } else {
     Serial.print("LOAD ERROR");  
   }
   Serial.println("'");
 
-//  _crcChecksum = crc.checksum(_tempBuffer);
+  _crcCheckSumLoaded = crc.checksum(_tempBuffer);
 //  Serial.println(_tempBuffer);
 //  Serial.print("checksum is: ");
 //  Serial.println(_crcChecksum, HEX);
@@ -87,6 +90,9 @@ boolean Config::save(void) {
   }
   // ok, we need to save something
   _NOW = millis();
+  _tempBuffer = "";
+  _crcCheckSumSaved = 0;
+  
   _config.serial ++;
   Serial.print("_config.serial is: ");
   Serial.println(_config.serial);
@@ -94,29 +100,47 @@ boolean Config::save(void) {
   Serial.println(sizeof(_config));
   Serial.print("About to write: '");
   //unsigned int t = 0;
-  byte c;
+
   for (unsigned int t = 0; t < sizeof(_config); t++) {
     //EEPROM.write(CONFIG_START + t, *((char*)&_config + t));
   //for (unsigned int t = 0; t < sizeof(_config); t++)
     // EEPROM.write does not return anything
     // so we need re-read in to check if it wrote ... grh
     Serial.print("'");
-    c = *((char*)&_config + t);
+    _c = *((char*)&_config + t);
 //    EEPROM.write(CONFIG_START + t, *((char*)&_config + t));
-    EEPROM.write(CONFIG_START + t, c);
-    _tempBuffer += c;
-//    Serial.print(c);
+    EEPROM.write(CONFIG_START + t, _c);
+    _tempBuffer += _c;
   }
   Serial.println("'");
   Serial.print("_tempBuffer is: ");
   Serial.println(_tempBuffer);
 
-  //TODO read config and check sum to turn true
+  // checksum what was sent
+  _crcCheckSumSaved = crc.checksum(_tempBuffer);
 
-  // timer
-  _timeTaken = millis() - _NOW;
-  Serial.print("Time taken go save: ");
-  Serial.println(_timeTaken);
+  // load it back in 
+  load();
+  if ( _crcCheckSumSaved == _crcCheckSumLoaded ) {
+    Serial.print("Yay checksums match, _crcCheckSumSaved ='");
+    Serial.print(_crcCheckSumSaved);
+    Serial.print("', _crcCheckSumLoaded ='");
+    Serial.print(_crcCheckSumLoaded);
+    Serial.println("'");
 
-  return true;
+    _timeTaken = millis() - _NOW;
+    Serial.print("Time taken go save: ");
+    Serial.println(_timeTaken);
+
+    return true;
+  } else {
+    Serial.println("Load checksum error");  
+
+   _timeTaken = millis() - _NOW;
+   Serial.print("Time taken go save: ");
+   Serial.println(_timeTaken);
+
+    return false;
+  }
+  // done!
 }

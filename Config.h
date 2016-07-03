@@ -32,8 +32,10 @@ class Config
     double* getSavedLng(void);
   private:
     CRC8 crc;
+    byte _c = 0; // char buffer
     boolean _needSave; // flag to save
-    byte _crcChecksum; // checksum holder
+    byte _crcCheckSumSaved;
+    byte _crcCheckSumLoaded;
     String _tempBuffer; // checksum buffer holder
     unsigned long _NOW = 0; // time placeholder
     unsigned long _timeTaken = 0; //var to hold time taken

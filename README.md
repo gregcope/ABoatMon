@@ -32,6 +32,7 @@ Internal Classes
 * Device - A base, or standlone class to control power to devices via a Digital pin
 * Config - A class to provide a config object to store Eeprom state
 * CRC8 - CRC checksum (for config saving)
+* Sleep - Simple wrapper to LowPower sleep
 
 High Level Logic
 ================
