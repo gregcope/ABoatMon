@@ -51,8 +51,11 @@
 #define DEBUGln(input) {Serial.println(input); Serial.flush();}
 
 // Objects
+
+// tinyGPS is a nmea feed parser
 TinyGPSPlus nmea;
 Sleep sleep;
+// these are devices, and have physical on/off/interface things
 Device gpsDevice(GPS_POWER);
 Device buttonLed(BUTTON_LED);
 Device tempSensor(TEMP_POWER);
@@ -94,7 +97,9 @@ byte batMessageSent = 0;
 byte bilgeMessageSent = 0;
 byte gpsNoFixMessageSent = 0;
 
-
+//
+// Code
+//
 void setup() {
 
   // as we are on, fire up LED
