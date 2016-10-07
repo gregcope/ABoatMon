@@ -18,7 +18,7 @@ Parts
 * Adafruit Ultimate GPS - any 3.3v UART GPS would do
 * Adafruit Fona - any 3.3v UART GSM modem would do, although we do use the battery charging on the fona
 * 3.7v LIPO battery
-* Low power Atemega 1280.  This might fit into lower spec Atmegs no idea... 
+* Low power Atemega 1280.  This might fit into lower spec Atmegs, but I have no idea... 
 * OneWire temp sensor
 
 External Libs
