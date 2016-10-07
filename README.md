@@ -16,9 +16,10 @@ The present version is made from COTS parts to make life easy at the deign/proto
 Parts
 =====
 * Adafruit Ultimate GPS - any 3.3v UART GPS would do
-* Adafruit Fona - any GSM modem would do, although we do use the battery charging on the fona
+* Adafruit Fona - any 3.3v UART GSM modem would do, although we do use the battery charging on the fona
 * 3.7v LIPO battery
 * Low power Atemega 1280.  This might fit into lower spec Atmegs no idea... 
+* OneWire temp sensor
 
 External Libs
 =======
@@ -26,6 +27,7 @@ External Libs
 * Tinygps++ - A class to deal with GPS
 * Lowpower - A class to help with Sleep modes
 * Eeprom - Save Eeprom state
+* OneWire - temp sensor lib
 
 Internal Classes
 ========
