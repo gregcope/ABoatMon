@@ -4,6 +4,13 @@
  * 
  * Allot of code pinched from;
  * https://github.com/LowPowerLab/RFM69/blob/master/Examples/MotionMote/MotionMote.ino
+ * 
+ * TODO
+ * Look at https://github.com/cdl1051/DS18B20_NROO/blob/master/DS18B20.h
+ * https://lowpowerlab.com/forum/projects/temperature-sensing-with-ds18b20/msg18040/#msg18040
+ * https://lowpowerlab.com/forum/moteino/improvedoptimized-ds18b201wire-read/msg14975/#msg14975
+ * 
+ * 
  */ 
 
 // External includes
@@ -19,10 +26,11 @@
 
 // PIN defines
 #define GPS_POWER 31
-#define GSM_TX 8  // serial
-#define GSM_RX 9  // serial
 #define GPS_TX 10 // serial1
 #define GPS_RX 11 // serial1
+
+#define GSM_TX 8  // serial
+#define GSM_RX 9  // serial
 
 #define BUTTON_LED 12
 #define BILGE_SWITCH 13
@@ -59,6 +67,9 @@ Sleep sleep;
 Device gpsDevice(GPS_POWER);
 Device buttonLed(BUTTON_LED);
 Device tempSensor(TEMP_POWER);
+// Make one wire faster
+// http://www.cupidcontrols.com/2014/10/moteino-arduino-and-1wire-optimize-your-read-for-speed/
+
 Config config;
 
 //Device charger(CHARGER_POWER);
@@ -96,13 +107,14 @@ byte needToSendMessage = 0;
 byte batMessageSent = 0;
 byte bilgeMessageSent = 0;
 byte gpsNoFixMessageSent = 0;
+byte gpsGeoFenceMessageSent = 0;
 
 //
-// Code
+// Code from here on ...
 //
 void setup() {
 
-  // as we are on, fire up LED
+  // as we are in setup, fire up LED
   buttonLed.on();  
 
   // Clear the serial ...
@@ -218,7 +230,6 @@ void loop() {
     hourCycleCount = 0;
   }
 
-  
    // do we need to send a message
   if ( needToSendMessage == 1 ) {
     sendMessage();
