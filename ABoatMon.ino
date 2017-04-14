@@ -51,9 +51,9 @@
 #define BATT_FORMULA(reading) reading * 0.00322 * 1.5455 // >>> fine tune this parameter to match your voltage when fully charged
                                                        // details on how this works: https://lowpowerlab.com/forum/index.php/topic,1206.0.html
 
-#define NMEA_TIMEOUT 3000 // time to try and get a proper NMEA senstence (3 secs)
-#define GPS_TIMEOUT 120000 // time to try and get a fix in msecs (120 secs)
-// #define GPS_TIMEOUT 800
+#define NMEA_TIMEOUT_SECS 12 // time to try and get a proper NMEA senstence (6 secs)
+#define GPS_FIX_TIMEOUT_MSECS 120000 // time to try and get a fix in msecs (120 secs)
+#define ACCEPTABLE_GPS_HDOP_FOR_FIX 100
 
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
@@ -86,13 +86,15 @@ unsigned int hourCycleCount = 0;
 unsigned long NOW = 0;
 
 // GPS / Nmea vars
-unsigned long nmeaSentenceTimeOutMs = 0;
+//unsigned long nmeaSentenceTimeOutMs = 0;
 boolean serial1Output = false; // are we getting Serial1 output
 boolean nmeaOutput = false; // are we parsing anything
-unsigned long fixTimeoutMs = 0;
+unsigned long gpsFixTimeoutMs = 0;
+unsigned long timerStart = 0; 
+unsigned long gpsTimeToFixMs = 0;
 boolean gpsFix = false;
-boolean gpsfixTimeoutReached = false;
-boolean nmeaSentenceTimeoutReached = false;
+boolean gpsFixTimeoutReached = false;
+//boolean nmeaSentenceTimeoutReached = false;
 double fixLat = 100; // invalid Lat
 double fixLng = 100; // invalid Lat
 double alarmLat = 100; // invalid Lat
@@ -326,9 +328,23 @@ void setupGPS() {
   DEBUGln("setupGPS");
   // Setup the GPS from first use or hardreset
 
-  // check if worked
-  if ( !switchOnAndConfigGPS() ) {
-      DEBUGln("setupGPS() failed");
+  // check if GPS powers up
+  // and outputs NMEA sentences
+  if ( switchOnAndConfigGPS() ) {
+    // true !!!
+    DEBUGln("setupGPS() true");
+  } else {
+    // failed !!!
+    DEBUGln("setupGPS() false");
+  }
+
+  // now see if we can get a decent fix within the timeout
+  if ( checkForGPSFix() ) {
+    // We got a fix.  Awesome!!!
+    DEBUGln("checkForGPSFix() true");
+  } else {
+    // Uhooooo - no fix - failed!!!
+    DEBUGln("checkForGPSFix() false");
   }
   
   // done, switch it off
@@ -368,41 +384,154 @@ boolean switchOnAndConfigGPS() {
   // for 1 nmea sentence from cold start
   // so try for 6 secs to get at least 2 NMEA sentences parsed
   // this should mean the GPS is trying to fix
-  for (byte i=0; i<6; i++) {
+  for (byte i=0; i<NMEA_TIMEOUT_SECS; i++) {
       drainNmea();
-      sleep.kip2Secs();
+      sleep.kip1Sec();
   }
 
   DEBUG("nmea.passedChecksum() is:");
   DEBUGln(nmea.passedChecksum() );
   if ( nmea.passedChecksum()  < 2 ) {
+    // we are bailing
     DEBUGln("ERROR: No NMEA chars from GPS device:  Check power or Serial connections");   
+    return false;
   }
   // else we are good
+  return true;
+}
 
+boolean checkForGPSFix() {
+  
+  // Check the GPS is getting a decent fix, within GPS_FIX_TIMEOUT_MSECS
+  // assumes GPS in on.
+  
+  gpsFixTimeoutMs = millis() + GPS_FIX_TIMEOUT_MSECS;
+  unsigned long timerStart = millis(); 
+  gpsTimeToFixMs = 0;
+  DEBUG("gpsFixTimeoutMs: ");
+  DEBUGln(gpsFixTimeoutMs);
+  gpsFix = false;
+
+  while ( !gpsFixTimeoutReached && !gpsFix ) {
+    // whilst we have not got a gpsFix
+    // or reach the gpsFix
+
+    drainNmea();
+
+    if ( nmea.hdop.value() != 0 && (int)nmea.hdop.value() <= ACCEPTABLE_GPS_HDOP_FOR_FIX ) {
+        DEBUGln("gpsFix is true - we have a fix!!!!");
+        DEBUG("nmea.hdop.value(): ");
+        DEBUGln(nmea.hdop.value());       
+        gpsTimeToFixMs = millis() - timerStart;
+        DEBUG("gpsTimeToFixMs: ");
+        DEBUGln(gpsTimeToFixMs);
+        return true;
+    }
+
+    printGPSData();
+ 
+    if ( gpsFixTimeoutMs <= millis() ) {
+      // timeout reached ...
+      gpsFixTimeoutReached = true;
+      DEBUGln("gpsFixTimeoutReached !!!! ");
+      return false;
+    } 
+  }
+}
+
+void printGPSData() {
+
+  Serial.print(F("GPS Location: "));
+  if (nmea.location.isValid())
+  {
+    Serial.print(nmea.location.lat(), 6);
+    Serial.print(F(","));
+    Serial.print(nmea.location.lng(), 6);
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+
+  // print date /time in ISO 8601 format
+  // YYYY-MM-DDTHHMMSSCCZ
+  Serial.print(F(", Date/Time: "));
+  if (nmea.date.isValid())
+  {
+    Serial.print(nmea.date.year());
+    Serial.print(F("-"));
+    Serial.print(nmea.date.month());
+    Serial.print(F("-"));
+    if (nmea.date.day() < 10) Serial.print(F("0"));
+    Serial.print(nmea.date.day());
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+
+  Serial.print(F("T"));
+  if (nmea.time.isValid())
+  {
+    if (nmea.time.hour() < 10) Serial.print(F("0"));
+    Serial.print(nmea.time.hour());
+    Serial.print(F(":"));
+    if (nmea.time.minute() < 10) Serial.print(F("0"));
+    Serial.print(nmea.time.minute());
+    Serial.print(F(":"));
+    if (nmea.time.second() < 10) Serial.print(F("0"));
+    Serial.print(nmea.time.second());
+    Serial.print(F("."));
+    if (nmea.time.centisecond() < 10) Serial.print(F("0"));
+    Serial.print(nmea.time.centisecond());
+    Serial.print("Z");
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }  
+
+  Serial.print(F(", "));
+  if (nmea.hdop.isValid())
+  {
+    
+    Serial.print(F("HDOP: "));
+    Serial.print(nmea.hdop.value());
+    Serial.print(F(" HDOP is: "));
+    
+    if (nmea.hdop.value() < 150  && nmea.hdop.value() != 0) {
+      Serial.print(F("GOOD"));
+    } else {
+      Serial.print(F("BAD"));
+    }
+    
+    
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+
+  Serial.print(F(", "));
+  if (nmea.satellites.isValid())
+  {
+    Serial.print(F("SATs in use: "));
+    Serial.print(nmea.satellites.value());
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+
+  Serial.println();
 }
 
 //boolean checkGPSOn() {
-  
-  // set timeout
-//  nmeaSentenceTimeOutMs = millis() + NMEA_TIMEOUT;
-//  DEBUG("GPS nmeaSentenceTimeOutMs: ");
-//  DEBUGln(nmeaSentenceTimeOutMs);
   
 //  fixTimeoutMs = millis() + GPS_TIMEOUT;
 //  DEBUG("GPS fixTimeoutMs: ");
 //  DEBUGln(fixTimeoutMs);
 //  nmeaOutput = false;
-
-  // check if we get an ANY nmea sentence
-//  while ( !nmeaSentenceTimeoutReached ) {
-
- //   if ( nmeaSentenceTimeOutMs <= millis() ) {
-      
-//      return false;
-// nmeaSentenceTimeoutReached = true;
-   // }
- // }
   
  // while ( !gpsfixTimeoutReached && !gpsFix ) {
     // do while we do not have a fix

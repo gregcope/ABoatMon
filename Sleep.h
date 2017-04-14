@@ -23,6 +23,7 @@ class Sleep
     Sleep();
     void kip8Secs(void);
     void kip2Secs(void);
+    void kip1Sec(void);
   private:
     unsigned long runTime;
 };
