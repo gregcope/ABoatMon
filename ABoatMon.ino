@@ -51,9 +51,9 @@
 #define BATT_FORMULA(reading) reading * 0.00322 * 1.5455 // >>> fine tune this parameter to match your voltage when fully charged
                                                        // details on how this works: https://lowpowerlab.com/forum/index.php/topic,1206.0.html
 
-#define NMEA_TIMEOUT_SECS 12 // time to try and get a proper NMEA senstence (6 secs)
-#define GPS_FIX_TIMEOUT_MSECS 120000 // time to try and get a fix in msecs (120 secs)
-#define ACCEPTABLE_GPS_HDOP_FOR_FIX 100
+#define NMEA_TIMEOUT_SECS 12 // time to try and get a proper NMEA senstence
+#define GPS_FIX_TIMEOUT_MSECS 480000 // time to try and get a fix in msecs
+#define ACCEPTABLE_GPS_HDOP_FOR_FIX 145
 
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
@@ -417,6 +417,7 @@ boolean checkForGPSFix() {
     // or reach the gpsFix
 
     drainNmea();
+    printGPSData();
 
     if ( nmea.hdop.value() != 0 && (int)nmea.hdop.value() <= ACCEPTABLE_GPS_HDOP_FOR_FIX ) {
         DEBUGln("gpsFix is true - we have a fix!!!!");
@@ -427,13 +428,14 @@ boolean checkForGPSFix() {
         DEBUGln(gpsTimeToFixMs);
         return true;
     }
-
-    printGPSData();
  
     if ( gpsFixTimeoutMs <= millis() ) {
       // timeout reached ...
       gpsFixTimeoutReached = true;
       DEBUGln("gpsFixTimeoutReached !!!! ");
+      gpsTimeToFixMs = millis() - timerStart;
+      DEBUG("gpsTimeToFixMs: ");
+      DEBUGln(gpsTimeToFixMs);      
       return false;
     } 
   }
@@ -524,6 +526,7 @@ void printGPSData() {
   }
 
   Serial.println();
+  Serial.flush();
 }
 
 //boolean checkGPSOn() {
