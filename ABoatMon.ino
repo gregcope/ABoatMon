@@ -25,14 +25,14 @@
 #include "Sleep.h"
 
 // PIN defines
-#define GPS_POWER 31
+#define GPS_POWER 12
 #define GPS_TX 10 // serial1
 #define GPS_RX 11 // serial1
 
 #define GSM_TX 8  // serial
 #define GSM_RX 9  // serial
 
-#define BUTTON_LED 12
+#define BUTTON_LED 222
 #define BILGE_SWITCH 13
 #define BATT_MONITOR A0
 #define TEMP_POWER 30
@@ -51,6 +51,7 @@
 #define BATT_FORMULA(reading) reading * 0.00322 * 1.5455 // >>> fine tune this parameter to match your voltage when fully charged
                                                        // details on how this works: https://lowpowerlab.com/forum/index.php/topic,1206.0.html
 
+#define NMEA_TIMEOUT 3000 // time to try and get a proper NMEA senstence (3 secs)
 #define GPS_TIMEOUT 120000 // time to try and get a fix in msecs (120 secs)
 // #define GPS_TIMEOUT 800
 
@@ -85,11 +86,13 @@ unsigned int hourCycleCount = 0;
 unsigned long NOW = 0;
 
 // GPS / Nmea vars
+unsigned long nmeaSentenceTimeOutMs = 0;
 boolean serial1Output = false; // are we getting Serial1 output
 boolean nmeaOutput = false; // are we parsing anything
 unsigned long fixTimeoutMs = 0;
 boolean gpsFix = false;
 boolean gpsfixTimeoutReached = false;
+boolean nmeaSentenceTimeoutReached = false;
 double fixLat = 100; // invalid Lat
 double fixLng = 100; // invalid Lat
 double alarmLat = 100; // invalid Lat
@@ -323,21 +326,29 @@ void setupGPS() {
   DEBUGln("setupGPS");
   // Setup the GPS from first use or hardreset
 
-  switchAndConfigGPS();
+  // check if worked
+  if ( !switchOnAndConfigGPS() ) {
+      DEBUGln("setupGPS() failed");
+  }
   
   // done, switch it off
-  //gpsDevice.off();
+  gpsDevice.off();
 }
 
-void switchAndConfigGPS() {
+boolean switchOnAndConfigGPS() {
+
+  DEBUGln("switchAndConfigGPS()");
+
   // switch on 
   gpsDevice.on();
-   
-  DEBUGln("switchAndConfigGPS()");
-    
+  DEBUGln("gpsDevice.on()");
+     
   // Configure GPS settings at startUp/Power up
   Serial1.begin(9600); 
   Serial1.flush();
+
+  // wait 2 secs for GPS to stablise, because we are nice
+  sleep.kip2Secs();
   
   // http://forums.adafruit.com/viewtopic.php?f=19&p=143502
   Serial1.print("$PMTK313,1*2E\r\n");  // Enable to search a SBAS satellite
@@ -353,58 +364,92 @@ void switchAndConfigGPS() {
   // $GPGGA,064951.000,2307.1256,N,12016.4438,E,1,8,0.95,39.9,M,17.8,M,,*65
   TinyGPSCustom fixqual(nmea, "GPGGA", 6); // $GPGGA sentence, 6th element
 
-  // set timeout
-  fixTimeoutMs = millis() + GPS_TIMEOUT;
-  DEBUG("fixTimeoutMs: ");
-  DEBUGln(fixTimeoutMs);
-  nmeaOutput = false;
+  // it usually takes 1 or 2 secs to get enought chars
+  // for 1 nmea sentence from cold start
+  // so try for 6 secs to get at least 2 NMEA sentences parsed
+  // this should mean the GPS is trying to fix
+  for (byte i=0; i<6; i++) {
+      drainNmea();
+      sleep.kip2Secs();
+  }
+
+  DEBUG("nmea.passedChecksum() is:");
+  DEBUGln(nmea.passedChecksum() );
+  if ( nmea.passedChecksum()  < 2 ) {
+    DEBUGln("ERROR: No NMEA chars from GPS device:  Check power or Serial connections");   
+  }
+  // else we are good
+
+}
+
+//boolean checkGPSOn() {
   
-  while ( !gpsfixTimeoutReached && !gpsFix ) {
+  // set timeout
+//  nmeaSentenceTimeOutMs = millis() + NMEA_TIMEOUT;
+//  DEBUG("GPS nmeaSentenceTimeOutMs: ");
+//  DEBUGln(nmeaSentenceTimeOutMs);
+  
+//  fixTimeoutMs = millis() + GPS_TIMEOUT;
+//  DEBUG("GPS fixTimeoutMs: ");
+//  DEBUGln(fixTimeoutMs);
+//  nmeaOutput = false;
+
+  // check if we get an ANY nmea sentence
+//  while ( !nmeaSentenceTimeoutReached ) {
+
+ //   if ( nmeaSentenceTimeOutMs <= millis() ) {
+      
+//      return false;
+// nmeaSentenceTimeoutReached = true;
+   // }
+ // }
+  
+ // while ( !gpsfixTimeoutReached && !gpsFix ) {
     // do while we do not have a fix
     // OR timedout
     
-    DEBUG("millis(): ");
-    DEBUGln(millis());
+ //   DEBUG("millis(): ");
+ //   DEBUGln(millis());
 
-    drainNmea();
+//    drainNmea();
 
-    if ( fixTimeoutMs <= millis() ) {
-      gpsfixTimeoutReached = true;
-      DEBUGln("gpsfixTimeoutReached is now true");
-      needToSendMessage = 1;
+//    if ( fixTimeoutMs <= millis() ) {
+//      gpsfixTimeoutReached = true;
+//      DEBUGln("gpsfixTimeoutReached is now true");
+//      needToSendMessage = 1;
       
-      if ( messageStr.length() > 0 ) {
-        messageStr.concat(", ");  
-      }
+//      if ( messageStr.length() > 0 ) {
+//        messageStr.concat(", ");  
+//      }
 
       // add No GPS Fix message
-      messageStr.concat("NO GPS Fix.  Timed out.");     
-    }
+//      messageStr.concat("NO GPS Fix.  Timed out.");     
+//    }
     
-    if ( nmea.location.isValid() ) {
-      gpsFix = true;
-      DEBUGln("gpFix is now true");
-      Serial.print(nmea.location.lat(), 6);
-      Serial.print(nmea.location.lng(), 6);
-      DEBUG("hdop is: ");
-      DEBUGln(nmea.hdop.value());
+//    if ( nmea.location.isValid() ) {
+//      gpsFix = true;
+//      DEBUGln("gpFix is now true");
+//      Serial.print(nmea.location.lat(), 6);
+//      Serial.print(nmea.location.lng(), 6);
+//      DEBUG("hdop is: ");
+//      DEBUGln(nmea.hdop.value());
 
-      if ( messageStr.length() > 0 ) {
-        messageStr.concat(", ");  
-      }
+//      if ( messageStr.length() > 0 ) {
+//       messageStr.concat(", ");  
+//      }
 
-      char fixMessage[50];
+//      char fixMessage[50];
       // add No GPS Fix message
-      messageStr.concat("Lat: ");
+//      messageStr.concat("Lat: ");
       
       //}
       
-    }
-  }
+//    }
+//  }
   
-  DEBUG("millis(): ");
-  DEBUGln(millis());
-}
+//  DEBUG("millis(): ");
+//  DEBUGln(millis());
+//}
 
 boolean drainNmea() {
 
@@ -423,6 +468,10 @@ boolean drainNmea() {
     }
   }
 
+  DEBUG("serial1Output is:");
+  DEBUGln(serial1Output);
+  DEBUG("nmeaOutput is:");
+  DEBUGln(nmeaOutput);  
   return serial1Output;
   /*
    * nmea.hdop.value()
