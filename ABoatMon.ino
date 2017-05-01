@@ -33,13 +33,14 @@
 #define GSM_RX 9  // serial
 
 #define BUTTON_LED 222
-#define BILGE_SWITCH 13
+#define BILGE_SWITCH 3 // Other line from BilgeSwitch to GND
 #define BATT_MONITOR A0
 #define TEMP_POWER 30
 
 // TBC
 #define CHARGER_POWER 99
-#define FONA_POWER 99
+#define FONA_POWER 1 
+#define FONA_KEY 0
 
 // Static defines
 #define FOURMIN_CYCLES 5 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
@@ -51,7 +52,7 @@
 #define BATT_FORMULA(reading) reading * 0.00322 * 1.5455 // >>> fine tune this parameter to match your voltage when fully charged
                                                        // details on how this works: https://lowpowerlab.com/forum/index.php/topic,1206.0.html
 
-#define NMEA_TIMEOUT_SECS 12 // time to try and get a proper NMEA senstence
+#define NMEA_TIMEOUT_SECS 24 // time to try and get a proper NMEA senstence
 #define GPS_FIX_TIMEOUT_MSECS 480000 // time to try and get a fix in msecs
 #define ACCEPTABLE_GPS_HDOP_FOR_FIX 145
 
@@ -126,9 +127,8 @@ void setup() {
   Serial.begin(9600); 
   Serial.flush();
 
-  // Yes, one delay to let stuff settle
-  // honest, only once and last delay();
-  delay(1000);
+  // Let things settle...
+  sleep.kip1Sec();
   DEBUGln("setup start");
 
   // we are off
@@ -333,20 +333,20 @@ void setupGPS() {
   if ( switchOnAndConfigGPS() ) {
     // true !!!
     DEBUGln("setupGPS() true");
+      
+    // now see if we can get a decent fix within the timeout
+    if ( checkForGPSFix() ) {
+      // We got a fix.  Awesome!!!
+      DEBUGln("checkForGPSFix() true");
+    } else {
+      // Uhooooo - no fix - failed!!!
+      DEBUGln("checkForGPSFix() false");
+    } // end of if ( checkForGPSFix() )
   } else {
     // failed !!!
     DEBUGln("setupGPS() false");
   }
 
-  // now see if we can get a decent fix within the timeout
-  if ( checkForGPSFix() ) {
-    // We got a fix.  Awesome!!!
-    DEBUGln("checkForGPSFix() true");
-  } else {
-    // Uhooooo - no fix - failed!!!
-    DEBUGln("checkForGPSFix() false");
-  }
-  
   // done, switch it off
   gpsDevice.off();
 }
