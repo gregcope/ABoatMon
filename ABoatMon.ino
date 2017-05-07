@@ -54,7 +54,7 @@
 
 #define NMEA_TIMEOUT_SECS 24 // time to try and get a proper NMEA senstence
 #define GPS_FIX_TIMEOUT_MSECS 480000 // time to try and get a fix in msecs
-#define ACCEPTABLE_GPS_HDOP_FOR_FIX 145
+#define ACCEPTABLE_GPS_HDOP_FOR_FIX 160
 
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
@@ -102,8 +102,8 @@ double alarmLat = 100; // invalid Lat
 double alarmLng = 100; // invalid Lat
 
 // LipoBattery
-float lipoBatteryAlarm = 4.4;
-float lipoBatteryVolts= 4;
+float lipoBatteryAlarm = 3.1;
+float lipoBatteryVolts = 0;
 unsigned int lipoBatteryReadings = 0;
 char lipoBatteryVoltsString[10]; //longest battery voltage reading message = 9chars
 
@@ -263,6 +263,7 @@ void lipoCheckBattery() {
       //take 10 samples, and average
       lipoBatteryReadings+=analogRead(BATT_MONITOR);
     }
+    //DEBUG("lipoBatteryReadings (x10) = ");
     //DEBUGln(lipoBatteryReadings);
     // work out the volts from the ADC value
     lipoBatteryVolts = BATT_FORMULA(lipoBatteryReadings / 10.0);
@@ -348,7 +349,8 @@ void setupGPS() {
   }
 
   // done, switch it off
-  gpsDevice.off();
+  pinMode(12, INPUT);
+  //gpsDevice.off();
 }
 
 boolean switchOnAndConfigGPS() {
@@ -356,7 +358,10 @@ boolean switchOnAndConfigGPS() {
   DEBUGln("switchAndConfigGPS()");
 
   // switch on 
-  gpsDevice.on();
+  //gpsDevice.on();
+  pinMode(12, OUTPUT);
+  digitalWrite(12, LOW);
+
   DEBUGln("gpsDevice.on()");
      
   // Configure GPS settings at startUp/Power up
