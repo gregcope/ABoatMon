@@ -4931,8 +4931,72 @@ part number 2062-2P from STA</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="SparkFun-Aesthetics">
+<description>&lt;h3&gt;SparkFun Aesthetics&lt;/h3&gt;
+This library contiains non-functional items such as logos, build/ordering notes, frame blocks, etc. 
+&lt;br&gt;
+&lt;br&gt;
+We've spent an enormous amount of time creating and checking these footprints and parts, but it is &lt;b&gt; the end user's responsibility&lt;/b&gt; to ensure correctness and suitablity for a given componet or application. 
+&lt;br&gt;
+&lt;br&gt;If you enjoy using this library, please buy one of our products at &lt;a href=" www.sparkfun.com"&gt;SparkFun.com&lt;/a&gt;.
+&lt;br&gt;
+&lt;br&gt;
+&lt;b&gt;Licensing:&lt;/b&gt; Creative Commons ShareAlike 4.0 International - https://creativecommons.org/licenses/by-sa/4.0/ 
+&lt;br&gt;
+&lt;br&gt;
+You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
+<packages>
+</packages>
+<symbols>
+<symbol name="FR-A4L">
+<description>&lt;h3&gt;Schematic Frame - A4L - European Format&lt;/h3&gt;
+&lt;p&gt;Standard A4 size frame in Landscape&lt;/p&gt;
+&lt;p&gt;Devices using:
+&lt;ul&gt;&lt;li&gt;FRAME-A4L&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</description>
+<rectangle x1="178.7652" y1="0" x2="179.3748" y2="20.32" layer="94"/>
+<rectangle x1="225.7552" y1="-26.67" x2="226.3648" y2="67.31" layer="94" rot="R90"/>
+<wire x1="225.29" y1="-0.1" x2="225.29" y2="5.08" width="0.1016" layer="94"/>
+<wire x1="225.29" y1="5.08" x2="273.05" y2="5.08" width="0.1016" layer="94"/>
+<wire x1="225.29" y1="5.08" x2="179.07" y2="5.08" width="0.1016" layer="94"/>
+<wire x1="179.07" y1="10.16" x2="225.29" y2="10.16" width="0.1016" layer="94"/>
+<wire x1="225.29" y1="10.16" x2="273.05" y2="10.16" width="0.1016" layer="94"/>
+<wire x1="179.07" y1="15.24" x2="273.05" y2="15.24" width="0.1016" layer="94"/>
+<wire x1="225.29" y1="5.08" x2="225.29" y2="10.16" width="0.1016" layer="94"/>
+<wire x1="179.07" y1="19.05" x2="179.07" y2="20.32" width="0.6096" layer="94"/>
+<wire x1="179.07" y1="20.32" x2="180.34" y2="20.32" width="0.6096" layer="94"/>
+<text x="181.61" y="11.43" size="2.54" layer="94" font="vector">&gt;DRAWING_NAME</text>
+<text x="181.61" y="6.35" size="2.286" layer="94" font="vector">&gt;LAST_DATE_TIME</text>
+<text x="195.58" y="1.27" size="2.54" layer="94" font="vector">&gt;SHEET</text>
+<text x="181.61" y="1.27" size="2.54" layer="94" font="vector">Sheet:</text>
+<text x="181.61" y="16.51" size="2.54" layer="94" font="vector">&gt;CNAME</text>
+<text x="226.16" y="1.27" size="2.54" layer="94" font="vector">Rev:</text>
+<text x="226.26" y="6.35" size="2.54" layer="94" font="vector">&gt;DESIGNER</text>
+<text x="234.92" y="1.17" size="2.54" layer="94" font="vector">&gt;CREVISION</text>
+<frame x1="-3.81" y1="-3.81" x2="276.86" y2="182.88" columns="8" rows="5" layer="94"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="FRAME-A4L" prefix="FRAME">
+<description>&lt;h3&gt;Schematic Frame - A4L - European Format&lt;/h3&gt;
+&lt;p&gt;Standard A4 size frame in Landscape&lt;/p&gt;</description>
+<gates>
+<gate name="G$1" symbol="FR-A4L" x="0" y="0"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
+<attribute name="CNAME" value="MoteinoMega Ultimate GPS Sheild"/>
+<attribute name="CREVISION" value="0.2"/>
+<attribute name="DESIGNER" value="greg.cope@gmail.com"/>
 </attributes>
 <variantdefs>
 </variantdefs>
@@ -4945,27 +5009,26 @@ part number 2062-2P from STA</description>
 </classes>
 <parts>
 <part name="U$12" library="microbuilder" deviceset="GND" device=""/>
-<part name="JP1" library="microbuilder" deviceset="HEADER-1X9" device="70MIL"/>
+<part name="JP1" library="microbuilder" deviceset="HEADER-1X9" device="70MIL" value="GPS_HEADR"/>
 <part name="P+2" library="SparkFun" deviceset="VCC" device="" value="3.3V"/>
 <part name="SUPPLY1" library="supply2" deviceset="GND" device=""/>
 <part name="SH1" library="SparkFun-Connectors" deviceset="M20" device=""/>
 <part name="SH2" library="SparkFun-Connectors" deviceset="M20" device=""/>
 <part name="P+3" library="SparkFun" deviceset="VCC" device="" value="3.3V"/>
 <part name="R1" library="SparkFun-Resistors" deviceset="1KOHM" device="-HORIZ-1/4W-1%" value="1k"/>
-<part name="CN1" library="adafruit" deviceset="JST_2PIN" device="-THM"/>
+<part name="CN1" library="adafruit" deviceset="JST_2PIN" device="-THM" value="JST"/>
 <part name="SUPPLY2" library="supply2" deviceset="GND" device=""/>
 <part name="R2" library="SparkFun-Resistors" deviceset="1MOHM" device="-HORIZ_KIT-1/6W-5%" value="1.8M"/>
 <part name="R3" library="SparkFun-Resistors" deviceset="1MOHM" device="-HORIZ_KIT-1/6W-5%" value="3.3M"/>
 <part name="C1" library="adafruit" deviceset="C-US" device="075-032X103" value="0.01uF"/>
 <part name="Q2" library="transistor-power" deviceset="PMOSFET_P" device="TO220BV" value="NDP6020P P-CHANNEL"/>
-<part name="J1" library="SparkFun-Retired" deviceset="CONN_02" device="POLAR"/>
+<part name="J1" library="SparkFun-Retired" deviceset="CONN_02" device="POLAR" value="SCREW_TERM"/>
 <part name="SUPPLY3" library="supply2" deviceset="GND" device=""/>
+<part name="FRAME1" library="SparkFun-Aesthetics" deviceset="FRAME-A4L" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
-<text x="167.64" y="10.16" size="1.778" layer="91">Greg Cope &lt;gregcope@gmail.com&gt;</text>
-<text x="238.76" y="7.62" size="1.778" layer="91">0.1</text>
 </plain>
 <instances>
 <instance part="U$12" gate="G$1" x="187.96" y="93.98"/>
@@ -4984,6 +5047,7 @@ part number 2062-2P from STA</description>
 <instance part="Q2" gate="G$1" x="182.88" y="147.32"/>
 <instance part="J1" gate="G$1" x="50.8" y="63.5" rot="R180"/>
 <instance part="SUPPLY3" gate="GND" x="38.1" y="53.34"/>
+<instance part="FRAME1" gate="G$1" x="0" y="0"/>
 </instances>
 <busses>
 </busses>
@@ -5046,12 +5110,10 @@ part number 2062-2P from STA</description>
 <wire x1="25.4" y1="86.36" x2="25.4" y2="104.14" width="0.1524" layer="91"/>
 <junction x="25.4" y="104.14"/>
 <pinref part="SH1" gate="G$1" pin="2"/>
-<wire x1="60.96" y1="86.36" x2="53.34" y2="86.36" width="0.1524" layer="91"/>
-<label x="50.8" y="86.36" size="1.778" layer="95"/>
-<label x="50.8" y="86.36" size="1.778" layer="95"/>
-<label x="50.8" y="86.36" size="1.778" layer="95"/>
-<wire x1="53.34" y1="86.36" x2="50.8" y2="86.36" width="0.1524" layer="91"/>
-<wire x1="25.4" y1="86.36" x2="50.8" y2="86.36" width="0.1524" layer="91"/>
+<label x="49.53" y="86.36" size="1.778" layer="95"/>
+<label x="49.53" y="86.36" size="1.778" layer="95"/>
+<label x="49.53" y="86.36" size="1.778" layer="95"/>
+<wire x1="25.4" y1="86.36" x2="60.96" y2="86.36" width="0.1524" layer="91"/>
 <junction x="25.4" y="86.36"/>
 </segment>
 </net>
@@ -5078,6 +5140,7 @@ part number 2062-2P from STA</description>
 <wire x1="185.42" y1="152.4" x2="185.42" y2="154.94" width="0.1524" layer="91"/>
 <junction x="185.42" y="154.94"/>
 <pinref part="Q2" gate="G$1" pin="S"/>
+<junction x="124.46" y="88.9"/>
 </segment>
 </net>
 <net name="A7" class="0">
@@ -5359,6 +5422,39 @@ part number 2062-2P from STA</description>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="102,1,43.18,88.9,VCC,VBAT,,,,"/>
+<approved hash="102,1,124.46,88.9,VCC,VBAT,,,,"/>
+<approved hash="106,1,60.96,114.3,A1,,,,,"/>
+<approved hash="106,1,60.96,116.84,A2,,,,,"/>
+<approved hash="106,1,60.96,119.38,A3,,,,,"/>
+<approved hash="106,1,60.96,121.92,A4,,,,,"/>
+<approved hash="106,1,60.96,124.46,A5,,,,,"/>
+<approved hash="106,1,60.96,127,A6,,,,,"/>
+<approved hash="106,1,60.96,129.54,A7,,,,,"/>
+<approved hash="106,1,60.96,132.08,AREF,,,,,"/>
+<approved hash="106,1,60.96,109.22,D0,,,,,"/>
+<approved hash="106,1,60.96,106.68,D1,,,,,"/>
+<approved hash="106,1,60.96,104.14,D2,,,,,"/>
+<approved hash="106,1,60.96,99.06,D4_SS,,,,,"/>
+<approved hash="106,1,60.96,96.52,D5_MOSI,,,,,"/>
+<approved hash="106,1,60.96,93.98,D6_MISO,,,,,"/>
+<approved hash="106,1,60.96,91.44,D7_SCK,,,,,"/>
+<approved hash="106,1,106.68,93.98,D8,,,,,"/>
+<approved hash="106,1,106.68,96.52,D9,,,,,"/>
+<approved hash="106,1,106.68,106.68,D13,,,,,"/>
+<approved hash="106,1,106.68,109.22,D14,,,,,"/>
+<approved hash="106,1,106.68,111.76,D15,,,,,"/>
+<approved hash="106,1,106.68,114.3,D16,,,,,"/>
+<approved hash="106,1,106.68,116.84,D17,,,,,"/>
+<approved hash="106,1,106.68,119.38,D18,,,,,"/>
+<approved hash="106,1,106.68,121.92,D19,,,,,"/>
+<approved hash="106,1,106.68,124.46,D20,,,,,"/>
+<approved hash="106,1,106.68,127,D21,,,,,"/>
+<approved hash="106,1,106.68,129.54,D22,,,,,"/>
+<approved hash="106,1,106.68,132.08,D23,,,,,"/>
+<approved hash="106,1,106.68,91.44,RST,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 </eagle>
