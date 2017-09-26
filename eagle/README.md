@@ -21,11 +21,7 @@
 12. Headers for Fona GSM module
 13. A 5v pin to connect to the Fona USB
 
-TODO
-
-- Pin for 5v GND
-- Connector for 12/24V GND
-- LED Resistor
+... What's missing.
 
 No thread is complete without pictures...
 
