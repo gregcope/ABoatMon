@@ -6071,8 +6071,8 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 </library>
 </libraries>
 <attributes>
-<attribute name="CNAME" value="MoteinoMega Ultimate GPS Sheild"/>
-<attribute name="CREVISION" value="0.5"/>
+<attribute name="CNAME" value="MoteinoMega ABoatMon Sheild"/>
+<attribute name="CREVISION" value="0.6"/>
 <attribute name="DESIGNER" value="greg.cope@gmail.com"/>
 </attributes>
 <variantdefs>
@@ -6106,10 +6106,8 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <part name="J1" library="SparkFun-Connectors" deviceset="CONN_02" device="3.5MM-NO_SILK" value="BilgeSwitch"/>
 <part name="SUPPLY6" library="supply2" deviceset="GND" device=""/>
 <part name="J3" library="SparkFun-Connectors" deviceset="CONN_02" device="3.5MM-NO_SILK" value="LED"/>
-<part name="J4" library="SparkFun-Connectors" deviceset="CONN_02" device="3.5MM-NO_SILK" value="SCREW_TERM"/>
-<part name="SUPPLY7" library="supply2" deviceset="GND" device=""/>
-<part name="J5" library="SparkFun-Connectors" deviceset="CONN_02" device="3.5MM-NO_SILK" value="DS18B20"/>
-<part name="J6" library="SparkFun-Connectors" deviceset="CONN_02" device="3.5MM-NO_SILK" value="DS18B20_12-24V_VCC"/>
+<part name="J4" library="SparkFun-Connectors" deviceset="CONN_02" device="3.5MM-NO_SILK" value="DS18B20"/>
+<part name="J5" library="SparkFun-Connectors" deviceset="CONN_02" device="3.5MM-NO_SILK" value="DS18B20_12-24V_VCC"/>
 <part name="SUPPLY8" library="supply2" deviceset="GND" device=""/>
 <part name="Q2" library="transistor-power" deviceset="IRF9530" device="" value="IRF9Z14PBF"/>
 <part name="R4" library="SparkFun-Resistors" deviceset="1MOHM" device="-HORIZ_KIT-1/6W-5%" value="10K"/>
@@ -6118,6 +6116,9 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <part name="J7" library="SparkFun-Connectors" deviceset="CONN_03" device="" value="OKI-78SR-5/1.5"/>
 <part name="SUPPLY10" library="supply2" deviceset="GND" device=""/>
 <part name="J8" library="SparkFun-Connectors" deviceset="CONN_01" device="" value="5V"/>
+<part name="R5" library="SparkFun-Resistors" deviceset="1MOHM" device="-HORIZ_KIT-1/6W-5%" value="27M"/>
+<part name="R6" library="SparkFun-Resistors" deviceset="1MOHM" device="-HORIZ_KIT-1/6W-5%" value="3.3M"/>
+<part name="SUPPLY11" library="supply2" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -6151,10 +6152,8 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <instance part="J1" gate="G$1" x="25.4" y="55.88"/>
 <instance part="SUPPLY6" gate="GND" x="30.48" y="137.16"/>
 <instance part="J3" gate="G$1" x="17.78" y="139.7"/>
-<instance part="J4" gate="G$1" x="68.58" y="165.1"/>
-<instance part="SUPPLY7" gate="GND" x="81.28" y="157.48"/>
-<instance part="J5" gate="G$1" x="25.4" y="12.7"/>
-<instance part="J6" gate="G$1" x="25.4" y="25.4"/>
+<instance part="J4" gate="G$1" x="25.4" y="12.7"/>
+<instance part="J5" gate="G$1" x="25.4" y="25.4"/>
 <instance part="SUPPLY8" gate="GND" x="43.18" y="10.16"/>
 <instance part="Q2" gate="G$1" x="254" y="76.2"/>
 <instance part="R4" gate="G$1" x="223.52" y="93.98" rot="R90"/>
@@ -6163,6 +6162,9 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <instance part="J7" gate="J$1" x="238.76" y="43.18"/>
 <instance part="SUPPLY10" gate="GND" x="264.16" y="40.64"/>
 <instance part="J8" gate="G$1" x="205.74" y="27.94"/>
+<instance part="R5" gate="G$1" x="208.28" y="101.6" rot="R270"/>
+<instance part="R6" gate="G$1" x="208.28" y="78.74" rot="R90"/>
+<instance part="SUPPLY11" gate="GND" x="208.28" y="68.58"/>
 </instances>
 <busses>
 </busses>
@@ -6215,7 +6217,7 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <pinref part="J3" gate="G$1" pin="1"/>
 </segment>
 <segment>
-<pinref part="J5" gate="G$1" pin="1"/>
+<pinref part="J4" gate="G$1" pin="1"/>
 <pinref part="SUPPLY8" gate="GND" pin="GND"/>
 <wire x1="33.02" y1="12.7" x2="43.18" y2="12.7" width="0.1524" layer="91"/>
 </segment>
@@ -6226,12 +6228,6 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <wire x1="30.48" y1="160.02" x2="30.48" y2="154.94" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J4" gate="G$1" pin="1"/>
-<wire x1="76.2" y1="165.1" x2="81.28" y2="165.1" width="0.1524" layer="91"/>
-<pinref part="SUPPLY7" gate="GND" pin="GND"/>
-<wire x1="81.28" y1="165.1" x2="81.28" y2="160.02" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="Q3" gate="G$1" pin="S"/>
 <pinref part="SUPPLY9" gate="GND" pin="GND"/>
 <wire x1="223.52" y1="48.26" x2="223.52" y2="40.64" width="0.1524" layer="91"/>
@@ -6240,6 +6236,11 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <pinref part="J7" gate="J$1" pin="2"/>
 <pinref part="SUPPLY10" gate="GND" pin="GND"/>
 <wire x1="246.38" y1="43.18" x2="264.16" y2="43.18" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="R6" gate="G$1" pin="1"/>
+<wire x1="208.28" y1="73.66" x2="208.28" y2="71.12" width="0.1524" layer="91"/>
+<pinref part="SUPPLY11" gate="GND" pin="GND"/>
 </segment>
 </net>
 <net name="VIN" class="1">
@@ -6396,22 +6397,9 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <label x="33.02" y="58.42" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="D1" class="0">
-<segment>
-<pinref part="J4" gate="G$1" pin="2"/>
-<wire x1="78.74" y1="167.64" x2="76.2" y2="167.64" width="0.1524" layer="91"/>
-<label x="15.24" y="160.02" size="1.778" layer="95"/>
-<label x="76.2" y="167.64" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="MOTEINO_MEGA" gate="G$1" pin="D1"/>
-<wire x1="55.88" y1="106.68" x2="53.34" y2="106.68" width="0.1524" layer="91"/>
-<label x="53.34" y="106.68" size="1.778" layer="95"/>
-</segment>
-</net>
 <net name="12-24V-VCC" class="0">
 <segment>
-<pinref part="J6" gate="G$1" pin="2"/>
+<pinref part="J5" gate="G$1" pin="2"/>
 <wire x1="33.02" y1="27.94" x2="35.56" y2="27.94" width="0.1524" layer="91"/>
 <label x="33.02" y="27.94" size="1.778" layer="95"/>
 <label x="33.02" y="27.94" size="1.778" layer="95"/>
@@ -6425,9 +6413,12 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <pinref part="Q2" gate="G$1" pin="S"/>
 <wire x1="256.54" y1="81.28" x2="256.54" y2="106.68" width="0.1524" layer="91"/>
 <wire x1="256.54" y1="106.68" x2="223.52" y2="106.68" width="0.1524" layer="91"/>
-<wire x1="223.52" y1="106.68" x2="218.44" y2="106.68" width="0.1524" layer="91"/>
+<wire x1="223.52" y1="106.68" x2="208.28" y2="106.68" width="0.1524" layer="91"/>
 <junction x="223.52" y="106.68"/>
-<label x="218.44" y="106.68" size="1.778" layer="95"/>
+<label x="200.66" y="106.68" size="1.778" layer="95"/>
+<pinref part="R5" gate="G$1" pin="1"/>
+<wire x1="208.28" y1="106.68" x2="200.66" y2="106.68" width="0.1524" layer="91"/>
+<junction x="208.28" y="106.68"/>
 </segment>
 </net>
 <net name="D13_NETSTAT" class="0">
@@ -6480,7 +6471,7 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 </net>
 <net name="D27" class="0">
 <segment>
-<pinref part="J5" gate="G$1" pin="2"/>
+<pinref part="J4" gate="G$1" pin="2"/>
 <wire x1="33.02" y1="15.24" x2="35.56" y2="15.24" width="0.1524" layer="91"/>
 <label x="33.02" y="15.24" size="1.778" layer="95"/>
 </segment>
@@ -6492,7 +6483,7 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 </net>
 <net name="D28" class="0">
 <segment>
-<pinref part="J6" gate="G$1" pin="1"/>
+<pinref part="J5" gate="G$1" pin="1"/>
 <wire x1="33.02" y1="25.4" x2="35.56" y2="25.4" width="0.1524" layer="91"/>
 <label x="33.02" y="25.4" size="1.778" layer="95"/>
 </segment>
@@ -6510,9 +6501,9 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <wire x1="15.24" y1="5.08" x2="15.24" y2="38.1" width="0.1524" layer="91" style="longdash"/>
 </segment>
 <segment>
-<wire x1="200.66" y1="119.38" x2="271.78" y2="119.38" width="0.1524" layer="91" style="longdash"/>
-<wire x1="200.66" y1="119.38" x2="200.66" y2="22.86" width="0.1524" layer="91" style="longdash"/>
-<wire x1="200.66" y1="22.86" x2="271.78" y2="22.86" width="0.1524" layer="91" style="longdash"/>
+<wire x1="193.04" y1="119.38" x2="271.78" y2="119.38" width="0.1524" layer="91" style="longdash"/>
+<wire x1="193.04" y1="119.38" x2="193.04" y2="22.86" width="0.1524" layer="91" style="longdash"/>
+<wire x1="193.04" y1="22.86" x2="271.78" y2="22.86" width="0.1524" layer="91" style="longdash"/>
 <wire x1="271.78" y1="22.86" x2="271.78" y2="119.38" width="0.1524" layer="91" style="longdash"/>
 </segment>
 </net>
@@ -6603,6 +6594,22 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <wire x1="185.42" y1="73.66" x2="139.7" y2="73.66" width="0.1524" layer="91" style="longdash"/>
 </segment>
 </net>
+<net name="A5" class="0">
+<segment>
+<pinref part="MOTEINO_MEGA" gate="G$1" pin="A5"/>
+<wire x1="55.88" y1="124.46" x2="53.34" y2="124.46" width="0.1524" layer="91"/>
+<label x="53.34" y="124.46" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="R5" gate="G$1" pin="2"/>
+<pinref part="R6" gate="G$1" pin="2"/>
+<wire x1="208.28" y1="96.52" x2="208.28" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="208.28" y1="91.44" x2="208.28" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="208.28" y1="91.44" x2="198.12" y2="91.44" width="0.1524" layer="91"/>
+<junction x="208.28" y="91.44"/>
+<label x="198.12" y="91.44" size="1.778" layer="95"/>
+</segment>
+</net>
 </nets>
 </sheet>
 </sheets>
@@ -6612,7 +6619,7 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <approved hash="105,1,15.24,57.15,N$4,,,,,"/>
 <approved hash="105,1,1.778,97.79,N$5,,,,,"/>
 <approved hash="105,1,139.7,49.53,N$6,,,,,"/>
-<approved hash="115,1,236.22,119.38,N$1,,,,,"/>
+<approved hash="115,1,232.41,119.38,N$1,,,,,"/>
 <approved hash="115,1,34.29,38.1,N$1,,,,,"/>
 </errors>
 </schematic>
