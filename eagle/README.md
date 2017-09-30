@@ -6,7 +6,7 @@
 
 ## Design
 
-0. I intend to add more parts, hence the board is left large.
+0. I intend to add more parts ... like reverse polarity protectoin
 1. Uses a MoteinoMega and Adafruit Ultimate GPS
 2. The P-channel Mosfet is designed to power the GPS directly, avoiding the on board regulator
 3. The VBAT is on the MotinoMega 3.3V rail to keep the GPS backup circuits powered
