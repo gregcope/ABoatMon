@@ -3996,8 +3996,8 @@ Commonly used for small ceramic capacitors. Like our 0.1uF (http://www.sparkfun.
 </library>
 </libraries>
 <attributes>
-<attribute name="CNAME" value="MoteinoMega ABoatMon Sheild"/>
-<attribute name="CREVISION" value="0.9"/>
+<attribute name="CNAME" value="MoteinoMega ABoatMon Shield"/>
+<attribute name="CREVISION" value="0.97"/>
 <attribute name="DESIGNER" value="greg.cope@gmail.com"/>
 </attributes>
 <variantdefs>
