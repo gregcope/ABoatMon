@@ -4099,7 +4099,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="MOTEINO_MEGA" library="Moteino" deviceset="MOTEINO_MEGA_SIMPLE" device="" value="HEADERS"/>
 <part name="SUPPLY4" library="supply2" deviceset="GND" device=""/>
 <part name="U$31" library="microbuilder" deviceset="GND" device=""/>
-<part name="JP2" library="adafruit2" deviceset="PINHD-1X12" device="-CB" value="FONA_GSM"/>
+<part name="JP2" library="adafruit2" deviceset="PINHD-1X12" device="-CB" value="FONA GSM"/>
 <part name="SUPPLY5" library="supply2" deviceset="GND" device=""/>
 <part name="J2" library="SparkFun-Connectors" deviceset="CONN_02" device="3.5MM-NO_SILK" value="Button"/>
 <part name="J1" library="SparkFun-Connectors" deviceset="CONN_02" device="3.5MM-NO_SILK" value="BilgeSwitch"/>
