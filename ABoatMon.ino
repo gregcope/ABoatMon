@@ -38,6 +38,7 @@
 
 #define TEMP_POWER 27
 #define TEMP_DATA 28
+// Red connects to 27, Blue/Black connects to ground and Yellow/White (data) to 28
 
 #define VCC_12V-24V_VOLTAGE_DIVIDER A5 
 #define VCC_12V-24V_MOSFET 19
