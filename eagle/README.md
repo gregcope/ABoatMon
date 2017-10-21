@@ -6,8 +6,8 @@
 
 ## Design
 
-0. I intend to add more parts ... like reverse polarity protectoin
-1. Uses a MoteinoMega and Adafruit Ultimate GPS
+0. I may add more parts...
+1. Uses a MoteinoMega, Adafruit Ultimate GPS and an Adafruit FONA GSM
 2. The P-channel Mosfet is designed to power the GPS directly, avoiding the on board regulator
 3. The VBAT is on the MotinoMega 3.3V rail to keep the GPS backup circuits powered
 4. The JST is for a Lipo battery
@@ -16,12 +16,13 @@
 7. J2 - Button
 8. J3 - LED
 9. J4 and part of J5 DS18B20 Temp probe
-10. Part of J5 is 12/24V VCC feed
+10. Part of J5 is a 12V-24V VCC input
 11. A 27M/3.3M voltage divider to measure 30+V on an ADC pin
 12. Headers for Fona GSM module
-13. A 5v pin to connect to the Fona USB
+13. A 5v pin to connect to the Fona USB charge port
+14. There is a jumper to measure the uCurrent the GSM uses, and also by-pass the switching
 
-... What's missing.
+... What's missing?
 
 No thread is complete without pictures...
 
