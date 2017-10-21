@@ -29,18 +29,25 @@
 #define GPS_TX 10 // serial1
 #define GPS_RX 11 // serial1
 
-#define GSM_TX 8  // serial
-#define GSM_RX 9  // serial
-
-#define BUTTON_LED 222
+#define BUTTON_LED 26
+#define BUTTON 25
+ 
 #define BILGE_SWITCH 3 // Other line from BilgeSwitch to GND
-#define BATT_MONITOR A0
-#define TEMP_POWER 30
 
-// TBC
-#define CHARGER_POWER 99
-#define FONA_POWER 1 
-#define FONA_KEY 0
+#define LIPO_VOLTAGE_DIVIDER A0
+
+#define TEMP_POWER 27
+#define TEMP_DATA 28
+
+#define VCC_12V-24V_VOLTAGE_DIVIDER A5 
+#define VCC_12V-24V_MOSFET 19
+
+#define FONA_TX 8  // serial
+#define FONA_RX 9  // serial
+#define FONA_POWER 30
+#define FONA_KEY 14
+#define FONA_PS 18
+#define FONA_NETSTAT 13
 
 // Static defines
 #define FOURMIN_CYCLES 5 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
@@ -258,10 +265,10 @@ void lipoCheckBattery() {
     DEBUGln("lipoCheckBattery() .. battery readings: ");
     lipoBatteryReadings = 0 ;
     // read it first and throw it away
-    analogRead(BATT_MONITOR);
+    analogRead(LIPO_VOLTAGE_DIVIDER);
     for (byte i=0; i<10; i++) {
       //take 10 samples, and average
-      lipoBatteryReadings+=analogRead(BATT_MONITOR);
+      lipoBatteryReadings+=analogRead(LIPO_VOLTAGE_DIVIDER);
     }
     //DEBUG("lipoBatteryReadings (x10) = ");
     //DEBUGln(lipoBatteryReadings);
