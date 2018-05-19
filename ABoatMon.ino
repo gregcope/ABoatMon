@@ -29,15 +29,16 @@
 #define GPS_TX 10 // serial1
 #define GPS_RX 11 // serial1
 
-#define BUTTON_LED 26
+//#define BUTTON_LED 26
+#define BUTTON_LED 15
 #define BUTTON 25
  
 #define BILGE_SWITCH 3 // Other line from BilgeSwitch to GND
 
 #define LIPO_VOLTAGE_DIVIDER A0
 
-#define TEMP_POWER 27
-#define TEMP_DATA 28
+#define TEMP_POWER 27 // PA3
+#define TEMP_DATA 28 // PA4
 // Red connects to 27, Blue/Black connects to ground and Yellow/White (data) to 28
 
 #define VCC_12V-24V_VOLTAGE_DIVIDER A5 
@@ -269,6 +270,8 @@ void lipoCheckBattery() {
     analogRead(LIPO_VOLTAGE_DIVIDER);
     for (byte i=0; i<10; i++) {
       //take 10 samples, and average
+      DEBUG("analogRead: ");
+      DEBUGln(analogRead(LIPO_VOLTAGE_DIVIDER));
       lipoBatteryReadings+=analogRead(LIPO_VOLTAGE_DIVIDER);
     }
     //DEBUG("lipoBatteryReadings (x10) = ");
