@@ -6609,6 +6609,11 @@ Buck Module
 4.5v~55V VCC
 5V Output
 Max 600mA, 96% eff</text>
+<text x="166.624" y="116.078" size="1.778" layer="91">Note: Need to remove the 10K pull resistor
+ form the Enable pin to Volt Reg Enable 
+pin so that it does not consume power.
+
+https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 </plain>
 <instances>
 <instance part="U$12" gate="G$1" x="160.02" y="132.08"/>
