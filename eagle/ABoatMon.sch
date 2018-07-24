@@ -6576,7 +6576,7 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 </classes>
 <parts>
 <part name="U$12" library="microbuilder" deviceset="GND" device=""/>
-<part name="JP1" library="microbuilder" deviceset="HEADER-1X9" device="70MIL" value="GPS_HEADR"/>
+<part name="JP1" library="microbuilder" deviceset="HEADER-1X9" device="70MIL" value="GPS"/>
 <part name="JST1" library="adafruit" deviceset="JST_2PIN" device="-THM" value="LIPO"/>
 <part name="SUPPLY2" library="supply2" deviceset="GND" device=""/>
 <part name="FRAME1" library="SparkFun-Aesthetics" deviceset="FRAME-A4L" device=""/>
@@ -6589,7 +6589,7 @@ Also note, the SNAP packages are for using a snappable style connector. We sell 
 <part name="SUPPLY7" library="supply2" deviceset="GND" device=""/>
 <part name="C2" library="SparkFun-Capacitors" deviceset="0.1UF" device="-KIT-EZ-50V-20%" value="0.1U"/>
 <part name="R5" library="SparkFun-Resistors" deviceset="1KOHM" device="-HORIZ-1/4W-1%" value="3.3M"/>
-<part name="VCC" library="SparkFun-Connectors" deviceset="CONN_02" device="" value="VCC"/>
+<part name="ENABLE" library="SparkFun-Connectors" deviceset="CONN_02" device="" value="VCC"/>
 <part name="SUPPLY9" library="supply2" deviceset="GND" device=""/>
 <part name="JST_PWR" library="SparkFun-Connectors" deviceset="CONN_04" device="JST-PTH" value="VVC_5V"/>
 <part name="SUPPLY10" library="supply2" deviceset="GND" device=""/>
@@ -6630,7 +6630,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <instance part="SUPPLY7" gate="GND" x="208.28" y="43.18"/>
 <instance part="C2" gate="G$1" x="198.12" y="50.8"/>
 <instance part="R5" gate="G$1" x="187.96" y="50.8" rot="R90"/>
-<instance part="VCC" gate="G$1" x="223.52" y="71.12" smashed="yes" rot="R180">
+<instance part="ENABLE" gate="G$1" x="223.52" y="71.12" smashed="yes" rot="R180">
 <attribute name="VALUE" x="226.06" y="65.786" size="1.778" layer="96" font="vector" rot="R180"/>
 </instance>
 <instance part="SUPPLY9" gate="GND" x="254" y="43.18"/>
@@ -6862,7 +6862,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <label x="106.68" y="152.4" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="VCC" gate="G$1" pin="1"/>
+<pinref part="ENABLE" gate="G$1" pin="1"/>
 <wire x1="215.9" y1="71.12" x2="208.28" y2="71.12" width="0.1524" layer="91"/>
 <label x="208.28" y="71.12" size="1.778" layer="95"/>
 </segment>
@@ -6871,7 +6871,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <segment>
 <wire x1="180.34" y1="68.58" x2="180.34" y2="48.26" width="0.1524" layer="91"/>
 <label x="180.34" y="55.88" size="1.778" layer="95" rot="R90"/>
-<pinref part="VCC" gate="G$1" pin="2"/>
+<pinref part="ENABLE" gate="G$1" pin="2"/>
 <pinref part="JST_PWR" gate="G$1" pin="4"/>
 <wire x1="180.34" y1="68.58" x2="187.96" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="R6" gate="G$1" pin="2"/>
@@ -6892,11 +6892,12 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <pinref part="J1" gate="G$1" pin="1"/>
 </segment>
 </net>
-<net name="N$2" class="0">
+<net name="LED" class="0">
 <segment>
 <wire x1="205.74" y1="154.94" x2="231.14" y2="154.94" width="0.1524" layer="91"/>
 <pinref part="R7" gate="G$1" pin="1"/>
 <pinref part="IO" gate="G$1" pin="7"/>
+<label x="208.28" y="154.94" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D26_LED" class="0">
