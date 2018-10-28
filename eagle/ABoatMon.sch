@@ -5666,7 +5666,7 @@ Grid 5.00 mm&lt;p&gt;
 <attributes>
 <attribute name="CNAME" value="MoteinoMega ABoatMon Shield"/>
 <attribute name="CREVISION" value="0.399"/>
-<attribute name="DESIGNER" value="greg.cope@gmail.com"/>
+<attribute name="DESIGNER" value="gregcope@gmail.com"/>
 </attributes>
 <variantdefs>
 </variantdefs>
