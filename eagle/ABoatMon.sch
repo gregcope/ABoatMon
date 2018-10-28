@@ -5665,7 +5665,7 @@ Grid 5.00 mm&lt;p&gt;
 </libraries>
 <attributes>
 <attribute name="CNAME" value="MoteinoMega ABoatMon Shield"/>
-<attribute name="CREVISION" value="2.99"/>
+<attribute name="CREVISION" value="0.399"/>
 <attribute name="DESIGNER" value="greg.cope@gmail.com"/>
 </attributes>
 <variantdefs>
@@ -6016,6 +6016,11 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <wire x1="139.7" y1="124.46" x2="139.7" y2="137.16" width="0.1524" layer="91"/>
 <wire x1="139.7" y1="137.16" x2="149.86" y2="137.16" width="0.1524" layer="91"/>
 <junction x="139.7" y="124.46"/>
+</segment>
+<segment>
+<pinref part="MOTEINO_MEGA" gate="G$1" pin="3V3_2"/>
+<wire x1="63.5" y1="119.38" x2="55.88" y2="119.38" width="0.1524" layer="91"/>
+<label x="60.96" y="119.38" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D9_FONA_RX" class="0">
