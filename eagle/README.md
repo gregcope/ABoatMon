@@ -20,7 +20,8 @@
 11. A 27M/3.3M voltage divider to measure 30+V on an ADC pin
 12. Headers for Fona GSM module
 13. A 5v pin to connect to the Fona USB charge port
-14. There is a jumper to measure the uCurrent the GSM uses, and also by-pass the switching
+14. There is a jumper to measure the uCurrent the board uses from the LIPO, and also by-pass the switching (aka an on/off switch)
+15. There is a jumper to measure the uCurrent the board uses from VCC, and also by-pass the switching (aka an on/off switch)
 
 ... What's missing?
 
