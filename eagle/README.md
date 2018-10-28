@@ -26,6 +26,6 @@
 
 No thread is complete without pictures...
 
-![Eagle Schematic for MoteinoMega Ultimate GPS Sheild](https://raw.githubusercontent.com/gregcope/ABoatMon/master/eagle/MoteinoMegaGPSSheild-sch.png "Eagle Schematic for MoteinoMega Ultimate GPS Sheild")
+![Eagle Schematic](https://raw.githubusercontent.com/gregcope/ABoatMon/master/eagle/ABoatMon-sch.png "Eagle Schematic")
 
-![Eagle Board for MoteinoMega Ultimate GPS Sheild](https://raw.githubusercontent.com/gregcope/ABoatMon/master/eagle/MoteinoMegaGPSSheild-brd.png "Eagle Board for MoteinoMega Ultimate GPS Sheild")
+![Eagle Board](https://raw.githubusercontent.com/gregcope/ABoatMon/master/eagle/ABoatMon-brd.png "Eagle Board")
