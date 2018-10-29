@@ -167,7 +167,7 @@ Holtek HT7463A
 5V Output
 Max 600mA96% eff</text>
 <text x="47.244" y="71.374" size="1.016" layer="25" font="vector" ratio="20">VCC</text>
-<text x="51.943" y="71.501" size="1.016" layer="25" font="vector" ratio="20">VCC</text>
+<text x="51.943" y="71.501" size="1.016" layer="25" font="vector" ratio="20">GND</text>
 <text x="57.531" y="71.628" size="1.016" layer="25" font="vector" ratio="20">5V</text>
 <text x="62.103" y="71.501" size="1.016" layer="25" font="vector" ratio="20">GND</text>
 <text x="68.834" y="77.597" size="1.016" layer="25" font="vector" ratio="20">GND</text>
@@ -214,8 +214,8 @@ Max 600mA96% eff</text>
 <text x="61.722" y="41.656" size="1.016" layer="25" font="vector" ratio="20" rot="R270">D11_GPS_TX</text>
 <text x="56.642" y="41.656" size="1.016" layer="25" font="vector" ratio="20" rot="R270">GPS_VIN</text>
 <text x="59.309" y="41.656" size="1.016" layer="25" font="vector" ratio="20" rot="R270">GND</text>
-<dimension x1="77.47" y1="80.01" x2="77.47" y2="10.16" x3="33.02" y3="45.085" textsize="1.778" layer="26"/>
-<dimension x1="0" y1="10.16" x2="77.47" y2="10.16" x3="38.735" y3="16.51" textsize="1.778" layer="26"/>
+<dimension x1="77.089" y1="80.01" x2="77.089" y2="10.16" x3="33.02" y3="45.085" textsize="1.778" layer="26"/>
+<dimension x1="0" y1="10.16" x2="77.089" y2="10.16" x3="38.5445" y3="16.256" textsize="1.778" layer="26"/>
 <text x="69.596" y="41.529" size="1.016" layer="25" font="vector" ratio="20" rot="R270">VBAT</text>
 <text x="8.001" y="47.244" size="1.016" layer="25" font="vector" ratio="20" rot="R90">3.3V</text>
 </plain>
@@ -1056,15 +1056,15 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <contactref element="X2" pad="1"/>
 <polygon width="0.1524" layer="1" isolate="0.3048">
 <vertex x="0" y="80.01"/>
-<vertex x="77.47" y="80.01"/>
-<vertex x="77.47" y="10.16"/>
-<vertex x="0" y="10.16"/>
+<vertex x="77.089" y="80.01"/>
+<vertex x="77.089" y="10.033"/>
+<vertex x="0" y="10.033"/>
 </polygon>
 <polygon width="0.1524" layer="16" isolate="0.3048">
 <vertex x="0" y="80.01"/>
-<vertex x="77.47" y="80.01"/>
-<vertex x="77.47" y="10.16"/>
-<vertex x="0" y="10.16"/>
+<vertex x="77.089" y="80.01"/>
+<vertex x="77.089" y="10.287"/>
+<vertex x="0" y="10.287"/>
 </polygon>
 <via x="10.16" y="35.56" extent="1-16" drill="0.508"/>
 <via x="8.89" y="60.96" extent="1-16" drill="0.508"/>
