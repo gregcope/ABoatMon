@@ -5665,7 +5665,7 @@ Grid 5.00 mm&lt;p&gt;
 </libraries>
 <attributes>
 <attribute name="CNAME" value="MoteinoMega ABoatMon Shield"/>
-<attribute name="CREVISION" value="0.499"/>
+<attribute name="CREVISION" value="0.549"/>
 <attribute name="DESIGNER" value="gregcope@gmail.com"/>
 </attributes>
 <variantdefs>
@@ -5712,6 +5712,7 @@ Grid 5.00 mm&lt;p&gt;
 <part name="U$5" library="microbuilder" deviceset="MOUNTINGHOLE" device="2.5"/>
 <part name="VCC" library="microbuilder" deviceset="HEADER-1X2" device="ROUND"/>
 <part name="LIPO" library="microbuilder" deviceset="HEADER-1X2" device="ROUND"/>
+<part name="J4" library="SparkFun-Connectors" deviceset="CONN_01" device="" value="5V"/>
 </parts>
 <sheets>
 <sheet>
@@ -5868,6 +5869,10 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <instance part="LIPO" gate="G$1" x="40.64" y="114.3" smashed="yes">
 <attribute name="NAME" x="34.29" y="120.015" size="1.778" layer="95"/>
 <attribute name="VALUE" x="34.29" y="109.22" size="1.778" layer="96"/>
+</instance>
+<instance part="J4" gate="G$1" x="238.76" y="104.14" smashed="yes">
+<attribute name="VALUE" x="236.22" y="99.314" size="1.778" layer="96" font="vector"/>
+<attribute name="NAME" x="236.22" y="107.188" size="1.778" layer="95" font="vector"/>
 </instance>
 </instances>
 <busses>
@@ -6099,7 +6104,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <segment>
 <pinref part="ENABLE" gate="G$1" pin="1"/>
 <wire x1="215.9" y1="83.82" x2="205.74" y2="83.82" width="0.1524" layer="91"/>
-<label x="205.74" y="83.82" size="1.778" layer="95"/>
+<label x="200.66" y="83.82" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VCC" class="1">
@@ -6109,10 +6114,6 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <wire x1="180.34" y1="78.74" x2="180.34" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="VCC" gate="G$1" pin="2"/>
 <wire x1="170.18" y1="78.74" x2="180.34" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="R6" gate="G$1" pin="2"/>
-<wire x1="180.34" y1="78.74" x2="187.96" y2="78.74" width="0.1524" layer="91"/>
-<wire x1="187.96" y1="78.74" x2="187.96" y2="73.66" width="0.1524" layer="91"/>
-<junction x="180.34" y="78.74"/>
 </segment>
 </net>
 <net name="5V" class="1">
@@ -6126,6 +6127,10 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <label x="180.34" y="40.64" size="1.778" layer="95"/>
 <pinref part="J1" gate="G$1" pin="1"/>
 <pinref part="X4" gate="-3" pin="KL"/>
+<pinref part="J4" gate="G$1" pin="1"/>
+<wire x1="246.38" y1="104.14" x2="261.62" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="261.62" y1="104.14" x2="261.62" y2="83.82" width="0.1524" layer="91"/>
+<junction x="261.62" y="83.82"/>
 </segment>
 </net>
 <net name="LED" class="0">
@@ -6237,8 +6242,12 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <segment>
 <pinref part="ENABLE" gate="G$1" pin="2"/>
 <pinref part="VCC" gate="G$1" pin="1"/>
-<wire x1="215.9" y1="81.28" x2="170.18" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="215.9" y1="81.28" x2="187.96" y2="81.28" width="0.1524" layer="91"/>
 <label x="177.8" y="81.28" size="1.778" layer="95"/>
+<pinref part="R6" gate="G$1" pin="2"/>
+<wire x1="187.96" y1="81.28" x2="170.18" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="187.96" y1="73.66" x2="187.96" y2="81.28" width="0.1524" layer="91"/>
+<junction x="187.96" y="81.28"/>
 </segment>
 </net>
 <net name="VIN_JUMPER" class="1">
