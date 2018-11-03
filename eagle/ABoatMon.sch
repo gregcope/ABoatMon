@@ -5665,7 +5665,7 @@ Grid 5.00 mm&lt;p&gt;
 </libraries>
 <attributes>
 <attribute name="CNAME" value="MoteinoMega ABoatMon Shield"/>
-<attribute name="CREVISION" value="0.399"/>
+<attribute name="CREVISION" value="0.499"/>
 <attribute name="DESIGNER" value="gregcope@gmail.com"/>
 </attributes>
 <variantdefs>
@@ -5736,12 +5736,12 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <attribute name="NAME" x="146.05" y="142.875" size="1.778" layer="95"/>
 <attribute name="VALUE" x="146.05" y="114.3" size="1.778" layer="96"/>
 </instance>
-<instance part="JST1" gate="G$1" x="20.32" y="114.3" smashed="yes" rot="R180">
-<attribute name="NAME" x="26.67" y="108.585" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="26.67" y="119.38" size="1.778" layer="96" rot="R180"/>
+<instance part="JST1" gate="G$1" x="17.78" y="114.3" smashed="yes" rot="R180">
+<attribute name="NAME" x="24.13" y="108.585" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="24.13" y="119.38" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="SUPPLY2" gate="GND" x="33.02" y="109.22" smashed="yes">
-<attribute name="VALUE" x="31.115" y="106.045" size="1.778" layer="96"/>
+<instance part="SUPPLY2" gate="GND" x="30.48" y="109.22" smashed="yes">
+<attribute name="VALUE" x="28.575" y="106.045" size="1.778" layer="96"/>
 </instance>
 <instance part="FRAME1" gate="G$1" x="0" y="0" smashed="yes">
 <attribute name="DRAWING_NAME" x="181.61" y="11.43" size="2.54" layer="94" font="vector"/>
@@ -5865,9 +5865,9 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <attribute name="NAME" x="166.37" y="84.455" size="1.778" layer="95"/>
 <attribute name="VALUE" x="166.37" y="73.66" size="1.778" layer="96"/>
 </instance>
-<instance part="LIPO" gate="G$1" x="50.8" y="114.3" smashed="yes">
-<attribute name="NAME" x="44.45" y="120.015" size="1.778" layer="95"/>
-<attribute name="VALUE" x="44.45" y="109.22" size="1.778" layer="96"/>
+<instance part="LIPO" gate="G$1" x="40.64" y="114.3" smashed="yes">
+<attribute name="NAME" x="34.29" y="120.015" size="1.778" layer="95"/>
+<attribute name="VALUE" x="34.29" y="109.22" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -5877,13 +5877,13 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <segment>
 <pinref part="JST1" gate="G$1" pin="1"/>
 <pinref part="SUPPLY2" gate="GND" pin="GND"/>
-<wire x1="22.86" y1="111.76" x2="33.02" y2="111.76" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="111.76" x2="30.48" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="12.7" y1="116.84" x2="12.7" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="12.7" y1="111.76" x2="5.08" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="5.08" y1="111.76" x2="5.08" y2="124.46" width="0.1524" layer="91"/>
-<wire x1="12.7" y1="111.76" x2="22.86" y2="111.76" width="0.1524" layer="91"/>
+<wire x1="12.7" y1="111.76" x2="20.32" y2="111.76" width="0.1524" layer="91"/>
 <junction x="12.7" y="111.76"/>
-<junction x="22.86" y="111.76"/>
+<junction x="20.32" y="111.76"/>
 <pinref part="C1" gate="G$1" pin="2"/>
 <pinref part="R3" gate="G$1" pin="1"/>
 </segment>
@@ -5972,7 +5972,13 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <segment>
 <pinref part="MOTEINO_MEGA" gate="G$1" pin="VIN_2"/>
 <pinref part="LIPO" gate="G$1" pin="1"/>
-<wire x1="63.5" y1="116.84" x2="48.26" y2="116.84" width="0.1524" layer="91"/>
+<wire x1="63.5" y1="116.84" x2="45.72" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="R2" gate="G$1" pin="2"/>
+<wire x1="45.72" y1="116.84" x2="38.1" y2="116.84" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="134.62" x2="45.72" y2="134.62" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="134.62" x2="45.72" y2="116.84" width="0.1524" layer="91"/>
+<junction x="45.72" y="116.84"/>
+<label x="22.86" y="134.62" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="A0" class="0">
@@ -6237,18 +6243,10 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 </net>
 <net name="VIN_JUMPER" class="1">
 <segment>
-<wire x1="30.48" y1="134.62" x2="22.86" y2="134.62" width="0.1524" layer="91"/>
-<wire x1="22.86" y1="134.62" x2="33.02" y2="134.62" width="0.1524" layer="91"/>
-<wire x1="33.02" y1="134.62" x2="33.02" y2="114.3" width="0.1524" layer="91"/>
 <label x="27.94" y="114.3" size="1.778" layer="95"/>
-<label x="25.4" y="134.62" size="1.778" layer="95"/>
-<pinref part="R2" gate="G$1" pin="2"/>
-<junction x="22.86" y="134.62"/>
 <pinref part="JST1" gate="G$1" pin="2"/>
 <pinref part="LIPO" gate="G$1" pin="2"/>
-<wire x1="22.86" y1="114.3" x2="33.02" y2="114.3" width="0.1524" layer="91"/>
-<wire x1="33.02" y1="114.3" x2="48.26" y2="114.3" width="0.1524" layer="91"/>
-<junction x="33.02" y="114.3"/>
+<wire x1="20.32" y1="114.3" x2="38.1" y2="114.3" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
@@ -6260,6 +6258,8 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <approved hash="113,1,184.596,144.78,X2,,,,,"/>
 <approved hash="113,1,184.596,129.54,X3,,,,,"/>
 <approved hash="113,1,176.976,50.8,X4,,,,,"/>
+<approved hash="113,1,170.417,81.5061,VCC,,,,,"/>
+<approved hash="113,1,38.3371,117.066,LIPO,,,,,"/>
 </errors>
 </schematic>
 </drawing>
