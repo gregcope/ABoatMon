@@ -5530,48 +5530,34 @@ Grid 5.00 mm&lt;p&gt;
 <text x="-5.3048" y="-4.9476" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
 <text x="-5.6858" y="-7.4622" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 </package>
-<package name="W237-4" urn="urn:adsk.eagle:footprint:10684/1" library_version="1">
+<package name="W237-102" urn="urn:adsk.eagle:footprint:10676/1" library_version="1">
 <description>&lt;b&gt;WAGO SCREW CLAMP&lt;/b&gt;</description>
-<wire x1="-8.491" y1="-2.286" x2="-6.484" y2="-0.279" width="0.254" layer="51"/>
-<wire x1="-3.512" y1="-2.261" x2="-1.531" y2="-0.254" width="0.254" layer="51"/>
-<wire x1="1.517" y1="-2.286" x2="3.524" y2="-0.279" width="0.254" layer="51"/>
-<wire x1="6.495" y1="-2.261" x2="8.477" y2="-0.254" width="0.254" layer="51"/>
-<wire x1="-9.989" y1="-5.461" x2="10.001" y2="-5.461" width="0.1524" layer="21"/>
-<wire x1="10.001" y1="3.734" x2="10.001" y2="3.531" width="0.1524" layer="21"/>
-<wire x1="10.001" y1="3.734" x2="-9.989" y2="3.734" width="0.1524" layer="21"/>
-<wire x1="-9.989" y1="-5.461" x2="-9.989" y2="-3.073" width="0.1524" layer="21"/>
-<wire x1="-9.989" y1="-3.073" x2="-8.389" y2="-3.073" width="0.1524" layer="21"/>
-<wire x1="-8.389" y1="-3.073" x2="-6.611" y2="-3.073" width="0.1524" layer="51"/>
-<wire x1="-6.611" y1="-3.073" x2="-3.385" y2="-3.073" width="0.1524" layer="21"/>
-<wire x1="-1.607" y1="-3.073" x2="1.619" y2="-3.073" width="0.1524" layer="21"/>
-<wire x1="3.397" y1="-3.073" x2="6.622" y2="-3.073" width="0.1524" layer="21"/>
-<wire x1="8.4" y1="-3.073" x2="10.001" y2="-3.073" width="0.1524" layer="21"/>
-<wire x1="-9.989" y1="-3.073" x2="-9.989" y2="3.531" width="0.1524" layer="21"/>
-<wire x1="10.001" y1="-3.073" x2="10.001" y2="-5.461" width="0.1524" layer="21"/>
-<wire x1="-9.989" y1="3.531" x2="10.001" y2="3.531" width="0.1524" layer="21"/>
-<wire x1="-9.989" y1="3.531" x2="-9.989" y2="3.734" width="0.1524" layer="21"/>
-<wire x1="10.001" y1="3.531" x2="10.001" y2="-3.073" width="0.1524" layer="21"/>
-<wire x1="-3.385" y1="-3.073" x2="-1.607" y2="-3.073" width="0.1524" layer="51"/>
-<wire x1="1.619" y1="-3.073" x2="3.397" y2="-3.073" width="0.1524" layer="51"/>
-<wire x1="6.622" y1="-3.073" x2="8.4" y2="-3.073" width="0.1524" layer="51"/>
-<circle x="-7.5" y="-1.27" radius="1.4986" width="0.1524" layer="51"/>
-<circle x="-7.5" y="2.2098" radius="0.508" width="0.1524" layer="21"/>
-<circle x="-2.4962" y="-1.27" radius="1.4986" width="0.1524" layer="51"/>
-<circle x="-2.4962" y="2.2098" radius="0.508" width="0.1524" layer="21"/>
-<circle x="2.5076" y="-1.27" radius="1.4986" width="0.1524" layer="51"/>
-<circle x="2.5076" y="2.2098" radius="0.508" width="0.1524" layer="21"/>
-<circle x="7.5114" y="-1.27" radius="1.4986" width="0.1524" layer="51"/>
-<circle x="7.5114" y="2.2098" radius="0.508" width="0.1524" layer="21"/>
-<pad name="1" x="-7.5" y="-1.27" drill="1.1938" shape="long" rot="R90"/>
-<pad name="2" x="-2.5" y="-1.27" drill="1.1938" shape="long" rot="R90"/>
-<pad name="3" x="2.5" y="-1.27" drill="1.1938" shape="long" rot="R90"/>
-<pad name="4" x="7.5" y="-1.27" drill="1.1938" shape="long" rot="R90"/>
-<text x="-7.6524" y="-5.0292" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
-<text x="-8.7446" y="-7.4422" size="1.27" layer="25" ratio="10">&gt;NAME</text>
-<text x="-9.532" y="0.635" size="1.27" layer="51" ratio="10">1</text>
-<text x="-4.579" y="0.635" size="1.27" layer="51" ratio="10">2</text>
-<text x="0.4756" y="0.635" size="1.27" layer="51" ratio="10">3</text>
-<text x="5.4286" y="0.635" size="1.27" layer="51" ratio="10">4</text>
+<wire x1="-3.491" y1="-2.286" x2="-1.484" y2="-0.279" width="0.254" layer="51"/>
+<wire x1="1.488" y1="-2.261" x2="3.469" y2="-0.254" width="0.254" layer="51"/>
+<wire x1="-4.989" y1="-5.461" x2="4.993" y2="-5.461" width="0.1524" layer="21"/>
+<wire x1="4.993" y1="3.734" x2="4.993" y2="3.531" width="0.1524" layer="21"/>
+<wire x1="4.993" y1="3.734" x2="-4.989" y2="3.734" width="0.1524" layer="21"/>
+<wire x1="-4.989" y1="-5.461" x2="-4.989" y2="-3.073" width="0.1524" layer="21"/>
+<wire x1="-4.989" y1="-3.073" x2="-3.389" y2="-3.073" width="0.1524" layer="21"/>
+<wire x1="-3.389" y1="-3.073" x2="-1.611" y2="-3.073" width="0.1524" layer="51"/>
+<wire x1="-1.611" y1="-3.073" x2="1.615" y2="-3.073" width="0.1524" layer="21"/>
+<wire x1="3.393" y1="-3.073" x2="4.993" y2="-3.073" width="0.1524" layer="21"/>
+<wire x1="-4.989" y1="-3.073" x2="-4.989" y2="3.531" width="0.1524" layer="21"/>
+<wire x1="4.993" y1="-3.073" x2="4.993" y2="-5.461" width="0.1524" layer="21"/>
+<wire x1="-4.989" y1="3.531" x2="4.993" y2="3.531" width="0.1524" layer="21"/>
+<wire x1="-4.989" y1="3.531" x2="-4.989" y2="3.734" width="0.1524" layer="21"/>
+<wire x1="4.993" y1="3.531" x2="4.993" y2="-3.073" width="0.1524" layer="21"/>
+<wire x1="1.615" y1="-3.073" x2="3.393" y2="-3.073" width="0.1524" layer="51"/>
+<circle x="-2.5" y="-1.27" radius="1.4986" width="0.1524" layer="51"/>
+<circle x="-2.5" y="2.2098" radius="0.508" width="0.1524" layer="21"/>
+<circle x="2.5038" y="-1.27" radius="1.4986" width="0.1524" layer="51"/>
+<circle x="2.5038" y="2.2098" radius="0.508" width="0.1524" layer="21"/>
+<pad name="1" x="-2.5" y="-1.27" drill="1.1938" shape="long" rot="R90"/>
+<pad name="2" x="2.5" y="-1.27" drill="1.1938" shape="long" rot="R90"/>
+<text x="-5.04" y="-7.62" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+<text x="-3.8462" y="-5.0038" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="-4.532" y="0.635" size="1.27" layer="21" ratio="10">1</text>
+<text x="0.421" y="0.635" size="1.27" layer="21" ratio="10">2</text>
 </package>
 </packages>
 <packages3d>
@@ -5581,10 +5567,10 @@ Grid 5.00 mm&lt;p&gt;
 <packageinstance name="W237-103"/>
 </packageinstances>
 </package3d>
-<package3d name="W237-4" urn="urn:adsk.eagle:package:10695/1" type="box" library_version="1">
+<package3d name="W237-102" urn="urn:adsk.eagle:package:10688/1" type="box" library_version="1">
 <description>WAGO SCREW CLAMP</description>
 <packageinstances>
-<packageinstance name="W237-4"/>
+<packageinstance name="W237-102"/>
 </packageinstances>
 </package3d>
 </packages3d>
@@ -5630,31 +5616,27 @@ Grid 5.00 mm&lt;p&gt;
 </device>
 </devices>
 </deviceset>
-<deviceset name="W237-4" urn="urn:adsk.eagle:component:10705/1" prefix="X" uservalue="yes" library_version="1">
+<deviceset name="W237-102" urn="urn:adsk.eagle:component:10702/1" prefix="X" uservalue="yes" library_version="1">
 <description>&lt;b&gt;WAGO SCREW CLAMP&lt;/b&gt;</description>
 <gates>
-<gate name="-1" symbol="KL" x="0" y="10.16" addlevel="always"/>
-<gate name="-2" symbol="KL" x="0" y="5.08" addlevel="always"/>
-<gate name="-3" symbol="KL" x="0" y="0" addlevel="always"/>
-<gate name="-4" symbol="KL+V" x="0" y="-5.08" addlevel="always"/>
+<gate name="-1" symbol="KL" x="0" y="5.08" addlevel="always"/>
+<gate name="-2" symbol="KL+V" x="0" y="0" addlevel="always"/>
 </gates>
 <devices>
-<device name="" package="W237-4">
+<device name="" package="W237-102">
 <connects>
 <connect gate="-1" pin="KL" pad="1"/>
 <connect gate="-2" pin="KL" pad="2"/>
-<connect gate="-3" pin="KL" pad="3"/>
-<connect gate="-4" pin="KL" pad="4"/>
 </connects>
 <package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:10695/1"/>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:10688/1"/>
 </package3dinstances>
 <technologies>
 <technology name="">
 <attribute name="MF" value="" constant="no"/>
-<attribute name="MPN" value="" constant="no"/>
+<attribute name="MPN" value="237-102" constant="no"/>
 <attribute name="OC_FARNELL" value="unknown" constant="no"/>
-<attribute name="OC_NEWARK" value="unknown" constant="no"/>
+<attribute name="OC_NEWARK" value="70K9898" constant="no"/>
 </technology>
 </technologies>
 </device>
@@ -5665,7 +5647,7 @@ Grid 5.00 mm&lt;p&gt;
 </libraries>
 <attributes>
 <attribute name="CNAME" value="MoteinoMega ABoatMon Shield"/>
-<attribute name="CREVISION" value="0.549"/>
+<attribute name="CREVISION" value="0.649"/>
 <attribute name="DESIGNER" value="gregcope@gmail.com"/>
 </attributes>
 <variantdefs>
@@ -5695,7 +5677,6 @@ Grid 5.00 mm&lt;p&gt;
 <part name="R5" library="SparkFun-Resistors" deviceset="1KOHM" device="-HORIZ-1/4W-1%" value="3.3M"/>
 <part name="ENABLE" library="SparkFun-Connectors" deviceset="CONN_02" device="" value="VCC"/>
 <part name="SUPPLY9" library="supply2" deviceset="GND" device=""/>
-<part name="SUPPLY10" library="supply2" deviceset="GND" device=""/>
 <part name="R6" library="adafruit" deviceset="R-US_" device="0309/12" value="27M"/>
 <part name="FONA" library="SparkFun-Connectors" deviceset="CONN_12" device=""/>
 <part name="J1" library="SparkFun-Connectors" deviceset="CONN_01" device="" value="5V"/>
@@ -5705,7 +5686,6 @@ Grid 5.00 mm&lt;p&gt;
 <part name="X1" library="con-wago-500" library_urn="urn:adsk.eagle:library:195" deviceset="W237-103" device="" package3d_urn="urn:adsk.eagle:package:10691/1"/>
 <part name="X2" library="con-wago-500" library_urn="urn:adsk.eagle:library:195" deviceset="W237-103" device="" package3d_urn="urn:adsk.eagle:package:10691/1"/>
 <part name="X3" library="con-wago-500" library_urn="urn:adsk.eagle:library:195" deviceset="W237-103" device="" package3d_urn="urn:adsk.eagle:package:10691/1"/>
-<part name="X4" library="con-wago-500" library_urn="urn:adsk.eagle:library:195" deviceset="W237-4" device="" package3d_urn="urn:adsk.eagle:package:10695/1"/>
 <part name="U$2" library="microbuilder" deviceset="MOUNTINGHOLE" device="2.5"/>
 <part name="U$3" library="microbuilder" deviceset="MOUNTINGHOLE" device="2.5"/>
 <part name="U$4" library="microbuilder" deviceset="MOUNTINGHOLE" device="2.5"/>
@@ -5713,6 +5693,7 @@ Grid 5.00 mm&lt;p&gt;
 <part name="VCC" library="microbuilder" deviceset="HEADER-1X2" device="ROUND"/>
 <part name="LIPO" library="microbuilder" deviceset="HEADER-1X2" device="ROUND"/>
 <part name="J4" library="SparkFun-Connectors" deviceset="CONN_01" device="" value="5V"/>
+<part name="X5" library="con-wago-500" library_urn="urn:adsk.eagle:library:195" deviceset="W237-102" device="" package3d_urn="urn:adsk.eagle:package:10688/1"/>
 </parts>
 <sheets>
 <sheet>
@@ -5789,9 +5770,6 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <instance part="SUPPLY9" gate="GND" x="254" y="43.18" smashed="yes">
 <attribute name="VALUE" x="252.095" y="40.005" size="1.778" layer="96"/>
 </instance>
-<instance part="SUPPLY10" gate="GND" x="195.58" y="33.02" smashed="yes">
-<attribute name="VALUE" x="193.675" y="29.845" size="1.778" layer="96"/>
-</instance>
 <instance part="R6" gate="G$1" x="187.96" y="68.58" smashed="yes" rot="R90">
 <attribute name="NAME" x="186.4614" y="64.77" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="191.262" y="64.77" size="1.778" layer="96" rot="R90"/>
@@ -5845,19 +5823,6 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <attribute name="VALUE" x="180.34" y="115.697" size="1.778" layer="96"/>
 <attribute name="NAME" x="182.88" y="120.269" size="1.778" layer="95" rot="R180"/>
 </instance>
-<instance part="X4" gate="-1" x="175.26" y="50.8" smashed="yes">
-<attribute name="NAME" x="175.26" y="51.689" size="1.778" layer="95" rot="R180"/>
-</instance>
-<instance part="X4" gate="-2" x="175.26" y="45.72" smashed="yes">
-<attribute name="NAME" x="175.26" y="46.609" size="1.778" layer="95" rot="R180"/>
-</instance>
-<instance part="X4" gate="-3" x="175.26" y="40.64" smashed="yes">
-<attribute name="NAME" x="175.26" y="41.529" size="1.778" layer="95" rot="R180"/>
-</instance>
-<instance part="X4" gate="-4" x="175.26" y="35.56" smashed="yes">
-<attribute name="VALUE" x="172.72" y="31.877" size="1.778" layer="96"/>
-<attribute name="NAME" x="175.26" y="36.449" size="1.778" layer="95" rot="R180"/>
-</instance>
 <instance part="U$2" gate="G$1" x="66.04" y="20.32" smashed="yes"/>
 <instance part="U$3" gate="G$1" x="73.66" y="20.32" smashed="yes"/>
 <instance part="U$4" gate="G$1" x="81.28" y="20.32" smashed="yes"/>
@@ -5870,9 +5835,16 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <attribute name="NAME" x="34.29" y="120.015" size="1.778" layer="95"/>
 <attribute name="VALUE" x="34.29" y="109.22" size="1.778" layer="96"/>
 </instance>
-<instance part="J4" gate="G$1" x="238.76" y="104.14" smashed="yes">
-<attribute name="VALUE" x="236.22" y="99.314" size="1.778" layer="96" font="vector"/>
-<attribute name="NAME" x="236.22" y="107.188" size="1.778" layer="95" font="vector"/>
+<instance part="J4" gate="G$1" x="58.42" y="55.88" smashed="yes">
+<attribute name="VALUE" x="55.88" y="51.054" size="1.778" layer="96" font="vector"/>
+<attribute name="NAME" x="55.88" y="58.928" size="1.778" layer="95" font="vector"/>
+</instance>
+<instance part="X5" gate="-1" x="175.26" y="50.8" smashed="yes">
+<attribute name="NAME" x="175.26" y="51.689" size="1.778" layer="95" rot="R180"/>
+</instance>
+<instance part="X5" gate="-2" x="175.26" y="45.72" smashed="yes">
+<attribute name="VALUE" x="172.72" y="42.037" size="1.778" layer="96"/>
+<attribute name="NAME" x="175.26" y="46.609" size="1.778" layer="95" rot="R180"/>
 </instance>
 </instances>
 <busses>
@@ -5911,7 +5883,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <wire x1="198.12" y1="45.72" x2="215.9" y2="45.72" width="0.1524" layer="91"/>
 <junction x="198.12" y="45.72"/>
 <pinref part="J3" gate="G$1" pin="1"/>
-<pinref part="X4" gate="-2" pin="KL"/>
+<pinref part="X5" gate="-2" pin="KL"/>
 </segment>
 <segment>
 <wire x1="246.38" y1="45.72" x2="254" y2="45.72" width="0.1524" layer="91"/>
@@ -5954,12 +5926,6 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <wire x1="63.5" y1="114.3" x2="58.42" y2="114.3" width="0.1524" layer="91"/>
 <label x="60.96" y="114.3" size="1.778" layer="95"/>
 <pinref part="SUPPLY3" gate="GND" pin="GND"/>
-</segment>
-<segment>
-<pinref part="SUPPLY10" gate="GND" pin="GND"/>
-<pinref part="X4" gate="-4" pin="KL"/>
-<wire x1="195.58" y1="35.56" x2="180.34" y2="35.56" width="0.1524" layer="91"/>
-<label x="180.34" y="35.56" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VIN" class="1">
@@ -6110,27 +6076,22 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <net name="VCC" class="1">
 <segment>
 <label x="180.34" y="63.5" size="1.778" layer="95" rot="R90"/>
-<pinref part="X4" gate="-1" pin="KL"/>
 <wire x1="180.34" y1="78.74" x2="180.34" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="VCC" gate="G$1" pin="2"/>
 <wire x1="170.18" y1="78.74" x2="180.34" y2="78.74" width="0.1524" layer="91"/>
+<pinref part="X5" gate="-1" pin="KL"/>
 </segment>
 </net>
 <net name="5V" class="1">
 <segment>
 <label x="246.38" y="83.82" size="1.778" layer="95"/>
-<wire x1="246.38" y1="83.82" x2="261.62" y2="83.82" width="0.1524" layer="91"/>
-<wire x1="261.62" y1="83.82" x2="261.62" y2="33.02" width="0.1524" layer="91"/>
-<wire x1="261.62" y1="33.02" x2="200.66" y2="33.02" width="0.1524" layer="91"/>
-<wire x1="200.66" y1="33.02" x2="200.66" y2="40.64" width="0.1524" layer="91"/>
-<wire x1="200.66" y1="40.64" x2="180.34" y2="40.64" width="0.1524" layer="91"/>
-<label x="180.34" y="40.64" size="1.778" layer="95"/>
+<wire x1="246.38" y1="83.82" x2="254" y2="83.82" width="0.1524" layer="91"/>
 <pinref part="J1" gate="G$1" pin="1"/>
-<pinref part="X4" gate="-3" pin="KL"/>
+</segment>
+<segment>
 <pinref part="J4" gate="G$1" pin="1"/>
-<wire x1="246.38" y1="104.14" x2="261.62" y2="104.14" width="0.1524" layer="91"/>
-<wire x1="261.62" y1="104.14" x2="261.62" y2="83.82" width="0.1524" layer="91"/>
-<junction x="261.62" y="83.82"/>
+<wire x1="66.04" y1="55.88" x2="73.66" y2="55.88" width="0.1524" layer="91"/>
+<label x="66.04" y="55.88" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="LED" class="0">
