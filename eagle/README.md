@@ -25,6 +25,7 @@
 13. Terminal Connector for a 5v cable to connect to the Fona USB charge port
 14. There is a jumper to measure the uCurrent the board uses from the LIPO, and also by-pass the switching (aka an on/off switch)
 15. There is a jumper to measure the uCurrent the board uses from VCC, and also by-pass the switching (aka an on/off switch)
+16. Voltage regulator uses a [holtek HT7463A](http://www.holtek.com/documents/10179/116711/HT7463A_Bv130.pdf)
 
 ... What's missing?
 
