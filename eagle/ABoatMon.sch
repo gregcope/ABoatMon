@@ -5820,11 +5820,12 @@ Source: http://eshop.phoenixcontact.com .. 1729131.pdf</description>
 <sheet>
 <plain>
 <text x="11.684" y="146.558" size="1.778" layer="91">LIPO Voltage Divider/ADC</text>
-<text x="222.504" y="57.658" size="1.778" layer="91">Mini Step Down Voltage Reg
+<text x="222.504" y="57.658" size="1.778" layer="91">Mini Step Down 
+Regulator
 Holtek HT7463A
 6v~55V VCC
 5V Output
-Max 600mA, 96% eff</text>
+Max 600mA96% eff</text>
 <text x="125.984" y="98.298" size="1.778" layer="91">Note: Need to remove the 10K pull resistor
  from the Enable pin to Volt Reg Enable 
 pin so that it does not consume power.
