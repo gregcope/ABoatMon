@@ -5766,7 +5766,7 @@ Source: http://eshop.phoenixcontact.com .. 1729131.pdf</description>
 </libraries>
 <attributes>
 <attribute name="CNAME" value="MoteinoMega ABoatMon Shield"/>
-<attribute name="CREVISION" value="0.649"/>
+<attribute name="CREVISION" value="0.699"/>
 <attribute name="DESIGNER" value="gregcope@gmail.com"/>
 </attributes>
 <variantdefs>
@@ -6323,12 +6323,8 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 </sheets>
 <errors>
 <approved hash="113,1,22.1827,43.2477,FONA,,,,,"/>
-<approved hash="113,1,184.596,160.02,X1,,,,,"/>
-<approved hash="113,1,184.596,144.78,X2,,,,,"/>
-<approved hash="113,1,184.596,129.54,X3,,,,,"/>
 <approved hash="113,1,170.417,81.5061,VCC,,,,,"/>
 <approved hash="113,1,38.3371,117.066,LIPO,,,,,"/>
-<approved hash="113,1,176.976,50.8,X5,,,,,"/>
 </errors>
 </schematic>
 </drawing>

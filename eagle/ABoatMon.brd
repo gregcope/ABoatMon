@@ -38,7 +38,7 @@
 <layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
 <layer number="43" name="vRestrict" color="2" fill="10" visible="yes" active="yes"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
-<layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
+<layer number="45" name="Holes" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
 <layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
 <layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
@@ -150,7 +150,7 @@
 <dimension x1="68.58" y1="11.43" x2="68.58" y2="41.148" x3="64.77" y3="26.289" textsize="1.778" layer="26"/>
 <dimension x1="54.61" y1="45.72" x2="67.31" y2="45.72" x3="60.96" y3="44.45" textsize="1.778" layer="25"/>
 <dimension x1="54.61" y1="45.72" x2="54.61" y2="63.5" x3="54.991" y3="54.61" textsize="1.778" layer="25"/>
-<text x="39.751" y="28.067" size="1.778" layer="25" rot="R180">v0.649
+<text x="39.751" y="28.067" size="1.778" layer="25" rot="R180">v0.699
 gregcope@gmail.com
 MoteinoMega 
 ABoatMon Shield</text>
@@ -220,6 +220,7 @@ Max 600mA96% eff</text>
 <dimension x1="42.926" y1="40.005" x2="42.926" y2="13.335" x3="2.54" y3="26.67" textsize="1.778" layer="26"/>
 <text x="61.087" y="69.723" size="1.016" layer="25" font="vector" ratio="20">LIPO</text>
 <text x="70.739" y="52.07" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
+<text x="4.445" y="40.132" size="1.016" layer="25" font="vector" ratio="20">VIN</text>
 </plain>
 <libraries>
 <library name="SparkFun-Capacitors">
@@ -1057,27 +1058,23 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <element name="JST1" library="adafruit" package="JST-PH-2-THM" value="LIPO" x="62.611" y="68.072" smashed="yes"/>
 <element name="MOTEINO_MEGA" library="Moteino" package="MOTEINO_MEGA_SIMPLE" value="HEADERS" x="1.27" y="44.45" smashed="yes"/>
 <element name="R2" library="SparkFun-Resistors" package="AXIAL-0.3" value="1.8M" x="34.29" y="40.64" smashed="yes">
-<attribute name="NAME" x="34.29" y="41.656" size="0.6096" layer="25" font="vector" ratio="20" rot="R90" align="bottom-center"/>
 <attribute name="PROD_ID" value="RES-12182" x="34.29" y="40.64" size="1.778" layer="27" display="off"/>
-<attribute name="VALUE" x="34.29" y="39.624" size="0.6096" layer="25" font="vector" ratio="20" align="top-center"/>
+<attribute name="VALUE" x="34.29" y="40.894" size="0.6096" layer="25" font="vector" ratio="20" align="top-center"/>
 </element>
 <element name="R3" library="SparkFun-Resistors" package="AXIAL-0.3" value="3.3M" x="34.29" y="38.1" smashed="yes" rot="R180">
 <attribute name="PROD_ID" value="RES-12182" x="34.29" y="36.83" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="VALUE" x="34.29" y="37.846" size="0.6096" layer="27" font="vector" ratio="20" rot="R180" align="top-center"/>
 </element>
 <element name="R5" library="SparkFun-Resistors" package="AXIAL-0.3" value="3.3M" x="38.1" y="16.51" smashed="yes" rot="R270">
-<attribute name="NAME" x="37.846" y="16.51" size="0.6096" layer="25" font="vector" ratio="20" rot="R270" align="bottom-center"/>
 <attribute name="PROD_ID" value="RES-12182" x="38.1" y="16.51" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="VALUE" x="37.084" y="16.51" size="0.6096" layer="25" font="vector" ratio="20" rot="R270" align="top-center"/>
+<attribute name="VALUE" x="38.354" y="16.51" size="0.6096" layer="25" font="vector" ratio="20" rot="R270" align="top-center"/>
 </element>
 <element name="R6" library="adafruit" package="0309/12" value="27M" x="41.91" y="24.13" smashed="yes" rot="R90">
-<attribute name="NAME" x="40.005" y="19.939" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="42.5958" y="20.955" size="1.27" layer="25" ratio="10" rot="R90"/>
 </element>
 <element name="R7" library="SparkFun-Resistors" package="AXIAL-0.3" value="50" x="34.29" y="31.75" smashed="yes" rot="R180">
-<attribute name="NAME" x="34.29" y="30.734" size="0.6096" layer="25" font="vector" ratio="20" rot="R180" align="bottom-center"/>
 <attribute name="PROD_ID" value="RES-12182" x="34.29" y="31.75" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="VALUE" x="34.29" y="32.766" size="0.6096" layer="27" font="vector" ratio="20" rot="R180" align="top-center"/>
+<attribute name="VALUE" x="34.29" y="31.496" size="0.6096" layer="27" font="vector" ratio="20" rot="R180" align="top-center"/>
 </element>
 <element name="U$2" library="microbuilder" package="MOUNTINGHOLE_2.5_PLATED" value="MOUNTINGHOLE2.5" x="42.926" y="13.335" smashed="yes" rot="R180"/>
 <element name="U$3" library="microbuilder" package="MOUNTINGHOLE_2.5_PLATED" value="MOUNTINGHOLE2.5" x="48.26" y="41.148" smashed="yes" rot="R180"/>
@@ -1140,6 +1137,7 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <via x="45.72" y="54.61" extent="1-16" drill="0.508"/>
 <via x="45.72" y="59.69" extent="1-16" drill="0.508"/>
 <via x="41.91" y="59.69" extent="1-16" drill="0.508"/>
+<via x="45.212" y="42.164" extent="1-16" drill="0.508"/>
 </signal>
 <signal name="VIN" class="1">
 <contactref element="MOTEINO_MEGA" pad="VIN"/>
