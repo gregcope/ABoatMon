@@ -167,10 +167,10 @@ Holtek HT7463A
 6v~55V VCC
 5V Output
 Max 600mA96% eff</text>
-<text x="70.739" y="62.103" size="1.016" layer="25" font="vector" ratio="20" rot="R90">VCC</text>
+<text x="70.739" y="57.658" size="1.016" layer="25" font="vector" ratio="20" rot="R90">VCC</text>
 <text x="70.739" y="26.797" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
 <text x="70.739" y="36.83" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
-<text x="70.739" y="57.15" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
+<text x="70.866" y="62.865" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
 <text x="70.866" y="11.684" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
 <text x="70.739" y="20.955" size="1.016" layer="25" font="vector" ratio="20" rot="R90">SWITCH</text>
 <text x="70.739" y="16.383" size="1.016" layer="25" font="vector" ratio="20" rot="R90">LED</text>
@@ -1035,7 +1035,7 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <attribute name="PROD_ID" value="CAP-08370" x="31.75" y="13.97" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
 <element name="ENABLE" library="SparkFun-Connectors" package="1X02" value="VCC" x="54.61" y="63.5" smashed="yes">
-<attribute name="NAME" x="52.07" y="61.087" size="1.016" layer="25" font="vector" ratio="20"/>
+<attribute name="NAME" x="53.34" y="61.087" size="1.016" layer="25" font="vector" ratio="20" rot="R90"/>
 <attribute name="VALUE" x="58.928" y="62.992" size="1.016" layer="25" font="vector" ratio="20"/>
 </element>
 <element name="FONA" library="SparkFun-Connectors" package="1X12" value="" x="2.54" y="12.7" smashed="yes" rot="R90">
