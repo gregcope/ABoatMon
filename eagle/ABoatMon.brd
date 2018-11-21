@@ -177,7 +177,7 @@ Max 600mA96% eff</text>
 <text x="70.739" y="31.369" size="1.016" layer="25" font="vector" ratio="20" rot="R90">BILGE</text>
 <text x="70.739" y="46.228" size="1.016" layer="25" font="vector" ratio="20" rot="R90">DS_PWR</text>
 <text x="70.739" y="41.656" size="1.016" layer="25" font="vector" ratio="20" rot="R90">DS_DA</text>
-<text x="67.945" y="69.85" size="1.016" layer="25" font="vector" ratio="20">LIPO</text>
+<text x="66.675" y="69.85" size="1.016" layer="25" font="vector" ratio="20">VIN / LIPO</text>
 <text x="3.048" y="64.643" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
 <text x="4.572" y="67.31" size="1.016" layer="25" font="vector" ratio="20" rot="R270">VIN / LIPO</text>
 <text x="7.112" y="67.31" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
@@ -197,8 +197,8 @@ Max 600mA96% eff</text>
 <text x="13.208" y="46.99" size="1.016" layer="25" font="vector" ratio="20" rot="R90">D8_FONA_TX</text>
 <text x="5.588" y="46.99" size="1.016" layer="25" font="vector" ratio="20" rot="R90">VIN / LIPO</text>
 <text x="3.048" y="46.99" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
-<text x="38.608" y="46.99" size="1.016" layer="25" font="vector" ratio="20" rot="R90">D14_FONA_KEY</text>
-<text x="41.148" y="46.99" size="1.016" layer="25" font="vector" ratio="20" rot="R90">D14_FONA_KEY</text>
+<text x="38.608" y="46.99" size="1.016" layer="25" font="vector" ratio="20" rot="R90">D18_FONA_PS</text>
+<text x="41.148" y="46.99" size="1.016" layer="25" font="vector" ratio="20" rot="R90">D19_PWRON</text>
 <text x="4.445" y="12.065" size="1.016" layer="25" font="vector" ratio="20">3.3V</text>
 <text x="51.181" y="13.081" size="1.016" layer="25" font="vector" ratio="20" rot="R90">D12_GPS_ENABLE</text>
 <text x="4.445" y="14.732" size="1.016" layer="25" font="vector" ratio="20">D13_FONA_NETSTAT</text>
@@ -218,9 +218,8 @@ Max 600mA96% eff</text>
 <dimension x1="18.923" y1="38.1" x2="18.923" y2="35.179" x3="15.367" y3="36.6395" textsize="1.778" layer="26"/>
 <dimension x1="0" y1="10.033" x2="79.629" y2="10.16" x3="39.74156875" y3="55.82450625" textsize="1.778" layer="26"/>
 <dimension x1="42.926" y1="40.005" x2="42.926" y2="13.335" x3="2.54" y3="26.67" textsize="1.778" layer="26"/>
-<text x="61.087" y="69.723" size="1.016" layer="25" font="vector" ratio="20">LIPO</text>
 <text x="70.739" y="52.07" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
-<text x="4.445" y="40.132" size="1.016" layer="25" font="vector" ratio="20">VIN</text>
+<text x="4.445" y="40.132" size="1.016" layer="25" font="vector" ratio="20">VIN / LIPO</text>
 </plain>
 <libraries>
 <library name="SparkFun-Capacitors">
