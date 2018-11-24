@@ -166,7 +166,7 @@ Max 600mA96% eff</text>
 <text x="2.794" y="32.004" size="1.016" layer="25" font="vector" ratio="20" rot="R90">VCC</text>
 <text x="2.921" y="37.211" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
 <text x="73.787" y="23.241" size="1.016" layer="25" font="vector" ratio="20">GND</text>
-<text x="2.921" y="16.764" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
+<text x="3.429" y="16.891" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
 <text x="2.921" y="21.082" size="1.016" layer="25" font="vector" ratio="20" rot="R90">SWITCH</text>
 <text x="2.921" y="42.164" size="1.016" layer="25" font="vector" ratio="20" rot="R90">LED</text>
 <text x="73.914" y="25.146" size="1.016" layer="25" font="vector" ratio="20">BILGE</text>
