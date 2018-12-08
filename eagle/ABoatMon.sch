@@ -6428,7 +6428,7 @@ CONN_05
 </libraries>
 <attributes>
 <attribute name="CNAME" value="MoteinoMega ABoatMon Shield"/>
-<attribute name="CREVISION" value="0.699"/>
+<attribute name="CREVISION" value="0.799"/>
 <attribute name="DESIGNER" value="gregcope@gmail.com"/>
 </attributes>
 <variantdefs>
@@ -6488,7 +6488,7 @@ Regulator
 Holtek HT7463A
 6v~55V VCC
 5V Output
-Max 600mA96% eff</text>
+Max 600mA 96% eff</text>
 <text x="125.984" y="98.298" size="1.778" layer="91">Note: Need to remove the 10K pull resistor
  from the Enable pin to Volt Reg Enable 
 pin so that it does not consume power.
