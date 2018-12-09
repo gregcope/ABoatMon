@@ -20,7 +20,7 @@ void Sleep::kip2Secs(void) {
 }
 
 void Sleep::kip1Sec(void) {
-  Serial.println("1 ");
+  Serial.println("sleep .. 1");
   Serial.flush();
   Serial1.flush();
   LowPower.powerDown(SLEEP_1S, ADC_OFF, BOD_OFF);

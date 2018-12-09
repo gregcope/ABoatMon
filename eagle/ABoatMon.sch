@@ -6731,6 +6731,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <pinref part="R2" gate="G$1" pin="1"/>
 <junction x="12.7" y="134.62"/>
 <pinref part="R3" gate="G$1" pin="2"/>
+<label x="45.72" y="142.24" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D10_GPS_RX" class="0">

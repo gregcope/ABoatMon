@@ -21,10 +21,10 @@ class Device
     Device(byte pin);
     void on(void);
     void off(void);
-    boolean powerState(void);
+    boolean isOn(void);
   private:
     int _powerPin;
-    boolean isOn;
+    boolean _powerState;
 };
 
 #endif
