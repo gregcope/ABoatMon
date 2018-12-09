@@ -150,8 +150,59 @@ void loop() {
 void setupGPS() {
 
   DEBUGln("setupGPS");
-  gpsDevice.on();
+  switchOnGPS();
   if (gpsDevice.isOn()) {
       DEBUGln("gpsDevice.isOn");
   }
+  // http://forums.adafruit.com/viewtopic.php?f=19&p=143502
+  DEBUGln("Enable SBAS sat search");
+  Serial1.print("$PMTK313,1*2E\r\n");  // Enable to search a SBAS satellite
+  DEBUGln("Enable WAAS as DPGS source");
+  Serial1.print("$PMTK301,2*2E\r\n");  // Enable WAAS as DGPS Source
+  // https://code.google.com/p/ardupilot-mega/source/browse/libraries/AP_GPS/AP_GPS_NMEA.h?spec=svneff9f9d0906c1e3cd4e217b0363d0f9d44394e75&name=f401de6d52&r=eff9f9d0906c1e3cd4e217b0363d0f9d44394e75
+  DEBUGln("Set GPS hz to 1hz");
+  Serial1.print("$PMTK220,1000*1F\r\n"); // 1HZ
+  // http://aprs.gids.nl/nmea/#gga
+  // 0 = Invalid, 1 = GPS fix, 2 = DGPS fix
+  // 1 in this example
+  // $GPGGA,064951.000,2307.1256,N,12016.4438,E,1,8,0.95,39.9,M,17.8,M,,*65
+  TinyGPSCustom fixqual(nmea, "GPGGA", 6); // $GPGGA sentence, 6th element
+  for (byte i=0; i<NMEA_TIMEOUT_SECS; i++) {
+      drainNmea();
+      sleep.kip1Sec();
+  }
+
+}
+
+
+// Helper function after here
+
+boolean drainNmea() {
+
+  // grab all avaliable data and feed it to the gps nmea parser
+
+  DEBUGln("drainNmea()");
+  serial1Output = false;
+  nmeaOutput = false;
+
+  while (Serial1.available() > 0) {
+    serial1Output = true;
+    if (nmea.encode(Serial1.read())) {
+      nmeaOutput = true;
+      // returns true if a sentence is complete
+      // updates nmea.passedChecksum()
+    }
+  }
+
+}
+
+void switchOnGPS() {
+    gpsDevice.on();
+    Serial1.begin(9600);
+    Serial1.flush();
+}
+
+void switchOffGPS() {
+    Serial1.flush();
+    gpsDevice.off();
 }
