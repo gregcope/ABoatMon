@@ -6216,7 +6216,7 @@ This footprint was designed to help hold the alignment of a through-hole compone
 <part name="GND" library="microbuilder" deviceset="MOUNTINGHOLE" device="2.5"/>
 <part name="U$7" library="microbuilder" deviceset="MOUNTINGHOLE" device="2.5"/>
 <part name="U$8" library="microbuilder" deviceset="MOUNTINGHOLE" device="2.5"/>
-<part name="J7" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_09" device="" package3d_urn="urn:adsk.eagle:package:38153/1"/>
+<part name="JST" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_09" device="" package3d_urn="urn:adsk.eagle:package:38153/1"/>
 <part name="X1" library="con-phoenix-508" library_urn="urn:adsk.eagle:library:176" deviceset="MKDSN1,5/2-5,08" device="" package3d_urn="urn:adsk.eagle:package:9630/1"/>
 <part name="R1" library="SparkFun-Resistors" deviceset="1KOHM" device="-HORIZ-1/4W-1%" value="4.7K"/>
 </parts>
@@ -6339,7 +6339,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <instance part="GND" gate="G$1" x="73.66" y="12.7" smashed="yes"/>
 <instance part="U$7" gate="G$1" x="81.28" y="12.7" smashed="yes"/>
 <instance part="U$8" gate="G$1" x="88.9" y="12.7" smashed="yes"/>
-<instance part="J7" gate="G$1" x="205.74" y="134.62" smashed="yes">
+<instance part="JST" gate="G$1" x="205.74" y="134.62" smashed="yes">
 <attribute name="VALUE" x="205.74" y="119.634" size="1.778" layer="96" font="vector"/>
 <attribute name="NAME" x="205.74" y="147.828" size="1.778" layer="95" font="vector"/>
 </instance>
@@ -6417,20 +6417,20 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <segment>
 <wire x1="215.9" y1="139.7" x2="236.22" y2="139.7" width="0.1524" layer="91"/>
 <label x="215.9" y="139.7" size="1.778" layer="95"/>
-<pinref part="J7" gate="G$1" pin="7"/>
+<pinref part="JST" gate="G$1" pin="7"/>
 </segment>
 <segment>
 <wire x1="215.9" y1="127" x2="236.22" y2="127" width="0.1524" layer="91"/>
 <label x="215.9" y="127" size="1.778" layer="95"/>
-<pinref part="J7" gate="G$1" pin="2"/>
+<pinref part="JST" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <wire x1="215.9" y1="132.08" x2="236.22" y2="132.08" width="0.1524" layer="91"/>
 <label x="215.9" y="132.08" size="1.778" layer="95"/>
-<pinref part="J7" gate="G$1" pin="4"/>
+<pinref part="JST" gate="G$1" pin="4"/>
 </segment>
 <segment>
-<pinref part="J7" gate="G$1" pin="9"/>
+<pinref part="JST" gate="G$1" pin="9"/>
 <wire x1="215.9" y1="144.78" x2="236.22" y2="144.78" width="0.1524" layer="91"/>
 <label x="215.9" y="144.78" size="1.778" layer="95"/>
 </segment>
@@ -6625,7 +6625,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <label x="45.72" y="144.78" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J7" gate="G$1" pin="6"/>
+<pinref part="JST" gate="G$1" pin="6"/>
 <wire x1="215.9" y1="137.16" x2="236.22" y2="137.16" width="0.1524" layer="91"/>
 <label x="215.9" y="137.16" size="1.778" layer="95"/>
 </segment>
@@ -6639,14 +6639,14 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <segment>
 <wire x1="215.9" y1="124.46" x2="236.22" y2="124.46" width="0.1524" layer="91"/>
 <label x="215.9" y="124.46" size="1.778" layer="95"/>
-<pinref part="J7" gate="G$1" pin="1"/>
+<pinref part="JST" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="D28_DS_DATA" class="0">
 <segment>
 <wire x1="215.9" y1="134.62" x2="254" y2="134.62" width="0.1524" layer="91"/>
 <label x="215.9" y="134.62" size="1.778" layer="95"/>
-<pinref part="J7" gate="G$1" pin="5"/>
+<pinref part="JST" gate="G$1" pin="5"/>
 <pinref part="R1" gate="G$1" pin="2"/>
 </segment>
 <segment>
@@ -6664,7 +6664,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <segment>
 <wire x1="215.9" y1="129.54" x2="246.38" y2="129.54" width="0.1524" layer="91"/>
 <label x="215.9" y="129.54" size="1.778" layer="95"/>
-<pinref part="J7" gate="G$1" pin="3"/>
+<pinref part="JST" gate="G$1" pin="3"/>
 <wire x1="246.38" y1="129.54" x2="246.38" y2="124.46" width="0.1524" layer="91"/>
 <pinref part="R1" gate="G$1" pin="1"/>
 <wire x1="246.38" y1="124.46" x2="254" y2="124.46" width="0.1524" layer="91"/>
@@ -6729,7 +6729,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 </net>
 <net name="LED" class="0">
 <segment>
-<pinref part="J7" gate="G$1" pin="8"/>
+<pinref part="JST" gate="G$1" pin="8"/>
 <pinref part="R7" gate="G$1" pin="1"/>
 <wire x1="215.9" y1="142.24" x2="236.22" y2="142.24" width="0.1524" layer="91"/>
 <label x="215.9" y="142.24" size="1.778" layer="95"/>
@@ -6742,7 +6742,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <approved hash="113,1,22.1827,43.2477,FONA,,,,,"/>
 <approved hash="113,1,170.417,81.5061,VCC,,,,,"/>
 <approved hash="113,1,38.3371,117.066,LIPO,,,,,"/>
-<approved hash="113,1,184.743,125.798,J6,,,,,"/>
+<approved hash="113,1,212.683,135.958,JST,,,,,"/>
 </errors>
 </schematic>
 </drawing>
