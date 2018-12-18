@@ -24,6 +24,7 @@
 #include "Config.h"
 #include "Sleep.h"
 #include "Gps.h"
+#include "Lipo.h"
 
 // PIN defines
 #define D12_GPS_ENABLE 12
@@ -43,7 +44,7 @@
 // Red connects to 27, Blue/Black connects to ground and Yellow/White (data) to 28
 
 #define VCC_12V-24V_VOLTAGE_DIVIDER A5 
-#define VCC_12V-24V_MOSFET 19
+#define VCC_12V-24V_ENABLE 19
 
 #define FONA_TX 8  // serial
 #define FONA_RX 9  // serial
@@ -56,15 +57,7 @@
 #define FOURMIN_CYCLES 5 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
 #define HOUR_CYCLES 450 // 8 sec sleep * 450 cyles == 3600 secs or 1 hour
 
-// 3.3 (Vcc) / 1024 (ADC precision) =  0.00322
-// Motineo example 1m+470k = 470 / ( 1000 +470 ) = 0.32 rounded up
-// Ours 1.8m + 3.3m = 3300000 / ( 1800000 + 3300000 ) = 0.647 or 1.55 (inverse)
-#define BATT_FORMULA(reading) reading * 0.00322 * 1.5455 // >>> fine tune this parameter to match your voltage when fully charged
-                                                       // details on how this works: https://lowpowerlab.com/forum/index.php/topic,1206.0.html
-
-#define NMEA_TIMEOUT_SECS 24 // time to try and get a proper NMEA senstence
-#define GPS_FIX_TIMEOUT_MSECS 480000 // time to try and get a fix in msecs
-#define ACCEPTABLE_GPS_HDOP_FOR_FIX 160
+#define GPS_FIX_TIMEOUT_MSECS 300000 // time to try and get a fix in msecs is 300 secs, or 5 mins
 
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
@@ -76,6 +69,7 @@
 TinyGPSPlus nmea;
 Sleep sleep;
 Gps gps(D12_GPS_ENABLE);
+//Lipo(LIPO_VOLTAGE_DIVIDER);
 // these are devices, and have physical on/off/interface things
 //Device gpsDevice(D12_GPS_ENABLE);
 //Device buttonLed(BUTTON_LED);
@@ -99,13 +93,6 @@ unsigned long NOW = 0;
 
 // GPS / Nmea vars
 //unsigned long nmeaSentenceTimeOutMs = 0;
-boolean serial1Output = false; // are we getting Serial1 output
-boolean nmeaOutput = false; // are we parsing anything
-unsigned long gpsFixTimeoutMs = 0;
-unsigned long timerStart = 0; 
-unsigned long gpsTimeToFixMs = 0;
-boolean gpsFix = false;
-boolean gpsFixTimeoutReached = false;
 //boolean nmeaSentenceTimeoutReached = false;
 double fixLat = 100; // invalid Lat
 double fixLng = 100; // invalid Lat
@@ -115,7 +102,6 @@ double alarmLng = 100; // invalid Lat
 // LipoBattery
 float lipoBatteryAlarm = 3.1;
 float lipoBatteryVolts = 0;
-unsigned int lipoBatteryReadings = 0;
 char lipoBatteryVoltsString[10]; //longest battery voltage reading message = 9chars
 
 // Message vars
@@ -134,16 +120,14 @@ void setup() {
   Serial1.begin(9600);
   Serial.flush();
   DEBUGln("setup Start");
-  sleep.kip1Sec();
-  gps.setup(1200000);
+  //yep burn CPU for 1 sec... to let stuff settle
+  delay(1000);
+  gps.getFix(GPS_FIX_TIMEOUT_MSECS);
   DEBUGln("setup Done,,,,,");
 }
 
 void loop() {
-  //DEBUGln("loop ...");
-  //sleep.kip1Sec();
-   if (Serial1.available()) {
-    Serial.write(Serial1.read());
-  }
-
+  DEBUGln("loop ...");
+  gps.getFix(GPS_FIX_TIMEOUT_MSECS);
+  sleep.kip8Secs();
 }
