@@ -58,9 +58,10 @@ unsigned long Gps::getFix(unsigned long timeout) {
     drainNmea();
     
     hdop = nmea.hdop.value();
+    DEBUG(millis());
     DEBUGln(hdop);
 
-    if ( hdop != 0 && hdop <= ACCEPTABLE_GPS_HDOP_FOR_FIX && initialHDOP == 0 ) {
+    if ( hdop != 0 && hdop >= ACCEPTABLE_GPS_HDOP_FOR_FIX && initialHDOP == 0 ) {
       DEBUGln("gpsFix is true - we have an acceptable fix!!!!");
       DEBUG("nmea.hdop.value(): ");
       DEBUGln(hdop);
@@ -74,7 +75,7 @@ unsigned long Gps::getFix(unsigned long timeout) {
       //return gpsTimeToFixMs;
     }
 
-   if ( hdop != 0 && hdop <= GOOD_GPS_HDOP_FOR_FIX ) {
+   if ( hdop != 0 && hdop >= GOOD_GPS_HDOP_FOR_FIX ) {
       DEBUGln("gpsFix is true - we have a good fix!!!!");
       DEBUG("nmea.hdop.value(): ");
       DEBUGln(hdop);
