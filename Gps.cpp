@@ -6,7 +6,6 @@ Gps::Gps(byte pin) {
   // Takes an int as pin to power up
   _powerPin = pin;
   pinMode(_powerPin, OUTPUT);
-  off();
 }
 
 boolean Gps::on(void) {
@@ -61,7 +60,7 @@ unsigned long Gps::getFix(unsigned long timeout) {
   setupGPS();
   DEBUGln("setupGPS");
 
-  while ( !gpsFixTimeoutReached && !gpsFix ) {
+  while ( !gpsFixTimeoutReached ) {
     // Whilst we have not reached the GPS timeout, nor got a fix, keep going ...
     drainNmea();
     
@@ -73,13 +72,15 @@ unsigned long Gps::getFix(unsigned long timeout) {
     DEBUG(Serial1.available());
     DEBUG(", ACCEPTABLE_GPS_HDOP_FOR_FIX: ");
     DEBUG(ACCEPTABLE_GPS_HDOP_FOR_FIX);
+    DEBUG(", initial HDOP: ");
+    DEBUG(initialHDOP);
     DEBUG(", gpsFixTimeoutMs: ");
     DEBUG(gpsFixTimeoutMs);
     DEBUG(", nmea.passedChecksum: ");
     DEBUGln(nmea.passedChecksum());
     
-    if ( ( hdop != 0 && hdop >= ACCEPTABLE_GPS_HDOP_FOR_FIX )  && initialHDOP == 0 ) {
-      DEBUGln("gpsFix is true - we have an acceptable fix!!!!");
+    if ( ( hdop != 0 && hdop <= ACCEPTABLE_GPS_HDOP_FOR_FIX )  && initialHDOP == 0 ) {
+      DEBUGln("gpsFix is true - we have an inital acceptable fix!!!!");
       DEBUG("nmea.hdop.value(): ");
       DEBUGln(hdop);
       initialHDOP = hdop;  
@@ -92,7 +93,7 @@ unsigned long Gps::getFix(unsigned long timeout) {
       //return gpsTimeToFixMs;
     }
 
-   if ( hdop != 0 && hdop >= GOOD_GPS_HDOP_FOR_FIX ) {
+   if ( hdop != 0 && hdop <= GOOD_GPS_HDOP_FOR_FIX ) {
       DEBUGln("gpsFix is true - we have a good fix!!!!");
       DEBUG("nmea.hdop.value(): ");
       DEBUGln(hdop);
@@ -110,6 +111,7 @@ unsigned long Gps::getFix(unsigned long timeout) {
       // we reached the timeout ... too bad
       gpsFixTimeoutReached = true;
       // we failed to get a fix ...
+      DEBUGln("We failed to get fix !!!");
       off();
       return 0; 
     }

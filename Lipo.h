@@ -26,6 +26,7 @@ class Lipo
   public:
     Lipo(byte pin);
     float read(void);
+    boolean isVoltageLow(void);
   private:
     unsigned long runTime;
     unsigned int lipoBatteryReadings;

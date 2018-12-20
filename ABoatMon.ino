@@ -37,7 +37,9 @@
  
 #define BILGE_SWITCH 3 // Other line from BilgeSwitch to GND
 
-#define LIPO_VOLTAGE_DIVIDER A0
+//#define LIPO_VOLTAGE_DIVIDER A0
+//#define LIPO_VOLTAGE_DIVIDER 24
+
 
 #define TEMP_POWER 27 // PA3
 #define TEMP_DATA 28 // PA4
@@ -117,17 +119,16 @@ byte gpsGeoFenceMessageSent = 0;
 //
 void setup() {
   Serial.begin(9600);
-  Serial1.begin(9600);
   Serial.flush();
   DEBUGln("setup Start");
   //yep burn CPU for 1 sec... to let stuff settle
   delay(1000);
-//  gps.getFix(GPS_FIX_TIMEOUT_MSECS);
-  DEBUGln("setup Done,,,,,");
+  gps.getFix(GPS_FIX_TIMEOUT_MSECS);
+  DEBUGln("setup Done");
 }
 
 void loop() {
   DEBUGln("loop ...");
-  gps.getFix(GPS_FIX_TIMEOUT_MSECS);
+//  gps.getFix(GPS_FIX_TIMEOUT_MSECS);
   sleep.kip8Secs();
 }
