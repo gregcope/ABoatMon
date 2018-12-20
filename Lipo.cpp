@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "Lipo.h"
 
-Lipo::Lipo(byte pin) {
+Lipo::Lipo(int pin) {
   // Constructor
   // Takes an int as pin to power up
   _voltageDividerPin = pin;

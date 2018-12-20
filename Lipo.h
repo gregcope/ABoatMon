@@ -24,7 +24,7 @@
 class Lipo
 {
   public:
-    Lipo(byte pin);
+    Lipo(int pin);
     float read(void);
     boolean isVoltageLow(void);
   private:

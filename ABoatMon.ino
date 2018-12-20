@@ -28,8 +28,8 @@
 
 // PIN defines
 #define D12_GPS_ENABLE 12
-#define GPS_TX 10 // serial1
-#define GPS_RX 11 // serial1
+//#define GPS_TX 10 // serial1
+//#define GPS_RX 11 // serial1
 
 //#define BUTTON_LED 26
 #define BUTTON_LED 15
@@ -37,9 +37,8 @@
  
 #define BILGE_SWITCH 3 // Other line from BilgeSwitch to GND
 
-//#define LIPO_VOLTAGE_DIVIDER A0
-//#define LIPO_VOLTAGE_DIVIDER 24
-
+//#define LIPO_VOLTAGE_DIVIDER 0
+const int LIPO_VOLTAGE_DIVIDER = 0;
 
 #define TEMP_POWER 27 // PA3
 #define TEMP_DATA 28 // PA4
@@ -71,7 +70,7 @@
 TinyGPSPlus nmea;
 Sleep sleep;
 Gps gps(D12_GPS_ENABLE);
-//Lipo(LIPO_VOLTAGE_DIVIDER);
+Lipo lipo(LIPO_VOLTAGE_DIVIDER);
 // these are devices, and have physical on/off/interface things
 //Device gpsDevice(D12_GPS_ENABLE);
 //Device buttonLed(BUTTON_LED);
@@ -130,5 +129,8 @@ void setup() {
 void loop() {
   DEBUGln("loop ...");
 //  gps.getFix(GPS_FIX_TIMEOUT_MSECS);
+  DEBUG("Lipo volts: ");
+  DEBUG(lipo.read());
+  DEBUGln(".");
   sleep.kip8Secs();
 }
