@@ -122,7 +122,7 @@ void setup() {
   DEBUGln("setup Start");
   //yep burn CPU for 1 sec... to let stuff settle
   delay(1000);
-  gps.getFix(GPS_FIX_TIMEOUT_MSECS);
+//  gps.getFix(GPS_FIX_TIMEOUT_MSECS);
   DEBUGln("setup Done,,,,,");
 }
 

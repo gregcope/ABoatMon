@@ -24,7 +24,7 @@ class Gps
 {
   public:
     Gps(byte pin);
-    void on(void);
+    boolean on(void);
     void off(void);
     boolean isOn(void);
     unsigned long getFix(unsigned long);

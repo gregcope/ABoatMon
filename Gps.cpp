@@ -5,12 +5,11 @@ Gps::Gps(byte pin) {
   // Constructor
   // Takes an int as pin to power up
   _powerPin = pin;
-  _powerState = false;
   pinMode(_powerPin, OUTPUT);
-  digitalWrite(_powerPin, LOW);
+  off();
 }
 
-void Gps::on(void) {
+boolean Gps::on(void) {
   // Switch device on by putting pin HIGH
   digitalWrite(_powerPin, HIGH);
   _powerState = true;
@@ -18,12 +17,19 @@ void Gps::on(void) {
   Serial1.flush();
   Serial.println("GPS device on!");
   Serial.flush();
+  if ( Serial1.available() > 0) {
+    return true;
+  } else {
+    return false;  
+  } 
 }
 
 void Gps::off(void) {
   // turn off the Device by putting pin LOW
   Serial1.flush();
   digitalWrite(_powerPin, LOW);
+  Serial1.flush();
+  delay(500);
   _powerState = false;
   Serial.println("GPS device off!");
 }
@@ -40,7 +46,8 @@ unsigned long Gps::getFix(unsigned long timeout) {
 
   // takes a gps fix tmeout
   // returns millis to get a fix OR zero if failed
-
+  
+  gpsFixTimeoutReached = false;
   gpsTimerStart = millis();
   gpsFixTimeoutMs = gpsTimerStart + timeout;
   gpsTimeToFixMs = 0;
@@ -48,7 +55,8 @@ unsigned long Gps::getFix(unsigned long timeout) {
   initialHDOP = 0;
   finalHDOP = 0;
   hdop = 0;
-  
+
+  off();
   on();
   setupGPS();
   DEBUGln("setupGPS");
@@ -59,9 +67,18 @@ unsigned long Gps::getFix(unsigned long timeout) {
     
     hdop = nmea.hdop.value();
     DEBUG(millis());
-    DEBUGln(hdop);
-
-    if ( hdop != 0 && hdop >= ACCEPTABLE_GPS_HDOP_FOR_FIX && initialHDOP == 0 ) {
+    DEBUG(", HDOP:");
+    DEBUG(hdop);
+    DEBUG(",  Serial1.available: ");
+    DEBUG(Serial1.available());
+    DEBUG(", ACCEPTABLE_GPS_HDOP_FOR_FIX: ");
+    DEBUG(ACCEPTABLE_GPS_HDOP_FOR_FIX);
+    DEBUG(", gpsFixTimeoutMs: ");
+    DEBUG(gpsFixTimeoutMs);
+    DEBUG(", nmea.passedChecksum: ");
+    DEBUGln(nmea.passedChecksum());
+    
+    if ( ( hdop != 0 && hdop >= ACCEPTABLE_GPS_HDOP_FOR_FIX )  && initialHDOP == 0 ) {
       DEBUGln("gpsFix is true - we have an acceptable fix!!!!");
       DEBUG("nmea.hdop.value(): ");
       DEBUGln(hdop);
@@ -89,7 +106,7 @@ unsigned long Gps::getFix(unsigned long timeout) {
       return gpsTimeToFixMs;
     }
 
-    if ( gpsFixTimeoutMs <= millis() && gpsFix == false) {
+    if ( ( gpsFixTimeoutMs <= millis() ) && gpsFix == false) {
       // we reached the timeout ... too bad
       gpsFixTimeoutReached = true;
       // we failed to get a fix ...
