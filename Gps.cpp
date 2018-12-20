@@ -229,7 +229,6 @@ void Gps::printGPSData(void) {
     } else {
       Serial.print(F("BAD"));
     }
-   
 
   }
   else

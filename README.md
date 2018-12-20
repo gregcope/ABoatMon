@@ -30,7 +30,7 @@ External Libs
 * [Tinygps++](https://github.com/mikalhart/TinyGPSPlus) - A class to deal with GPS
 * [Lowpower](https://github.com/LowPowerLab/LowPower) - A class to help with Sleep modes
 * Eeprom - Save Eeprom state
-* OneWire - temp sensor lib
+* [OneWire](https://github.com/PaulStoffregen/OneWire) - DS18B20 Temp sensor lib
 
 Internal Classes
 ========
