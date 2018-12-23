@@ -61,23 +61,44 @@ unsigned long Gps::getFix(unsigned long timeout) {
 
   while ( !gpsFixTimeoutReached ) {
     // Whilst we have not reached the GPS timeout, nor got a fix, keep going ...
-    drainNmea();
-    
-    hdop = nmea.hdop.value();
+    //drainNmea();
+
+    while ( !nmea.hdop.isUpdated() ) {
+      drainNmea();
+    }
+
     DEBUG(millis());
+
+    DEBUG(", hdop.isUpdated: ");
+    if ( nmea.hdop.isUpdated() ) {
+      DEBUG("TRUE");
+    } else {
+      DEBUG("FALSE");
+    }
+
+    hdop = nmea.hdop.value();
+
+    DEBUG(", hdop.age: ");
+    DEBUG(nmea.hdop.age());
+
+    DEBUG(", loc.isUpdated: ");
+    if (nmea.location.isUpdated() ) {
+      DEBUG("TRUE");
+    } else {
+      DEBUG("FALSE");  
+    }
+
     DEBUG(", HDOP:");
     DEBUG(hdop);
-    DEBUG(",  Serial1.available: ");
+    DEBUG(", Serial1.ava: ");
     DEBUG(Serial1.available());
-    DEBUG(", ACCEPTABLE_GPS_HDOP_FOR_FIX: ");
+    DEBUG(", ACCEPTABLE HDOP: ");
     DEBUG(ACCEPTABLE_GPS_HDOP_FOR_FIX);
     DEBUG(", initial HDOP: ");
     DEBUG(initialHDOP);
     DEBUG(", gpsFixTimeoutMs: ");
     DEBUG(gpsFixTimeoutMs);
-    DEBUG(", nmea.hdop.isUpdated: ");
-    DEBUG(nmea.hdop.isUpdated());
-    DEBUG(", nmea.passedChecksum: ");
+    DEBUG(", nmea.passCksum: ");
     DEBUGln(nmea.passedChecksum());
     
     if ( ( hdop != 0 && hdop <= ACCEPTABLE_GPS_HDOP_FOR_FIX )  && initialHDOP == 0 ) {
@@ -95,7 +116,7 @@ unsigned long Gps::getFix(unsigned long timeout) {
     }
 
    if ( hdop != 0 && hdop <= GOOD_GPS_HDOP_FOR_FIX ) {
-      DEBUGln("gpsFix is true - we have a fix!!!!");
+      DEBUGln("gpsFix is true, hdop low - we have a good fix!!!!");
       DEBUG("nmea.hdop.value(): ");
       DEBUGln(hdop);
       finalHDOP = hdop;  
