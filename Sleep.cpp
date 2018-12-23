@@ -10,6 +10,8 @@ void Sleep::kip8Secs(void) {
   Serial.flush();
   Serial1.flush();
   LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
+  Serial.flush();
+  Serial1.flush();
 }
 
 void Sleep::kip2Secs(void) {
@@ -17,6 +19,8 @@ void Sleep::kip2Secs(void) {
   Serial.flush();
   Serial1.flush();
   LowPower.powerDown(SLEEP_2S, ADC_OFF, BOD_OFF);
+  Serial.flush();
+  Serial1.flush();
 }
 
 void Sleep::kip1Sec(void) {
@@ -24,4 +28,6 @@ void Sleep::kip1Sec(void) {
   Serial.flush();
   Serial1.flush();
   LowPower.powerDown(SLEEP_1S, ADC_OFF, BOD_OFF);
+  Serial.flush();
+  Serial1.flush();
 }

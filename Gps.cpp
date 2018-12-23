@@ -16,16 +16,15 @@ boolean Gps::on(void) {
   Serial1.flush();
   Serial.println("GPS device on!");
   Serial.flush();
-  if ( Serial1.available() > 0) {
-    return true;
-  } else {
-    return false;  
-  } 
+  //if ( Serial1.available() > 0) {
+  //  return true;
+  //} else {
+  //  return false;  
+  //} 
 }
 
 void Gps::off(void) {
   // turn off the Device by putting pin LOW
-  Serial1.flush();
   digitalWrite(_powerPin, LOW);
   Serial1.flush();
   delay(500);
@@ -45,7 +44,7 @@ unsigned long Gps::getFix(unsigned long timeout) {
 
   // takes a gps fix tmeout
   // returns millis to get a fix OR zero if failed
-  
+
   gpsFixTimeoutReached = false;
   gpsTimerStart = millis();
   gpsFixTimeoutMs = gpsTimerStart + timeout;
@@ -55,7 +54,7 @@ unsigned long Gps::getFix(unsigned long timeout) {
   finalHDOP = 0;
   hdop = 0;
 
-  off();
+  //off();
   on();
   setupGPS();
   DEBUGln("setupGPS");
@@ -76,6 +75,8 @@ unsigned long Gps::getFix(unsigned long timeout) {
     DEBUG(initialHDOP);
     DEBUG(", gpsFixTimeoutMs: ");
     DEBUG(gpsFixTimeoutMs);
+    DEBUG(", nmea.hdop.isUpdated: ");
+    DEBUG(nmea.hdop.isUpdated());
     DEBUG(", nmea.passedChecksum: ");
     DEBUGln(nmea.passedChecksum());
     
@@ -94,7 +95,7 @@ unsigned long Gps::getFix(unsigned long timeout) {
     }
 
    if ( hdop != 0 && hdop <= GOOD_GPS_HDOP_FOR_FIX ) {
-      DEBUGln("gpsFix is true - we have a good fix!!!!");
+      DEBUGln("gpsFix is true - we have a fix!!!!");
       DEBUG("nmea.hdop.value(): ");
       DEBUGln(hdop);
       finalHDOP = hdop;  
@@ -149,6 +150,7 @@ boolean Gps::drainNmea(void) {
 void Gps::setupGPS(void) {
 
   // Function to setup GPS
+  //DEBUGln("in setupGPS")
   
   // http://forums.adafruit.com/viewtopic.php?f=19&p=143502
   //DEBUGln("  Enable SBAS sat search");
