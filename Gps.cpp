@@ -40,7 +40,40 @@ boolean Gps::isOn(void) {
   return _powerState;  
 }
 
-unsigned long Gps::getFix(unsigned long timeout) {
+boolean Gps::updateFix(unsigned long timeout) {
+
+  // takes a nmeatmeout
+  // assume timeout is 12 secs - 12000
+  // run until the nmea object is updated
+  // at least 10 times?
+  // return true or false
+  
+  nmeaTimeoutMs = millis() + timeout;
+  nmeaUpdated = 0;
+  // make sure GPS is on (may not be needed)
+  if ( !isOn() ) {
+    on();
+  }
+
+  while ( !nmeaTimeoutMs ) {
+    
+    drainNmea();
+
+    if ( nmea.hdop.isUpdated() ) {
+      // if the object was updated, update counter
+      nmeaUpdated ++;
+    }
+
+    if ( nmeaUpdated >= 9 ) {
+      return true;
+    }
+    
+  }
+  // fell out of timeout with insufficient neam updates
+  return false;
+}
+
+unsigned long Gps::getInitialFix(unsigned long timeout) {
 
   // takes a gps fix tmeout
   // returns millis to get a fix OR zero if failed
@@ -53,6 +86,7 @@ unsigned long Gps::getFix(unsigned long timeout) {
   initialHDOP = 0;
   finalHDOP = 0;
   hdop = 0;
+  //nmeaUpdated = 0;
 
   //off();
   on();
@@ -63,9 +97,13 @@ unsigned long Gps::getFix(unsigned long timeout) {
     // Whilst we have not reached the GPS timeout, nor got a fix, keep going ...
     //drainNmea();
 
-    while ( !nmea.hdop.isUpdated() ) {
+    //while ( nmeaUpdated < 9 ) {
       drainNmea();
-    }
+   //   if ( nmea.hdop.isUpdated() ) {
+   //     nmeaUpdated ++;
+   //     DEBUG(".");  
+   //   }
+   // }
 
     DEBUG(millis());
 

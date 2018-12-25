@@ -59,6 +59,7 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 #define HOUR_CYCLES 450 // 8 sec sleep * 450 cyles == 3600 secs or 1 hour
 
 #define GPS_FIX_TIMEOUT_MSECS 300000 // time to try and get a fix in msecs is 300 secs, or 5 mins
+#define UPDATE_GPS_FIX_TIMEOUT_MSECS 12000 // 12 secs
 
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
@@ -122,7 +123,7 @@ void setup() {
   DEBUGln("setup Start");
   //yep burn CPU for 1 sec... to let stuff settle
   delay(1000);
-  gps.getFix(GPS_FIX_TIMEOUT_MSECS);
+  gps.getInitialFix(GPS_FIX_TIMEOUT_MSECS);
   DEBUG("Lipo volts: ");
   DEBUG(lipo.read());
   DEBUGln(".");
@@ -131,7 +132,7 @@ void setup() {
 
 void loop() {
   DEBUGln("loop ...");
-  gps.getFix(GPS_FIX_TIMEOUT_MSECS);
+  gps.updateFix(UPDATE_GPS_FIX_TIMEOUT_MSECS);
   DEBUG("Lipo volts: ");
   DEBUG(lipo.read());
   DEBUGln(".");

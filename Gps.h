@@ -27,12 +27,15 @@ class Gps
     boolean on(void);
     void off(void);
     boolean isOn(void);
-    unsigned long getFix(unsigned long);
+    boolean updateFix(unsigned long);
+    unsigned long getInitialFix(unsigned long);
    // Sleep sleep;
   private:
     int _powerPin;
     boolean _powerState;
     boolean nmeaOutput;
+    int nmeaUpdated;
+    unsigned long nmeaTimeoutMs;
     boolean serial1Output;
     unsigned long gpsFixTimeoutMs;
     unsigned long gpsTimerStart;
@@ -47,6 +50,7 @@ class Gps
     int hdop; 
     TinyGPSPlus nmea;
     Sleep sleep;
+    //int nmeaUpdated;
 };
 
 #endif
