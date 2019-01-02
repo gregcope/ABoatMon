@@ -37,7 +37,7 @@
  
 #define BILGE_SWITCH 3 // Other line from BilgeSwitch to GND
 
-//#define LIPO_VOLTAGE_DIVIDER 0
+//#define LIPO_VOLTAGE_DIVIDER 24 // D24 is same as A0
 const int LIPO_VOLTAGE_DIVIDER = 0;
 
 #define TEMP_POWER 27 // PA3
