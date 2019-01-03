@@ -228,19 +228,12 @@ LIPO</text>
 <wire x1="77.47" y1="60.96" x2="80.01" y2="58.42" width="0.1524" layer="20" curve="-90"/>
 <wire x1="77.47" y1="0" x2="80.01" y2="2.54" width="0.1524" layer="20" curve="90"/>
 <text x="73.787" y="13.462" size="1.016" layer="25" font="vector" ratio="20">GND</text>
-<text x="16.002" y="52.07" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
-<text x="16.002" y="46.99" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
-<text x="26.162" y="46.99" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
-<text x="26.162" y="52.07" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
-<text x="36.322" y="46.99" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
 <text x="36.322" y="41.91" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
 <text x="46.482" y="41.91" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
 <text x="46.482" y="46.99" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
-<text x="36.322" y="52.07" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
 <text x="73.787" y="8.509" size="1.016" layer="25" font="vector" ratio="20">GND</text>
 <text x="75.692" y="5.842" size="1.016" layer="25" font="vector" ratio="20">BILGE</text>
 <text x="73.787" y="26.289" size="1.016" layer="25" font="vector" ratio="20">GND</text>
-<text x="38.862" y="19.05" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
 <text x="41.402" y="13.97" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
 <text x="41.402" y="8.89" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
 <text x="41.402" y="3.81" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
@@ -1501,6 +1494,7 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <via x="46.99" y="7.62" extent="1-16" drill="0.508"/>
 <via x="49.53" y="7.62" extent="1-16" drill="0.508"/>
 <via x="52.07" y="7.62" extent="1-16" drill="0.508"/>
+<wire x1="49.53" y1="7.62" x2="52.07" y2="7.62" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="VIN" class="1">
 <contactref element="MOTEINO_MEGA" pad="VIN"/>

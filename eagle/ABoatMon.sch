@@ -6584,7 +6584,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <net name="VCC" class="1">
 <segment>
 <label x="180.34" y="63.5" size="1.778" layer="95" rot="R90"/>
-<wire x1="180.34" y1="78.74" x2="180.34" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="180.34" y1="78.74" x2="180.34" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="VCC" gate="G$1" pin="2"/>
 <wire x1="170.18" y1="78.74" x2="180.34" y2="78.74" width="0.1524" layer="91"/>
 </segment>
