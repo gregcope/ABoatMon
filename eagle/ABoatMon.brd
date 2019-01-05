@@ -170,7 +170,7 @@ Max 600mA96% eff</text>
 <text x="73.787" y="23.622" size="1.016" layer="25" font="vector" ratio="20">LED</text>
 <text x="73.787" y="10.922" size="1.016" layer="25" font="vector" ratio="20">DS_PWR</text>
 <text x="73.787" y="16.129" size="1.016" layer="25" font="vector" ratio="20">DS_DA</text>
-<text x="62.484" y="57.404" size="1.016" layer="25" font="vector" ratio="20">VIN
+<text x="61.722" y="57.023" size="1.016" layer="25" font="vector" ratio="20">VIN
 LIPO</text>
 <text x="11.938" y="54.483" size="1.016" layer="25" font="vector" ratio="20" rot="R90">GND</text>
 <text x="13.462" y="57.15" size="1.016" layer="25" font="vector" ratio="20" rot="R270">VIN / LIPO</text>
@@ -229,14 +229,9 @@ LIPO</text>
 <wire x1="77.47" y1="0" x2="80.01" y2="2.54" width="0.1524" layer="20" curve="90"/>
 <text x="73.787" y="13.462" size="1.016" layer="25" font="vector" ratio="20">GND</text>
 <text x="36.322" y="41.91" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
-<text x="46.482" y="41.91" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
-<text x="46.482" y="46.99" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
 <text x="73.787" y="8.509" size="1.016" layer="25" font="vector" ratio="20">GND</text>
 <text x="75.692" y="5.842" size="1.016" layer="25" font="vector" ratio="20">BILGE</text>
 <text x="73.787" y="26.289" size="1.016" layer="25" font="vector" ratio="20">GND</text>
-<text x="41.402" y="13.97" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
-<text x="41.402" y="8.89" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
-<text x="41.402" y="3.81" size="1.016" layer="25" font="vector" ratio="20" rot="R270">3.3V</text>
 </plain>
 <libraries>
 <library name="SparkFun-Capacitors">
@@ -1126,7 +1121,7 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 </element>
 <element name="J4" library="SparkFun-Connectors" package="1X01" value="5V" x="27.813" y="25.019" smashed="yes" rot="R180">
 <attribute name="NAME" x="29.083" y="23.622" size="0.6096" layer="25" font="vector" ratio="20" rot="R180"/>
-<attribute name="VALUE" x="29.083" y="26.543" size="0.6096" layer="27" font="vector" ratio="20" rot="R180" align="top-left"/>
+<attribute name="VALUE" x="29.083" y="26.543" size="0.6096" layer="25" font="vector" ratio="20" rot="R180" align="top-left"/>
 </element>
 <element name="U$1" library="microbuilder" package="MOUNTINGHOLE_2.5_PLATED" value="MOUNTINGHOLE2.5" x="18.034" y="11.43" smashed="yes"/>
 <element name="GND" library="microbuilder" package="MOUNTINGHOLE_2.5_PLATED" value="MOUNTINGHOLE2.5" x="18.034" y="49.53" smashed="yes"/>
@@ -1140,7 +1135,7 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <element name="R1" library="SparkFun-Resistors" package="AXIAL-0.3" value="4.7K" x="69.85" y="12.7" smashed="yes" rot="R90">
 <attribute name="NAME" x="68.834" y="12.7" size="0.6096" layer="25" font="vector" ratio="20" rot="R90" align="bottom-center"/>
 <attribute name="PROD_ID" value="RES-12182" x="69.85" y="12.7" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="VALUE" x="70.866" y="12.7" size="0.6096" layer="27" font="vector" ratio="20" rot="R90" align="top-center"/>
+<attribute name="VALUE" x="69.596" y="12.7" size="0.6096" layer="27" font="vector" ratio="20" rot="R90" align="top-center"/>
 </element>
 </elements>
 <signals>

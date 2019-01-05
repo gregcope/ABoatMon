@@ -6,6 +6,8 @@ Gps::Gps(byte pin) {
   // Takes an int as pin to power up
   _powerPin = pin;
   pinMode(_powerPin, OUTPUT);
+  // just to be sure switch it on
+  on();
 }
 
 boolean Gps::on(void) {
@@ -16,6 +18,7 @@ boolean Gps::on(void) {
   Serial1.flush();
   Serial.println("GPS device on!");
   Serial.flush();
+  setupGPS();
   //if ( Serial1.available() > 0) {
   //  return true;
   //} else {
@@ -51,9 +54,9 @@ boolean Gps::updateFix(unsigned long timeout) {
   nmeaTimeoutMs = millis() + timeout;
   nmeaUpdated = 0;
   // make sure GPS is on (may not be needed)
-  if ( !isOn() ) {
-    on();
-  }
+  //if ( !isOn() ) {
+  on();
+  //}
 
   while ( !nmeaTimeoutMs ) {
     
@@ -63,7 +66,9 @@ boolean Gps::updateFix(unsigned long timeout) {
       // if the object was updated, update counter
       nmeaUpdated ++;
     }
-
+    
+    // when we have 9 fix updates (10 secs ish)
+    // return
     if ( nmeaUpdated >= 9 ) {
       return true;
     }
@@ -90,8 +95,8 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
 
   //off();
   on();
-  setupGPS();
-  DEBUGln("setupGPS");
+  //setupGPS();
+  //DEBUGln("setupGPS");
 
   while ( !gpsFixTimeoutReached ) {
     // Whilst we have not reached the GPS timeout, nor got a fix, keep going ...

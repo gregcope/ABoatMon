@@ -17,13 +17,13 @@
 // https://github.com/mikalhart/TinyGPSPlus/releases 
 #include <TinyGPS++.h>
 // http://www.pjrc.com/teensy/td_libs_OneWire.html
-#include <OneWire.h>
+//#include <OneWire.h>
 
 // internal classes/includes
-#include "Device.h"
-#include "Config.h"
+//#include "Device.h"
+//#include "Config.h"
 #include "Sleep.h"
-#include "Gps.h"
+//#include "Gps.h"
 #include "Lipo.h"
 
 // PIN defines
@@ -68,9 +68,9 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 // Objects
 
 // tinyGPS is a nmea feed parser
-TinyGPSPlus nmea;
+//TinyGPSPlus nmea;
 Sleep sleep;
-Gps gps(D12_GPS_ENABLE);
+//Gps gps(D12_GPS_ENABLE);
 Lipo lipo(LIPO_VOLTAGE_DIVIDER);
 // these are devices, and have physical on/off/interface things
 //Device gpsDevice(D12_GPS_ENABLE);
@@ -121,18 +121,18 @@ void setup() {
   Serial.begin(9600);
   Serial.flush();
   DEBUGln("setup Start");
-  //yep burn CPU for 1 sec... to let stuff settle
-  delay(1000);
-  gps.getInitialFix(GPS_FIX_TIMEOUT_MSECS);
-  DEBUG("Lipo volts: ");
-  DEBUG(lipo.read());
-  DEBUGln(".");
-  DEBUGln("setup Done");
+  //yep burn CPU for 1/2 sec... to let stuff settle
+  delay(500);
+  //gps.getInitialFix(GPS_FIX_TIMEOUT_MSECS);
+  //DEBUG("Lipo volts: ");
+  //DEBUG(lipo.read());
+  //DEBUGln(".");
+  //DEBUGln("setup Done");
 }
 
 void loop() {
   DEBUGln("loop ...");
-  gps.updateFix(UPDATE_GPS_FIX_TIMEOUT_MSECS);
+  //gps.updateFix(UPDATE_GPS_FIX_TIMEOUT_MSECS);
   DEBUG("Lipo volts: ");
   DEBUG(lipo.read());
   DEBUGln(".");
