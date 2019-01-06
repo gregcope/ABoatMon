@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "Vcc.h"
+
 Vcc::Vcc(int pin0, int pin1) {
   // Constructor
   // Takes an int as pin to power up
@@ -11,6 +12,7 @@ Vcc::Vcc(int pin0, int pin1) {
 boolean Vcc::on(void) {
   // Switch device on by putting pin HIGH
   digitalWrite(_powerPin, HIGH);
+  _onTimeMs = millis();
   _powerState = true;
   DEBUG("reg on")
   // TODO: Add code to check charger has gone on?!?!?!
@@ -46,7 +48,7 @@ float Vcc::read(void) {
       vccReadings+=analogRead(_voltageDividerPin);
     }
 
-  vccVolts = BATT_FORMULA(vccReadings / 10.0);
+  vccVolts = VCC_FORMULA(vccReadings / 10.0);
   //DEBUGln(lipoBatteryVolts);
   return(vccVolts);
 

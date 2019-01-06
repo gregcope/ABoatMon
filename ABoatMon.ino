@@ -25,6 +25,7 @@
 #include "Sleep.h"
 #include "Gps.h"
 #include "Lipo.h"
+#include "Vcc.h"
 
 // PIN defines
 #define D12_GPS_ENABLE 12
@@ -39,8 +40,8 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 #define TEMP_DATA 28 // PA4
 // Red connects to 27, Blue/Black connects to ground and Yellow/White (data) to 28
 
-#define VCC_12V-24V_VOLTAGE_DIVIDER A5 
-#define VCC_12V-24V_ENABLE 19
+#define VCC_12V_24V_VOLTAGE_DIVIDER A5 
+#define VCC_12V_24V_ENABLE 19
 
 #define FONA_TX 8  // serial
 #define FONA_RX 9  // serial
@@ -67,17 +68,13 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 Sleep sleep;
 Gps gps(D12_GPS_ENABLE);
 Lipo lipo(LIPO_VOLTAGE_DIVIDER);
-// these are devices, and have physical on/off/interface things
-//Device gpsDevice(D12_GPS_ENABLE);
+Vcc vcc(VCC_12V_24V_ENABLE, VCC_12V_24V_VOLTAGE_DIVIDER);
+
 //Device buttonLed(BUTTON_LED);
 //Device tempSensor(TEMP_POWER);
 // Make one wire faster
 // http://www.cupidcontrols.com/2014/10/moteino-arduino-and-1wire-optimize-your-read-for-speed/
 
-//Config config;
-
-//Device charger(CHARGER_POWER);
-//Device fona(FONA_POWER);
 
 // Variables
 byte bilgeSwitchPosition = 0;

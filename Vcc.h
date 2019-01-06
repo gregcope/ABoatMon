@@ -30,7 +30,7 @@ class Vcc
     Vcc(int pin0, int pin1);
     float read(void);
     boolean on(void);
-    boolean off(void);
+    void off(void);
     boolean isOn(void);
   private:
     unsigned long _onTimeMs;

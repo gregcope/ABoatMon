@@ -2,7 +2,7 @@
 #define Lipo_h
 
 /*
- * Sleep
+ * Lipo
  * 
  * Library to wrap Lipo battery readings
  * 
