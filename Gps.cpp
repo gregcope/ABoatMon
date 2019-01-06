@@ -6,8 +6,6 @@ Gps::Gps(byte pin) {
   // Takes an int as pin to power up
   _powerPin = pin;
   pinMode(_powerPin, OUTPUT);
-  // just to be sure switch it on
-  on();
 }
 
 boolean Gps::on(void) {
@@ -19,18 +17,19 @@ boolean Gps::on(void) {
   Serial.println("GPS device on!");
   Serial.flush();
   setupGPS();
-  //if ( Serial1.available() > 0) {
-  //  return true;
-  //} else {
-  //  return false;  
-  //} 
+  if ( Serial1.available() > 0) {
+    // spitting something out so assume on!
+    return true;
+  } else {
+    return false;  
+  } 
 }
 
 void Gps::off(void) {
   // turn off the Device by putting pin LOW
   digitalWrite(_powerPin, LOW);
   Serial1.flush();
-  delay(500);
+  //delay(500);
   _powerState = false;
   Serial.println("GPS device off!");
 }
@@ -39,43 +38,89 @@ boolean Gps::isOn(void) {
   // return state 
   // on == true
   // off == false
-  // aka isOn
+  //DEBUG("gps state is:");
+  //DEBUGln(_powerState);
   return _powerState;  
 }
 
 boolean Gps::updateFix(unsigned long timeout) {
 
-  // takes a nmeatmeout
+  // takes a nmea timeout
   // assume timeout is 12 secs - 12000
   // run until the nmea object is updated
   // at least 10 times?
   // return true or false
+
+  //DEBUGln("updateFix")
   
   nmeaTimeoutMs = millis() + timeout;
-  nmeaUpdated = 0;
+  nmeaUpdates = nmea.sentencesWithFix() + 10;
+  
   // make sure GPS is on (may not be needed)
-  //if ( !isOn() ) {
-  on();
-  //}
+  if ( !isOn() ) {
+    //DEBUGln("gps is off, turning it on")
+    on();
+  }
 
-  while ( !nmeaTimeoutMs ) {
+  //DEBUG("nmeaUpdates: ")
+  //DEBUG(nmeaUpdates)
+  //DEBUG(", nmea.sentencesWithFix()")
+  //DEBUG(nmea.sentencesWithFix())
+  //DEBUG(", nmeaTimeoutMs: ")
+  //DEBUG(nmeaTimeoutMs)
+  //DEBUG(", millis is: ")
+  //DEBUGln(millis())
+  
+  while ( nmeaTimeoutMs > millis() ) {
     
     drainNmea();
 
-    if ( nmea.hdop.isUpdated() ) {
-      // if the object was updated, update counter
-      nmeaUpdated ++;
-    }
+    //if ( nmea.location.isUpdated() ) {
+    //  // if the object was updated, update counter
+    //  DEBUGln("nmea.location.isUpdated")
+    //  nmeaUpdated ++;
+    //}
     
-    // when we have 9 fix updates (10 secs ish)
+    // when we have 10 fix updates (10 secs ish)
     // return
-    if ( nmeaUpdated >= 9 ) {
+    //DEBUG("nmea.sentencesWithFix():")
+    //DEBUGln(nmea.sentencesWithFix());
+    if ( nmeaUpdates <= nmea.sentencesWithFix() ) {
+      //DEBUGln("Got 10 nmea updates")
       return true;
     }
     
   }
-  // fell out of timeout with insufficient neam updates
+
+  if ( ( nmeaUpdates - nmea.sentencesWithFix() ) < 10 ) {
+      //DEBUG("nmeaUpdates: ")
+      //DEBUG(nmeaUpdates)
+      //DEBUG(", nmea.sentencesWithFix()")
+      //DEBUG(nmea.sentencesWithFix())
+      //DEBUG(", nmeaTimeoutMs: ")
+      //DEBUG(nmeaTimeoutMs)
+      //DEBUG(", millis is: ")
+      //DEBUGln(millis())
+      // got some fixes, just not 10 ...
+      return true;
+  }
+  // fell out of timeout with insufficient nmea updates
   return false;
+}
+
+boolean Gps::getUpdatedFix(unsigned long timeout) {
+  
+  on();
+  updateFix(timeout);
+  off();
+
+  if ( nmea.location.isUpdated() ) {
+    printGPSData();
+    return true; 
+  } else {
+    return false;  
+  }
+  return true;
 }
 
 unsigned long Gps::getInitialFix(unsigned long timeout) {
@@ -87,30 +132,39 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
   gpsTimerStart = millis();
   gpsFixTimeoutMs = gpsTimerStart + timeout;
   gpsTimeToFixMs = 0;
-  gpsFix = false;
   initialHDOP = 0;
   finalHDOP = 0;
   hdop = 0;
+  now = 0;
   //nmeaUpdated = 0;
 
-  //off();
   on();
-  //setupGPS();
-  //DEBUGln("setupGPS");
+  
+  DEBUGln("getInitialFix");
 
   while ( !gpsFixTimeoutReached ) {
-    // Whilst we have not reached the GPS timeout, nor got a fix, keep going ...
-    //drainNmea();
+    // capture now
+    now = millis();
 
+    // update the nmea object lots of times
+    if ( updateFix(12000) ) {
+      // do nothing - it works
+    } else {
+      // no nmea ... bail
+      // no updateds bail
+      DEBUGln("no nmea .... bailing")
+      return 0;
+    }
     //while ( nmeaUpdated < 9 ) {
-      drainNmea();
+      //drainNmea();
    //   if ( nmea.hdop.isUpdated() ) {
    //     nmeaUpdated ++;
    //     DEBUG(".");  
    //   }
    // }
 
-    DEBUG(millis());
+    // see if we got a sensible fix
+    DEBUG(now);
 
     DEBUG(", hdop.isUpdated: ");
     if ( nmea.hdop.isUpdated() ) {
@@ -144,13 +198,14 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
     DEBUG(", nmea.passCksum: ");
     DEBUGln(nmea.passedChecksum());
     
+    // do we have an acceptable fix yet?
     if ( ( hdop != 0 && hdop <= ACCEPTABLE_GPS_HDOP_FOR_FIX )  && initialHDOP == 0 ) {
       DEBUGln("gpsFix is true - we have an inital acceptable fix!!!!");
       DEBUG("nmea.hdop.value(): ");
       DEBUGln(hdop);
+      // stops this if statement next time
       initialHDOP = hdop;  
-      gpsTimeToFixMs = millis() - gpsTimerStart;
-      gpsFix = true;
+      gpsTimeToFixMs = now - gpsTimerStart;
       DEBUG("gpsTimeToFixMs: ");
       DEBUGln(gpsTimeToFixMs);
       printGPSData();
@@ -158,13 +213,13 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
       //return gpsTimeToFixMs;
     }
 
+   // do we have a good fix?
    if ( hdop != 0 && hdop <= GOOD_GPS_HDOP_FOR_FIX ) {
       DEBUGln("gpsFix is true, hdop low - we have a good fix!!!!");
       DEBUG("nmea.hdop.value(): ");
       DEBUGln(hdop);
       finalHDOP = hdop;  
-      gpsTimeToFixMs = millis() - gpsTimerStart;
-      gpsFix = true;
+      gpsTimeToFixMs = now - gpsTimerStart;
       DEBUG("gpsTimeToFixMs: ");
       DEBUGln(gpsTimeToFixMs);
       printGPSData();
@@ -172,14 +227,21 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
       return gpsTimeToFixMs;
     }
 
-    if ( ( gpsFixTimeoutMs <= millis() ) && gpsFix == false) {
-      // we reached the timeout ... too bad
-      gpsFixTimeoutReached = true;
+    // we reached the timeout ... too bad
+    if ( ( gpsFixTimeoutMs <= now ) && initialHDOP == 0) {
+      
+      //gpsFixTimeoutReached = true;
       // we failed to get a fix ...
       DEBUGln("We failed to get fix !!!");
       off();
       return 0; 
     }
+    
+    // we reached a timeout, lets bomb
+    if ( gpsFixTimeoutMs <= now ) {
+      gpsFixTimeoutReached = true;
+    }
+
  
   } // we fell out of loop with a reasonable GPS fix.
 

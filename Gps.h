@@ -17,7 +17,7 @@
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
 #define DEBUGln(input) {Serial.println(input); Serial.flush();}
-#define ACCEPTABLE_GPS_HDOP_FOR_FIX 160
+#define ACCEPTABLE_GPS_HDOP_FOR_FIX 200 // was 160
 #define GOOD_GPS_HDOP_FOR_FIX 145
 
 class Gps
@@ -29,21 +29,21 @@ class Gps
     boolean isOn(void);
     boolean updateFix(unsigned long);
     unsigned long getInitialFix(unsigned long);
-   // Sleep sleep;
+    boolean getUpdatedFix(unsigned long);
+    boolean drainNmea(void);
   private:
     int _powerPin;
     boolean _powerState;
     boolean nmeaOutput;
-    int nmeaUpdated;
+    int nmeaUpdates;
     unsigned long nmeaTimeoutMs;
     boolean serial1Output;
     unsigned long gpsFixTimeoutMs;
+    unsigned long now;
     unsigned long gpsTimerStart;
     unsigned long gpsTimeToFixMs;
-    boolean gpsFix;
     boolean gpsFixTimeoutReached;
     void setupGPS(void);
-    boolean drainNmea(void);
     void printGPSData(void);
     int initialHDOP;
     int finalHDOP;

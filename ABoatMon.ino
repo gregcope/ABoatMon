@@ -23,18 +23,13 @@
 //#include "Device.h"
 //#include "Config.h"
 #include "Sleep.h"
-//#include "Gps.h"
+#include "Gps.h"
 #include "Lipo.h"
 
 // PIN defines
 #define D12_GPS_ENABLE 12
-//#define GPS_TX 10 // serial1
-//#define GPS_RX 11 // serial1
-
-//#define BUTTON_LED 26
 #define BUTTON_LED 15
 #define BUTTON 25
- 
 #define BILGE_SWITCH 3 // Other line from BilgeSwitch to GND
 
 //#define LIPO_VOLTAGE_DIVIDER 24 // D24 is same as A0
@@ -58,7 +53,7 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 #define FOURMIN_CYCLES 5 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
 #define HOUR_CYCLES 450 // 8 sec sleep * 450 cyles == 3600 secs or 1 hour
 
-#define GPS_FIX_TIMEOUT_MSECS 300000 // time to try and get a fix in msecs is 300 secs, or 5 mins
+#define INITIAL_GPS_FIX_TIMEOUT_MSECS 300000 // time to try and get a fix in msecs is 300 secs, or 5 mins
 #define UPDATE_GPS_FIX_TIMEOUT_MSECS 12000 // 12 secs
 
 // debug functions
@@ -70,7 +65,7 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 // tinyGPS is a nmea feed parser
 //TinyGPSPlus nmea;
 Sleep sleep;
-//Gps gps(D12_GPS_ENABLE);
+Gps gps(D12_GPS_ENABLE);
 Lipo lipo(LIPO_VOLTAGE_DIVIDER);
 // these are devices, and have physical on/off/interface things
 //Device gpsDevice(D12_GPS_ENABLE);
@@ -120,19 +115,19 @@ byte gpsGeoFenceMessageSent = 0;
 void setup() {
   Serial.begin(9600);
   Serial.flush();
-  DEBUGln("setup Start");
+  DEBUGln("setup Start 9");
   //yep burn CPU for 1/2 sec... to let stuff settle
   delay(500);
-  //gps.getInitialFix(GPS_FIX_TIMEOUT_MSECS);
+  gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
   //DEBUG("Lipo volts: ");
   //DEBUG(lipo.read());
   //DEBUGln(".");
-  //DEBUGln("setup Done");
+  DEBUGln("setup Done");
 }
 
 void loop() {
   DEBUGln("loop ...");
-  //gps.updateFix(UPDATE_GPS_FIX_TIMEOUT_MSECS);
+  gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS);
   DEBUG("Lipo volts: ");
   DEBUG(lipo.read());
   DEBUGln(".");
