@@ -26,6 +26,7 @@
 #include "Gps.h"
 #include "Lipo.h"
 #include "Vcc.h"
+#include "Fona.h"
 
 // PIN defines
 #define D12_GPS_ENABLE 12
@@ -70,6 +71,7 @@ Sleep sleep;
 Gps gps(D12_GPS_ENABLE);
 Lipo lipo(LIPO_VOLTAGE_DIVIDER);
 Vcc vcc(VCC_12V_24V_ENABLE, VCC_12V_24V_VOLTAGE_DIVIDER);
+Fona fona(FONA_POWER);
 
 //Device buttonLed(BUTTON_LED);
 //Device tempSensor(TEMP_POWER);
