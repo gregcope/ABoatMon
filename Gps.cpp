@@ -86,21 +86,21 @@ boolean Gps::updateFix(unsigned long timeout) {
     //DEBUG("nmea.sentencesWithFix():")
     //DEBUGln(nmea.sentencesWithFix());
     if ( nmeaUpdates <= nmea.sentencesWithFix() ) {
-      //DEBUGln("Got 10 nmea updates")
+      DEBUGln("Got 10 nmea updates")
       return true;
     }
     
   }
 
   if ( ( nmeaUpdates - nmea.sentencesWithFix() ) < 10 ) {
-      //DEBUG("nmeaUpdates: ")
-      //DEBUG(nmeaUpdates)
-      //DEBUG(", nmea.sentencesWithFix()")
-      //DEBUG(nmea.sentencesWithFix())
-      //DEBUG(", nmeaTimeoutMs: ")
-      //DEBUG(nmeaTimeoutMs)
-      //DEBUG(", millis is: ")
-      //DEBUGln(millis())
+      DEBUG("nmeaUpdates: ")
+      DEBUG(nmeaUpdates)
+      DEBUG(", nmea.sentencesWithFix()")
+      DEBUG(nmea.sentencesWithFix())
+      DEBUG(", nmeaTimeoutMs: ")
+      DEBUG(nmeaTimeoutMs)
+      DEBUG(", millis is: ")
+      DEBUGln(millis())
       // got some fixes, just not 10 ...
       return true;
   }
@@ -118,7 +118,15 @@ boolean Gps::getUpdatedFix(unsigned long timeout) {
     printGPSData();
     return true; 
   } else {
-    return false;  
+    // give it another go
+    //DEBUGln("No GPS update - giving it another go updateFix()")  
+    //updateFix(timeout);
+    //if ( nmea.location.isUpdated() ) {
+      //printGPSData(); 
+    //} else {
+      DEBUGln("No GPS update")  
+      return false;
+    //}
   }
   return true;
 }
@@ -153,7 +161,7 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
       // no nmea ... bail
       // no updateds bail
       DEBUGln("no nmea .... bailing")
-      return 0;
+      //return 0;
     }
     //while ( nmeaUpdated < 9 ) {
       //drainNmea();

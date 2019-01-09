@@ -54,8 +54,9 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 #define FOURMIN_CYCLES 5 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
 #define HOUR_CYCLES 450 // 8 sec sleep * 450 cyles == 3600 secs or 1 hour
 
-#define INITIAL_GPS_FIX_TIMEOUT_MSECS 300000 // time to try and get a fix in msecs is 300 secs, or 5 mins
-#define UPDATE_GPS_FIX_TIMEOUT_MSECS 12000 // 12 secs
+//#define INITIAL_GPS_FIX_TIMEOUT_MSECS 300000 // time to try and get a fix in msecs is 300 secs, or 5 mins
+#define INITIAL_GPS_FIX_TIMEOUT_MSECS 600000 // time to try and get a fix in msecs is 600 secs, or 10 mins
+#define UPDATE_GPS_FIX_TIMEOUT_MSECS 15000 // 15 secs
 
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
