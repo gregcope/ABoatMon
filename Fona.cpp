@@ -9,7 +9,7 @@ Fona::Fona(int enablePin) {
 
 boolean Fona::on(void) {
   // Switch device on by putting pin HIGH
-  digitalWrite(_enablePin, HIGH);
+  digitalWrite(_enablePin, LOW);
   _powerState = true;
   Serial.begin(9600);
   Serial.flush();
@@ -23,7 +23,7 @@ boolean Fona::on(void) {
 
 void Fona::off(void) {
   // turn off the Device by putting pin LOW
-  digitalWrite(_enablePin, LOW);
+  digitalWrite(_enablePin, HIGH);
   Serial.flush();
   //delay(500);
   _powerState = false;

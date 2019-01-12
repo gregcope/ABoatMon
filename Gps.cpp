@@ -8,6 +8,19 @@ Gps::Gps(byte pin) {
   pinMode(_powerPin, OUTPUT);
 }
 
+void Gps::init(void) {
+  // 0 = Invalid, 1 = GPS fix, 2 = DGPS fix
+  // 1 in this example
+  // $GPGGA,064951.000,2307.1256,N,12016.4438,E,1,8,0.95,39.9,M,17.8,M,,*65
+  DEBUGln("Init ... doing TinyGPSCustom ")
+  TinyGPSCustom fixqual(nmea, "GPGGA", 6); // $GPGGA sentence, 6th element
+  // report antenna
+  // looking for
+  // $PGTOP,11,3,6F
+  // 1 = short, 2 = internal, 3 = external
+  TinyGPSCustom antenna(nmea, "PGTOP", 2); // PGTOP sentence, 2nd element  
+}
+
 boolean Gps::on(void) {
   // Switch device on by putting pin HIGH
   digitalWrite(_powerPin, HIGH);
@@ -51,7 +64,7 @@ boolean Gps::updateFix(unsigned long timeout) {
   // at least 10 times?
   // return true or false
 
-  //DEBUGln("updateFix")
+  DEBUG("updateFix: ")
   
   nmeaTimeoutMs = millis() + timeout;
   nmeaUpdates = nmea.sentencesWithFix() + 10;
@@ -92,15 +105,20 @@ boolean Gps::updateFix(unsigned long timeout) {
     
   }
 
+    DEBUG("nmeaUpdates: ")
+    DEBUG(nmeaUpdates)
+    DEBUG(", nmea.sentencesWithFix(): ")
+    DEBUG(nmea.sentencesWithFix())
+    DEBUG(", nmeaTimeoutMs: ")
+    DEBUG(nmeaTimeoutMs)
+    DEBUG(", millis is: ")
+    DEBUG(millis())
+    DEBUG(", fixqual: ");
+    DEBUG(fixqual.value());
+    DEBUG(", antenna: ");
+    DEBUGln(antenna.value());
+
   if ( ( nmeaUpdates - nmea.sentencesWithFix() ) < 10 ) {
-      DEBUG("nmeaUpdates: ")
-      DEBUG(nmeaUpdates)
-      DEBUG(", nmea.sentencesWithFix()")
-      DEBUG(nmea.sentencesWithFix())
-      DEBUG(", nmeaTimeoutMs: ")
-      DEBUG(nmeaTimeoutMs)
-      DEBUG(", millis is: ")
-      DEBUGln(millis())
       // got some fixes, just not 10 ...
       return true;
   }
@@ -160,7 +178,7 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
     } else {
       // no nmea ... bail
       // no updateds bail
-      DEBUGln("no nmea .... bailing")
+      DEBUGln("no updated fixes")
       //return 0;
     }
     //while ( nmeaUpdated < 9 ) {
@@ -204,7 +222,11 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
     DEBUG(", gpsFixTimeoutMs: ");
     DEBUG(gpsFixTimeoutMs);
     DEBUG(", nmea.passCksum: ");
-    DEBUGln(nmea.passedChecksum());
+    DEBUG(nmea.passedChecksum());
+    DEBUG(", fixqual: ");
+    DEBUG(fixqual.value());
+    DEBUG(", antenna: ");
+    DEBUGln(antenna.value());
     
     // do we have an acceptable fix yet?
     if ( ( hdop != 0 && hdop <= ACCEPTABLE_GPS_HDOP_FOR_FIX )  && initialHDOP == 0 ) {
@@ -284,7 +306,7 @@ boolean Gps::drainNmea(void) {
 void Gps::setupGPS(void) {
 
   // Function to setup GPS
-  //DEBUGln("in setupGPS")
+  DEBUG("in setupGPS")
   
   // http://forums.adafruit.com/viewtopic.php?f=19&p=143502
   //DEBUGln("  Enable SBAS sat search");
@@ -295,11 +317,9 @@ void Gps::setupGPS(void) {
   //DEBUGln("  Set GPS hz to 1hz");
   Serial1.print("$PMTK220,1000*1F\r\n"); // 1HZ
   // http://aprs.gids.nl/nmea/#gga
-  // 0 = Invalid, 1 = GPS fix, 2 = DGPS fix
-  // 1 in this example
-  // $GPGGA,064951.000,2307.1256,N,12016.4438,E,1,8,0.95,39.9,M,17.8,M,,*65
-  TinyGPSCustom fixqual(nmea, "GPGGA", 6); // $GPGGA sentence, 6th element
-
+  // report antenna
+  Serial1.print("$PGCMD,33,1*6C\r\n");
+  DEBUGln(" ... done")
 }
 
 void Gps::printGPSData(void) {
@@ -384,7 +404,7 @@ void Gps::printGPSData(void) {
   {
     Serial.print(F("INVALID"));
   }
-
+ 
   Serial.println();
   Serial.flush();
 }

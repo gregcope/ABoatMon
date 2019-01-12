@@ -31,6 +31,7 @@ class Gps
     unsigned long getInitialFix(unsigned long);
     boolean getUpdatedFix(unsigned long);
     boolean drainNmea(void);
+    void init(void);
   private:
     int _powerPin;
     boolean _powerState;
@@ -49,6 +50,8 @@ class Gps
     int finalHDOP;
     int hdop; 
     TinyGPSPlus nmea;
+    TinyGPSCustom antenna;
+    TinyGPSCustom fixqual;
     Sleep sleep;
     //int nmeaUpdated;
 };

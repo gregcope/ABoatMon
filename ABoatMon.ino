@@ -30,7 +30,7 @@
 
 // PIN defines
 #define D12_GPS_ENABLE 12
-#define BUTTON_LED 15
+#define BUTTON_LED 26
 #define BUTTON 25
 #define BILGE_SWITCH 3 // Other line from BilgeSwitch to GND
 
@@ -57,6 +57,8 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 
 //#define INITIAL_GPS_FIX_TIMEOUT_MSECS 300000 // time to try and get a fix in msecs is 300 secs, or 5 mins
 #define INITIAL_GPS_FIX_TIMEOUT_MSECS 600000 // time to try and get a fix in msecs is 600 secs, or 10 mins
+//#define INITIAL_GPS_FIX_TIMEOUT_MSECS 900000 // time to try and get a fix in msecs is 900 secs, or 15 mins
+
 #define UPDATE_GPS_FIX_TIMEOUT_MSECS 15000 // 15 secs
 
 // debug functions
@@ -118,6 +120,7 @@ void setup() {
   DEBUGln("setup Start 9");
   //yep burn CPU for 1/2 sec... to let stuff settle
   delay(500);
+  gps.init();
   gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
   //DEBUG("Lipo volts: ");
   //DEBUG(lipo.read());
