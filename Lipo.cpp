@@ -8,8 +8,7 @@ Lipo::Lipo(int pin) {
 }
 
 float Lipo::read(void) {
-  Serial.println("reading Lipo");
-  Serial.flush();
+  DEBUG("lipo read: ");
   lipoBatteryReadings = 0 ;
   lipoBatteryVolts = 0;
   analogRead(_voltageDividerPin);
@@ -21,7 +20,7 @@ float Lipo::read(void) {
     }
 
   lipoBatteryVolts = BATT_FORMULA(lipoBatteryReadings / 10.0);
-  //DEBUGln(lipoBatteryVolts);
+  DEBUGln(lipoBatteryVolts);
   return(lipoBatteryVolts);
 
   //  dtostrf(batteryVolts,3,2, BATstr); //update the BATStr which gets sent every BATT_CYCLES or along with the MOTION message

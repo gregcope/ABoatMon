@@ -27,8 +27,10 @@
 #include "Lipo.h"
 #include "Vcc.h"
 #include "Fona.h"
+#include "Led.h"
 
 // PIN defines
+#define MEGA_LED 15
 #define D12_GPS_ENABLE 12
 #define BUTTON_LED 26
 #define BUTTON 25
@@ -56,10 +58,14 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 #define HOUR_CYCLES 450 // 8 sec sleep * 450 cyles == 3600 secs or 1 hour
 
 //#define INITIAL_GPS_FIX_TIMEOUT_MSECS 300000 // time to try and get a fix in msecs is 300 secs, or 5 mins
-#define INITIAL_GPS_FIX_TIMEOUT_MSECS 600000 // time to try and get a fix in msecs is 600 secs, or 10 mins
-//#define INITIAL_GPS_FIX_TIMEOUT_MSECS 900000 // time to try and get a fix in msecs is 900 secs, or 15 mins
+//#define INITIAL_GPS_FIX_TIMEOUT_MSECS 600000 // time to try and get a fix in msecs is 600 secs, or 10 mins
+#define INITIAL_GPS_FIX_TIMEOUT_MSECS 900000 // time to try and get a fix in msecs is 900 secs, or 15 mins
 
-#define UPDATE_GPS_FIX_TIMEOUT_MSECS 15000 // 15 secs
+//#define UPDATE_GPS_FIX_TIMEOUT_MSECS 15000 // 15 secs
+#define UPDATE_GPS_FIX_TIMEOUT_MSECS 60000 // 60 secs
+#define UPDATE_GPS_NUMBER_OF_FIXES 15 // 10 secs
+
+
 
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
@@ -74,6 +80,8 @@ Gps gps(D12_GPS_ENABLE);
 Lipo lipo(LIPO_VOLTAGE_DIVIDER);
 Vcc vcc(VCC_12V_24V_ENABLE, VCC_12V_24V_VOLTAGE_DIVIDER);
 Fona fona(FONA_POWER);
+Led megaLed(MEGA_LED);
+Led switchLed(BUTTON_LED);
 
 //Device buttonLed(BUTTON_LED);
 //Device tempSensor(TEMP_POWER);
@@ -122,17 +130,14 @@ void setup() {
   delay(500);
   gps.init();
   gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
-  //DEBUG("Lipo volts: ");
-  //DEBUG(lipo.read());
-  //DEBUGln(".");
   DEBUGln("setup Done");
 }
 
 void loop() {
+  megaLed.on();
   DEBUGln("loop ...");
-  gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS);
-  DEBUG("Lipo volts: ");
-  DEBUG(lipo.read());
-  DEBUGln(".");
+  gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);  
+  lipo.read();
+  megaLed.off();
   sleep.kip8Secs();
 }

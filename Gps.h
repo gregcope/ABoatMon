@@ -27,9 +27,9 @@ class Gps
     boolean on(void);
     void off(void);
     boolean isOn(void);
-    boolean updateFix(unsigned long);
+    boolean updateFix(unsigned long, int);
     unsigned long getInitialFix(unsigned long);
-    boolean getUpdatedFix(unsigned long);
+    boolean getUpdatedFix(unsigned long, int);
     boolean drainNmea(void);
     void init(void);
   private:

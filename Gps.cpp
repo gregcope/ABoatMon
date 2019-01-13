@@ -56,7 +56,7 @@ boolean Gps::isOn(void) {
   return _powerState;  
 }
 
-boolean Gps::updateFix(unsigned long timeout) {
+boolean Gps::updateFix(unsigned long timeout, int updates) {
 
   // takes a nmea timeout
   // assume timeout is 12 secs - 12000
@@ -67,7 +67,7 @@ boolean Gps::updateFix(unsigned long timeout) {
   DEBUG("updateFix: ")
   
   nmeaTimeoutMs = millis() + timeout;
-  nmeaUpdates = nmea.sentencesWithFix() + 10;
+  nmeaUpdates = nmea.sentencesWithFix() + updates;
   
   // make sure GPS is on (may not be needed)
   if ( !isOn() ) {
@@ -99,7 +99,8 @@ boolean Gps::updateFix(unsigned long timeout) {
     //DEBUG("nmea.sentencesWithFix():")
     //DEBUGln(nmea.sentencesWithFix());
     if ( nmeaUpdates <= nmea.sentencesWithFix() ) {
-      DEBUGln("Got 10 nmea updates")
+      DEBUG("Got nmea updates: ")
+      DEBUGln(updates);
       return true;
     }
     
@@ -126,12 +127,14 @@ boolean Gps::updateFix(unsigned long timeout) {
   return false;
 }
 
-boolean Gps::getUpdatedFix(unsigned long timeout) {
+boolean Gps::getUpdatedFix(unsigned long timeout, int updates) {
   
   on();
-  updateFix(timeout);
+  updateFix(timeout, updates);
   off();
 
+  DEBUG("getUpdatedFix: ");
+  
   if ( nmea.location.isUpdated() ) {
     printGPSData();
     return true; 
@@ -173,7 +176,7 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
     now = millis();
 
     // update the nmea object lots of times
-    if ( updateFix(12000) ) {
+    if ( updateFix(12000, 10) ) {
       // do nothing - it works
     } else {
       // no nmea ... bail
@@ -190,6 +193,7 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
    // }
 
     // see if we got a sensible fix
+    DEBUG("getInitialFix: ");
     DEBUG(now);
 
     DEBUG(", hdop.isUpdated: ");
