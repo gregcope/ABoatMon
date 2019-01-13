@@ -19,6 +19,8 @@
 // http://www.pjrc.com/teensy/td_libs_OneWire.html
 //#include <OneWire.h>
 
+
+
 // internal classes/includes
 //#include "Device.h"
 //#include "Config.h"
@@ -28,6 +30,7 @@
 #include "Vcc.h"
 #include "Fona.h"
 #include "Led.h"
+#include "Temp.h"
 
 // PIN defines
 #define MEGA_LED 15
@@ -66,7 +69,6 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 #define UPDATE_GPS_NUMBER_OF_FIXES 15 // 10 secs
 
 
-
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
 #define DEBUGln(input) {Serial.println(input); Serial.flush();}
@@ -82,6 +84,7 @@ Vcc vcc(VCC_12V_24V_ENABLE, VCC_12V_24V_VOLTAGE_DIVIDER);
 Fona fona(FONA_POWER);
 Led megaLed(MEGA_LED);
 Led switchLed(BUTTON_LED);
+Temp temp(TEMP_POWER, TEMP_DATA);
 
 //Device buttonLed(BUTTON_LED);
 //Device tempSensor(TEMP_POWER);
@@ -136,8 +139,37 @@ void setup() {
 void loop() {
   megaLed.on();
   DEBUGln("loop ...");
-  gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);  
-  lipo.read();
+  doShortChecks();
+  doLongChecks();
+  doDailyChecks();
   megaLed.off();
   sleep.kip8Secs();
+}
+
+boolean doShortChecks(void) {
+
+  // function to do short checks each time
+  // returns wether to send a message
+  DEBUGln("doShortChecks");
+  temp.startRead();
+  lipo.read();
+  temp.read();
+  return true;  
+}
+
+boolean doLongChecks(void) {
+
+  // function to do long checks
+  // returns weather to send a message
+  DEBUGln("doLongChecks: ")
+  gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);  
+  return true;
+}
+
+boolean doDailyChecks(void) {
+
+  // function to do daily checks
+  // always returns true as we want to send a message
+  DEBUGln("doDailyChecks: ")
+  return true;
 }
