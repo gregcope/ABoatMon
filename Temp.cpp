@@ -1,5 +1,7 @@
 #include <Arduino.h>
 #include "Temp.h"
+// http://www.pjrc.com/teensy/td_libs_OneWire.html
+#include <OneWire.h>
 
 Temp::Temp(int power, int pin) {
   // Constructor
@@ -17,5 +19,6 @@ float Temp::read(void) {
   // this blocks till a read or timeout reached
   DEBUG("temp read: ");
   _tempInC = 20.7;
+  DEBUGln(_tempInC);
   return _tempInC;
 }

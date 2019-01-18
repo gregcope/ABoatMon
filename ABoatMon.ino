@@ -16,10 +16,6 @@
 // External includes
 // https://github.com/mikalhart/TinyGPSPlus/releases 
 #include <TinyGPS++.h>
-// http://www.pjrc.com/teensy/td_libs_OneWire.html
-//#include <OneWire.h>
-
-
 
 // internal classes/includes
 //#include "Device.h"
@@ -137,11 +133,17 @@ void setup() {
 }
 
 void loop() {
+
+  // start of loop
   megaLed.on();
   DEBUGln("loop ...");
+
+  // do checks
   doShortChecks();
   doLongChecks();
   doDailyChecks();
+
+  // done
   megaLed.off();
   sleep.kip8Secs();
 }
