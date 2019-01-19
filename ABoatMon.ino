@@ -153,7 +153,7 @@ boolean doShortChecks(void) {
   // function to do short checks each time
   // returns wether to send a message
   DEBUGln("doShortChecks");
-  temp.startRead();
+  temp.startConvert();
   lipo.read();
   temp.read();
   return true;  
