@@ -46,11 +46,57 @@ float Temp::read() {
     // block
     DEBUG(".");
   }
+
+  byte present = 0;
+  int i;
+  byte data[12];
+  byte type_s;
+  float celsius;
+  float fahrenheit;
+  type_s = 0;
+  
+  present = myds.reset();
+  myds.select(_dsAddr);    
+  myds.write(0xBE);         // Read Scratchpad
+
+  //Serial.print("  Data = ");
+  //Serial.print(present,HEX);
+//  Serial.println("Raw Scratchpad Data: ");
+  for ( i = 0; i < 9; i++) {           // we need 9 bytes
+    data[i] = myds.read();
+//    Serial.print(data[i], HEX);
+//    Serial.print(" ");
+  }
+  //Serial.print(" CRC=");
+  //Serial.print(OneWire::crc8(data, 8), HEX);
+//  Serial.println();
+
+  // convert the data to actual temperature
+
+  unsigned int raw = (data[1] << 8) | data[0];
+  if (type_s) {
+    DEBUGln("type S!");
+    raw = raw << 3; // 9 bit resolution default
+    if (data[7] == 0x10) {
+      // count remain gives full 12 bit resolution
+      raw = (raw & 0xFFF0) + 12 - data[6];
+    } else {
+      byte cfg = (data[4] & 0x60);
+      if (cfg == 0x00) raw = raw << 3;  // 9 bit resolution, 93.75 ms
+        else if (cfg == 0x20) raw = raw << 2; // 10 bit res, 187.5 ms
+        else if (cfg == 0x40) raw = raw << 1; // 11 bit res, 375 ms
+        // default is 12 bit resolution, 750 ms conversion time
+    }
+  }
+  //raw = raw << 3;
+  celsius = (float)raw / 16.0;
+  
   elapsedtime = millis() - starttime;
   DEBUG("temp time: ");
   DEBUGln(elapsedtime);
-  return 20.7;
+  //return 20.7;
   off();
+  return celsius;
 }
 
 void Temp::startConvert(void) {
