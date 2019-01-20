@@ -124,11 +124,12 @@ byte gpsGeoFenceMessageSent = 0;
 void setup() {
   Serial.begin(9600);
   Serial.flush();
-  DEBUGln("setup Start 9");
+  DEBUGln("setup Start 11");
+  temp.init();
   //yep burn CPU for 1/2 sec... to let stuff settle
   delay(500);
-  gps.init();
-  gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
+  //gps.init();
+  //gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
   DEBUGln("setup Done");
 }
 
@@ -155,7 +156,8 @@ boolean doShortChecks(void) {
   DEBUGln("doShortChecks");
   temp.startConvert();
   lipo.read();
-  temp.read();
+  DEBUG("Temp is: ");
+  DEBUGln(temp.read());
   return true;  
 }
 
@@ -164,7 +166,7 @@ boolean doLongChecks(void) {
   // function to do long checks
   // returns weather to send a message
   DEBUGln("doLongChecks: ")
-  gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);  
+  //gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);  
   return true;
 }
 

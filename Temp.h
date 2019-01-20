@@ -21,6 +21,7 @@ class Temp
 {
   public:
     Temp(int power, int pin);
+    //Temp(int power, int pin) : myds(pin);
     void init(void);
     void startConvert(void);
     float read(void);
@@ -28,13 +29,15 @@ class Temp
     void off(void);
   private:
     void getFirstDsAdd(OneWire myds, byte firstadd[]);
-    void dsSetResolution(OneWire myds);
-    void dsConvertCommand(OneWire myds);
+    void dsSetResolution(OneWire myds, byte addr[8]);
+    void dsConvertCommand(OneWire myds, byte addr[8]);
     int _powerPin;
     int _dataPin; 
     float _tempInC;
     byte _dsAddr[8];
     OneWire myds;
+    unsigned long starttime;
+    unsigned long elapsedtime;
 };
 
 #endif

@@ -9,71 +9,113 @@ Temp::Temp(int power, int pin) : myds(pin) {
   // Constructor
   // Takes an int as pin to power up, and data pin
   _powerPin = power;
+  pinMode(_powerPin, OUTPUT);
   _dataPin = pin;
-  myds = OneWire(_dataPin);
+  pinMode(_dataPin, INPUT);
+  OneWire myds(_dataPin);
 }
 
 void Temp::init(void) {
-  // find ds18B20
+  // find ds18B20 address
+  // then stop
+  DEBUGln("Temp: init");
   on();
-  //myds(_dataPin);
   getFirstDsAdd(myds, _dsAddr);
+  //DEBUGln("_dsAddr is: ");
+  //byte i;
+  //for( i = 0; i < 8; i++) {
+  //   Serial.print("0x");
+  //   if (_dsAddr[i] < 16) {
+  //      Serial.print('0');
+  //   }
+  //   Serial.print(_dsAddr[i], HEX);
+  //   if (i < 7) {
+  //      Serial.print(", ");
+  //    } 
+    
+  //}
+  off();
+}
+
+float Temp::read() {
+
+  // block whilst we await a ready DS18B20
+  
+  DEBUGln("Temp: read");
+  while (!myds.read()) {
+    // block
+    DEBUG(".");
+  }
+  elapsedtime = millis() - starttime;
+  DEBUG("temp time: ");
+  DEBUGln(elapsedtime);
+  return 20.7;
   off();
 }
 
 void Temp::startConvert(void) {
-  // issue a read command to let the uC do other stuff
-  DEBUG("temp startRead: ");
+  // switch DS18B20 on
+  // set resolution
+  // call temp convert command
+  DEBUGln("Temp: startConvert");
   on();
-  dsSetResolution(myds);
-  dsConvertCommand(myds);
-  // leave it on ...
+  dsSetResolution(myds, _dsAddr);
+  starttime = millis();
+  dsConvertCommand(myds, _dsAddr);
 }
 
-float Temp::read(void) {
-  // this blocks till a read or timeout reached
-  // returns signed float in C
-  //DEBUG("temp read: ");
-  //_tempInC = 20.7;
-  //DEBUGln(_tempInC);
+void Temp::dsConvertCommand(OneWire myds, byte addr[8]) {
+  DEBUGln("Temp: dsConvertCommand");
+  myds.reset();
+  myds.select(addr);
+  myds.write(0x44,1);         // start conversion, with parasite power on at the end 
+}
 
-  byte present = 0;
-  int i;
-  byte data[12];
-  unsigned int raw;
-  
-  //type_s = 0;
-  
-  present = myds.reset();
-  myds.select(_dsAddr);    
-  myds.write(0xBE);         // Read Scratchpad
+void Temp::dsSetResolution(OneWire myds, byte addr[8]) {
 
-  for ( i = 0; i < 9; i++) {           // we need 9 bytes
-    data[i] = myds.read();
-  }
-
-  // convert the data to actual temperature
-
-  raw = (data[1] << 8) | data[0];
-  raw = raw << 3; // 9 bit resolution default
-  
-  _tempInC = (float)raw / 16.0;
-  Serial.print("Temp (C): ");
-  //Serial.println(celsius);
-  DEBUG("Temp (C): ");
-  DEBUGln(_tempInC);
-//  return celsius;
-  off();
-  return _tempInC;
-
+  DEBUGln("Temp: dsSetResolution");
+  // Set 9 bit config
+  myds.reset();
+  myds.select(addr);
+  myds.write(0x4E);         // Write scratchpad
+  myds.write(0);            // TL
+  myds.write(0);            // TH
+  myds.write(0x1F);         // Configuration Register
+  myds.write(0x48);         // Copy Scratchpad
 }
 
 
+void Temp::getFirstDsAdd(OneWire myds, byte firstadd[]){
+  byte i;
+  byte addr[8];
+  
+  DEBUGln("Looking for 1-Wire devices...");
+  while(myds.search(addr)) {
+    DEBUGln("Found \'1-Wire\' device with address: ");
+    for( i = 0; i < 8; i++) {
+      firstadd[i]=addr[i];
+      DEBUG("0x");
+      if (addr[i] < 16) {
+        DEBUG('0');
+      }
+      Serial.print(addr[i], HEX);
+      if (i < 7) {
+        DEBUG(", ");
+      }
+    }
+    if ( OneWire::crc8( addr, 7) != addr[7]) {
+        DEBUGln("CRC is not valid!");
+        return;
+    }
+     // the first ROM byte indicates which chip
+    DEBUGln("");
 
-
-
-
-
+    DEBUG("address:");
+    DEBUGln(addr[0]);
+    
+    return;
+  } 
+}
 
 void Temp::on(void) {
   // Switch device on by putting pin HIGH
@@ -87,59 +129,4 @@ void Temp::off(void) {
   digitalWrite(_powerPin, LOW);
   //delay(500);
   Serial.println("Temp device off!");
-}
-
-void Temp::dsConvertCommand(OneWire myds) {
-  myds.reset();
-  myds.select(_dsAddr);
-  myds.write(0x44);         // start conversion, with parasite power on at the end
-}
-
-void Temp::dsSetResolution(OneWire myds) {
-  
-  // Set resolution
-  myds.reset();
-  myds.select(_dsAddr);
-  myds.write(0x4E);         // Write scratchpad
-  myds.write(0);            // TL
-  myds.write(0);            // TH
-  // 0x1F == 9 bytes resolution ... I think
-  myds.write(0x1F);         // Configuration Register
-  myds.write(0x48);         // Copy Scratchpad
-}
-
-void Temp::getFirstDsAdd(OneWire myds, byte firstadd[]){
-  byte i;
-  //byte present = 0;
-  byte addr[8];
-  //float celsius;
-  
-  //int length = 8;
-  
-  DEBUGln("Looking for 1-Wire devices...");
-  while(myds.search(addr)) {
-    DEBUGln("Found \'1-Wire\' device with address: ");
-    for( i = 0; i < 8; i++) {
-      firstadd[i]=addr[i];
-      DEBUG("0x");
-      if (addr[i] < 16) {
-        DEBUG('0');
-      }
-      DEBUG(addr[i]);
-      DEBUG(HEX);
-      if (i < 7) {
-        DEBUG(", ");
-      }
-    }
-    if ( OneWire::crc8( addr, 7) != addr[7]) {
-        DEBUGln("CRC is not valid!");
-        return;
-    }
-     // the first ROM byte indicates which chip
-
-    DEBUGln("address:");
-    DEBUG(addr[0]);
-    
-    return;
-  } 
 }
