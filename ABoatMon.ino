@@ -64,6 +64,9 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 #define UPDATE_GPS_FIX_TIMEOUT_MSECS 60000 // 60 secs
 #define UPDATE_GPS_NUMBER_OF_FIXES 15 // 10 secs
 
+// Temp alarm settings
+#define LOW_TEMP_ALARM 2
+#define HIGH_TEMP_ALARM 80
 
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
@@ -124,7 +127,7 @@ byte gpsGeoFenceMessageSent = 0;
 void setup() {
   Serial.begin(9600);
   Serial.flush();
-  DEBUGln("setup Start 11");
+  DEBUGln("setup Start 12");
   temp.init();
   //yep burn CPU for 1/2 sec... to let stuff settle
   delay(500);
@@ -157,7 +160,14 @@ boolean doShortChecks(void) {
   temp.startConvert();
   lipo.read();
   DEBUG("Temp is: ");
-  DEBUGln(temp.read());
+  float tempInC = temp.read();
+  DEBUG(tempInC);
+  DEBUG(", ");
+  if ( tempInC >= HIGH_TEMP_ALARM ) {
+    DEBUGln("HIGH TEMP ALARM"); 
+  } else if ( tempInC <= LOW_TEMP_ALARM ) {
+    DEBUGln("LOW TEMP ALARM");  
+  }
   return true;  
 }
 

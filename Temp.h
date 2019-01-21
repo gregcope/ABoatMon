@@ -33,11 +33,13 @@ class Temp
     void dsConvertCommand(OneWire myds, byte addr[8]);
     int _powerPin;
     int _dataPin; 
-    float _tempInC;
     byte _dsAddr[8];
     OneWire myds;
     unsigned long starttime;
     unsigned long elapsedtime;
+    unsigned int _SignBit;
+    unsigned int _TReading;
+    float _celsius;
 };
 
 #endif
