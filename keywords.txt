@@ -40,9 +40,8 @@ isVoltageLow KEYWORD 2
 
 doShortChecks KEYWORD 2
 doDailyChecks KEYWORD 2
+doHourlyChecks	KEYWORD 2
 doLongCheckks KEYWORD 2
-doDailyChecks	KEYWORD 2
-
 
 ######################################
 # Constants (LITERAL1)
