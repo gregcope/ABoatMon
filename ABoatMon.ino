@@ -20,6 +20,7 @@
 // internal classes/includes
 //#include "Device.h"
 //#include "Config.h"
+#include "Button.h"
 #include "Sleep.h"
 #include "Gps.h"
 #include "Lipo.h"
@@ -65,8 +66,8 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 #define UPDATE_GPS_NUMBER_OF_FIXES 15 // 10 secs
 
 // Temp alarm settings
-#define LOW_TEMP_ALARM 2
-#define HIGH_TEMP_ALARM 80
+#define LOW_TEMP_ALARM 2 // or could be 0 or -1
+#define HIGH_TEMP_ALARM 85
 
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
@@ -84,6 +85,7 @@ Fona fona(FONA_POWER);
 Led megaLed(MEGA_LED);
 Led switchLed(BUTTON_LED);
 Temp temp(TEMP_POWER, TEMP_DATA);
+Button bilgeSwitch(BILGE_SWITCH);
 
 //Device buttonLed(BUTTON_LED);
 //Device tempSensor(TEMP_POWER);

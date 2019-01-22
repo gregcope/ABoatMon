@@ -40,6 +40,9 @@ class Temp
     unsigned int _SignBit;
     unsigned int _TReading;
     float _celsius;
+    byte _present;
+    byte data[12];
 };
+
 
 #endif

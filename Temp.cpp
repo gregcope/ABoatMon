@@ -16,8 +16,8 @@ Temp::Temp(int power, int pin) : myds(pin) {
 }
 
 void Temp::init(void) {
+  // turn device on
   // find ds18B20 address
-  // then stop
   DEBUGln("Temp: init");
   on();
   getFirstDsAdd(myds, _dsAddr);
@@ -39,29 +39,32 @@ void Temp::init(void) {
 
 float Temp::read() {
 
+  // should be called before Temp::startConvert
   // block whilst we await a ready DS18B20
+  // hard coded to 9bit sho should take less than 100ms
   
   DEBUGln("Temp: read");
   while (!myds.read()) {
-    // block
-    //DEBUG(".");
+    // block (do nothing)
   }
 
-  byte present = 0;
-  int i;
-  byte data[12];
-  byte type_s;
+  _present = 0;
+  //byte data[12];
+  //byte type_s;
 
-  type_s = 0;
-  
-  present = myds.reset();
+  //type_s = 0;
+
+  // get ready to read Sratchpad
+  _present = myds.reset();
   myds.select(_dsAddr);    
   myds.write(0xBE);         // Read Scratchpad
 
   //Serial.print("  Data = ");
   //Serial.print(present,HEX);
 //  Serial.println("Raw Scratchpad Data: ");
-  for ( i = 0; i < 9; i++) {           // we need 9 bytes
+
+  // read data
+  for ( int i = 0; i < 9; i++) {           // we need 9 bytes
     data[i] = myds.read();
 //    Serial.print(data[i], HEX);
 //    Serial.print(" ");
@@ -100,8 +103,9 @@ float Temp::read() {
 //  }
   //raw = raw << 3;
 
-  unsigned int _TReading = (data[1] << 8) + data[0];
-  unsigned int _SignBit = _TReading & 0x8000;  // test most sig bit
+  
+  _TReading = (data[1] << 8) + data[0];
+  _SignBit = _TReading & 0x8000;  // test most sig bit
   if (_SignBit) // negative
   {
     _TReading = (_TReading ^ 0xffff) + 1; // 2's comp
@@ -115,7 +119,6 @@ float Temp::read() {
   elapsedtime = millis() - starttime;
   DEBUG("temp time: ");
   DEBUGln(elapsedtime);
-  //return 20.7;
   off();
   return _celsius;
 }
@@ -135,7 +138,8 @@ void Temp::dsConvertCommand(OneWire myds, byte addr[8]) {
   DEBUGln("Temp: dsConvertCommand");
   myds.reset();
   myds.select(addr);
-  myds.write(0x44,1);         // start conversion, with parasite power on at the end 
+  // start conversion, with parasite power on at the end 
+  myds.write(0x44,1);
 }
 
 void Temp::dsSetResolution(OneWire myds, byte addr[8]) {
@@ -153,6 +157,8 @@ void Temp::dsSetResolution(OneWire myds, byte addr[8]) {
 
 
 void Temp::getFirstDsAdd(OneWire myds, byte firstadd[]){
+
+  // find the first DS18B20 address and save it in _dsAddr
   byte i;
   byte addr[8];
   
@@ -187,13 +193,11 @@ void Temp::getFirstDsAdd(OneWire myds, byte firstadd[]){
 void Temp::on(void) {
   // Switch device on by putting pin HIGH
   digitalWrite(_powerPin, HIGH);
-  Serial.println("Temp device on!");
-  Serial.flush();
+  DEBUGln("Temp device on!");
 }
 
 void Temp::off(void) {
   // turn off the Device by putting pin LOW
   digitalWrite(_powerPin, LOW);
-  //delay(500);
-  Serial.println("Temp device off!");
+  DEBUGln("Temp device off!");
 }
