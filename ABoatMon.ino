@@ -54,7 +54,7 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 #define FONA_NETSTAT 13
 
 // Static defines
-#define FOURMIN_CYCLES 5 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
+#define FOURMIN_CYCLES 30 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
 #define HOUR_CYCLES 450 // 8 sec sleep * 450 cyles == 3600 secs or 1 hour
 
 //#define INITIAL_GPS_FIX_TIMEOUT_MSECS 300000 // time to try and get a fix in msecs is 300 secs, or 5 mins
@@ -87,20 +87,11 @@ Led switchLed(BUTTON_LED);
 Temp temp(TEMP_POWER, TEMP_DATA);
 Button bilgeSwitch(BILGE_SWITCH);
 
-//Device buttonLed(BUTTON_LED);
-//Device tempSensor(TEMP_POWER);
-// Make one wire faster
-// http://www.cupidcontrols.com/2014/10/moteino-arduino-and-1wire-optimize-your-read-for-speed/
-
-
-// Variables
-byte bilgeSwitchPosition = 0;
-
 // Cycle Vars
 unsigned long cycleCount = 0;
-byte fourMinCycleCount = 0;
-unsigned int hourCycleCount = 0;
-unsigned long NOW = 0;
+//byte fourMinCycleCount = 0;
+//unsigned int hourCycleCount = 0;
+//unsigned long NOW = 0;
 
 // GPS / Nmea vars
 //unsigned long nmeaSentenceTimeOutMs = 0;
@@ -170,6 +161,8 @@ boolean doShortChecks(void) {
   } else if ( tempInC <= LOW_TEMP_ALARM ) {
     DEBUGln("LOW TEMP ALARM");  
   }
+
+   cycleCount++
   return true;  
 }
 
@@ -177,8 +170,31 @@ boolean doLongChecks(void) {
 
   // function to do long checks
   // returns weather to send a message
+
+  if ( cycleCount <= FOURMIN_CYCLES ) {
+    // if not time yet, return false
+    return false;
+  }
+
+  // otherwise time to do long checks
   DEBUGln("doLongChecks: ")
   //gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);  
+  return true;
+}
+
+boolean doHourlyChecks(void) {
+  // function to do hourly checks
+  // returns wether to send a message
+
+  if ( cycleCount <= HOUR_CYCLES ) {
+    // if not time yet, return false
+    return false;
+  }
+  // time to do hour checks
+  DEBUGln("doHourlyChecks: ")
+
+  // TODO: calc number of cycles left to get to hourly checks
+
   return true;
 }
 
