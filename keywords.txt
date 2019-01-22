@@ -1,2 +1,70 @@
-Device	KEYWORD 1
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
 
+Button	KEYWORD 1
+Config	KEYWORD 1
+Fona	KEYWORD 1
+Gps	KEYWORD 1
+Led	KEYWORD 1
+Lipo	KEYWORD 1
+Sleep	KEYWORD 1
+Temp	KEYWORD 1
+Vcc	KEYWORD 1
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+on	KEYWORD 2
+off	KEYWORD 2
+init	KEYWORD 2
+startConvert	KEYWORD 2
+read	KEYWORD 2
+isClosed KEYWORD 2
+isOn	KEYWORD 2
+updateFix	KEYWORD 2
+getInitialFix	KEYWORD 2
+getUpdatedFix	KEYWORD 2
+drainNmea	KEYWORD 2
+setupGPS	KEYWORD 2
+blink	KEYWORD 2
+getFirstDsAdd	KEYWORD 2
+dsSetResolution	KEYWORD 2
+dsConvertCommand KEYWORD 2
+kip8Secs	KEYWORD 2
+kip2Secs	KEYWORD 2
+kip1Sec	KEYWORD 2
+isVoltageLow KEYWORD 2
+
+doShortChecks KEYWORD 2
+doDailyChecks KEYWORD 2
+doLongCheckks KEYWORD 2
+doDailyChecks	KEYWORD 2
+
+
+######################################
+# Constants (LITERAL1)
+######################################
+
+DEBUG KEYWORD 3
+DEBUGln KEYWORD 3
+
+MEGA_LED	KEYWORD 3
+D12_GPS_ENABLE	KEYWORD 3
+BUTTON_LED	KEYWORD 3
+BUTTON 	KEYWORD 3
+BILGE_SWITCH	KEYWORD 3
+LIPO_VOLTAGE_DIVIDER	KEYWORD 3
+VCC_12V_24V_VOLTAGE_DIVIDER	KEYWORD 3
+VCC_12V_24V_ENABLE	KEYWORD 3
+FONA_POWER	KEYWORD 3
+FONA_KEY	KEYWORD 3
+FONA_NETSTAT	KEYWORD 3
+FOURMIN_CYCLES	KEYWORD 3
+HOUR_CYCLES	KEYWORD 3
+INITIAL_GPS_FIX_TIMEOUT_MSECS	KEYWORD 3
+UPDATE_GPS_FIX_TIMEOUT_MSECS	KEYWORD 3
+LOW_TEMP_ALARM	KEYWORD 3
+HIGH_TEMP_ALARM	KEYWORD 3
