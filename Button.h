@@ -14,6 +14,7 @@
  * 
  */
 
+// based on http://www.gammon.com.au/forum/?id=11955
 #include <Arduino.h>
 
 class Button

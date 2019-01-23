@@ -96,15 +96,18 @@ unsigned long cycleCount = 0;
 // GPS / Nmea vars
 //unsigned long nmeaSentenceTimeOutMs = 0;
 //boolean nmeaSentenceTimeoutReached = false;
-double fixLat = 100; // invalid Lat
-double fixLng = 100; // invalid Lat
-double alarmLat = 100; // invalid Lat
-double alarmLng = 100; // invalid Lat
+double fixLat = 181; // invalid Lat
+double fixLng = 181; // invalid Lat
+double alarmLat = 181; // invalid Lat
+double alarmLng = 181; // invalid Lat
 
 // LipoBattery
 float lipoBatteryAlarm = 3.1;
 float lipoBatteryVolts = 0;
 char lipoBatteryVoltsString[10]; //longest battery voltage reading message = 9chars
+
+// Vcc
+float vccVoltage = 0;
 
 // Message vars
 String messageStr = "";
@@ -150,8 +153,28 @@ boolean doShortChecks(void) {
   // function to do short checks each time
   // returns wether to send a message
   DEBUGln("doShortChecks");
+  
+  // kick off temp convert
   temp.startConvert();
-  lipo.read();
+
+  // check bilge switch
+  if ( bilgeSwitch.isClosed() ) {
+    // oh no ....
+    DEBUGln("bilge switch is closed... oh uh!"); 
+  }
+
+  // read battery
+  //lipoBatteryVolts = lipo.read();
+
+  // read Vcc and enable regulator
+  vccVoltage = vcc.read();
+  if ( vccVoltage > 13 ) {
+    //enable regulator
+  } else {
+    // disbale regulator 
+  }
+
+  // read temp
   DEBUG("Temp is: ");
   float tempInC = temp.read();
   DEBUG(tempInC);
@@ -162,7 +185,8 @@ boolean doShortChecks(void) {
     DEBUGln("LOW TEMP ALARM");  
   }
 
-   cycleCount++
+  // finish
+  cycleCount++;
   return true;  
 }
 
@@ -193,6 +217,8 @@ boolean doHourlyChecks(void) {
   // time to do hour checks
   DEBUGln("doHourlyChecks: ")
 
+  gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);
+    
   // TODO: calc number of cycles left to get to hourly checks
 
   return true;
