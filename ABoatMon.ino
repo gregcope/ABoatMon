@@ -18,7 +18,6 @@
 #include <TinyGPS++.h>
 
 // internal classes/includes
-//#include "Device.h"
 //#include "Config.h"
 #include "Button.h"
 #include "Sleep.h"
@@ -39,9 +38,10 @@
 //#define LIPO_VOLTAGE_DIVIDER 24 // D24 is same as A0
 const int LIPO_VOLTAGE_DIVIDER = 0;
 
+// DS18B20
+// Red connects to 27, Blue/Black connects to ground and Yellow/White (data) to 28
 #define TEMP_POWER 27 // PA3
 #define TEMP_DATA 28 // PA4
-// Red connects to 27, Blue/Black connects to ground and Yellow/White (data) to 28
 
 #define VCC_12V_24V_VOLTAGE_DIVIDER A5 
 #define VCC_12V_24V_ENABLE 19
@@ -76,7 +76,6 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 // Objects
 
 // tinyGPS is a nmea feed parser
-//TinyGPSPlus nmea;
 Sleep sleep;
 Gps gps(D12_GPS_ENABLE);
 Lipo lipo(LIPO_VOLTAGE_DIVIDER);
@@ -109,7 +108,7 @@ char lipoBatteryVoltsString[10]; //longest battery voltage reading message = 9ch
 // Vcc
 float vccVoltage = 0;
 
-// Message vars
+// Message varriables
 String messageStr = "";
 byte needToSendMessage = 0;
 byte batMessageSent = 0;
