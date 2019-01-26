@@ -122,7 +122,7 @@ byte gpsGeoFenceMessageSent = 0;
 void setup() {
   Serial.begin(9600);
   Serial.flush();
-  DEBUGln("setup Start 12");
+  DEBUGln("setup Start 13");
   temp.init();
   //yep burn CPU for 1/2 sec... to let stuff settle
   delay(500);
@@ -160,6 +160,8 @@ boolean doShortChecks(void) {
   if ( bilgeSwitch.isClosed() ) {
     // oh no ....
     DEBUGln("bilge switch is closed... oh uh!"); 
+  } else {
+      DEBUGln("bilge switch is okay... oh uh!"); 
   }
 
   // read battery

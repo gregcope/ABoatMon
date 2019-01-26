@@ -36,7 +36,7 @@ boolean Vcc::isOn(void) {
 
 
 float Vcc::read(void) {
-  Serial.println("reading vcc");
+  Serial.println("Vcc reading vcc");
   Serial.flush();
   vccReadings = 0 ;
   vccVolts = 0;

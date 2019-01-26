@@ -17,6 +17,9 @@
 // based on http://www.gammon.com.au/forum/?id=11955
 #include <Arduino.h>
 
+#define DEBUG(input)   {Serial.print(input); Serial.flush();}
+#define DEBUGln(input) {Serial.println(input); Serial.flush();}
+
 class Button
 {
   public:
