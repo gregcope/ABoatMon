@@ -37,6 +37,9 @@ kip8Secs	KEYWORD 2
 kip2Secs	KEYWORD 2
 kip1Sec	KEYWORD 2
 isVoltageLow KEYWORD 2
+regIsOn	KEYWORD 2
+regOn	KEYWORD 2
+regOff	KEYWORD 2
 
 doShortChecks KEYWORD 2
 doDailyChecks KEYWORD 2

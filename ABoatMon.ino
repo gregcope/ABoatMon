@@ -169,9 +169,16 @@ boolean doShortChecks(void) {
 
   // read Vcc and enable regulator
   vccVoltage = vcc.read();
+  DEBUG("vcc is: ");
+  DEBUG(vccVoltage);
+  DEBUGln("V");
   if ( vccVoltage > 13 ) {
-    //enable regulator
-  } else {
+   vcc.regOn();
+  } else if (vccVoltage < 12.8 ) {
+   vcc.regOff(); 
+  }
+  if (vccVoltage < 11 ) {
+   DEBUGln("Vcc is too low: ");
     // disbale regulator 
   }
 
@@ -202,7 +209,7 @@ boolean doLongChecks(void) {
   }
 
   // otherwise time to do long checks
-  DEBUGln("doLongChecks: ")
+  DEBUGln("doLongChecks: ");
   //gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);  
   return true;
 }
@@ -216,7 +223,7 @@ boolean doHourlyChecks(void) {
     return false;
   }
   // time to do hour checks
-  DEBUGln("doHourlyChecks: ")
+  DEBUGln("doHourlyChecks: ");
 
   gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);
     
@@ -229,6 +236,6 @@ boolean doDailyChecks(void) {
 
   // function to do daily checks
   // always returns true as we want to send a message
-  DEBUGln("doDailyChecks: ")
+  DEBUGln("doDailyChecks: ");
   return true;
 }
