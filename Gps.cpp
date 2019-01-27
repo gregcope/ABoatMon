@@ -312,12 +312,17 @@ char* Gps::getdateTime() {
   //20190127T130140Z
   //8+T+6+Z+Null = 16
 
-  on();
-  updateFix(5000, 3);
-  off();
-  
+  // update nmea data if it is older than 2 secs
+  if ( nmea.date.age() > 2000 ) {
+    on();
+    updateFix(5000, 3);
+    off();
+  }
+
+  // format the _dateTime string
   sprintf(_dateTime, "%04d/%02d/%02dT%02d:%02d:%02dZ", nmea.date.year(), nmea.date.month(), nmea.date.day(), nmea.time.hour(), nmea.time.minute(), nmea.time.second());
 
+  // return
   return _dateTime;
 }
 
