@@ -307,6 +307,20 @@ boolean Gps::drainNmea(void) {
   return serial1Output;
 }
 
+char* Gps::getdateTime() {
+  //2008-09-15T15:53:00
+  //20190127T130140Z
+  //8+T+6+Z+Null = 16
+
+  on();
+  updateFix(5000, 3);
+  off();
+  
+  sprintf(_dateTime, "%04d/%02d/%02dT%02d:%02d:%02dZ", nmea.date.year(), nmea.date.month(), nmea.date.day(), nmea.time.hour(), nmea.time.minute(), nmea.time.second());
+
+  return _dateTime;
+}
+
 void Gps::setupGPS(void) {
 
   // Function to setup GPS

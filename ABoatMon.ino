@@ -110,12 +110,13 @@ float vccVoltage = 0;
 
 // Message varriables
 String messageStr = "";
-byte needToSendMessage = 0;
-byte sendBatMessage = 0;
-byte sendBilgeMessage = 0;
-byte sendNoGpsFixMessage = 0;
-byte sendGeoFenceMessage = 0;
-byte sendVccMessage = 0;
+//byte needToSendMessage = false;
+boolean sendBatMessage = false;
+boolean sendTempMessage = false;
+boolean sendBilgeMessage = false;
+boolean sendNoGpsFixMessage = false;
+boolean sendGeoFenceMessage = false;
+boolean sendVccMessage = false;
 
 //
 // Code from here on ...
@@ -161,7 +162,8 @@ boolean doShortChecks(void) {
   // check bilge switch
   if ( bilgeSwitch.isClosed() ) {
     // oh no ....
-    DEBUGln("bilge switch is closed... oh uh!"); 
+    DEBUGln("bilge switch is closed... oh uh!");
+    
   } else {
       DEBUGln("bilge switch is okay... oh uh!"); 
   }
@@ -181,6 +183,7 @@ boolean doShortChecks(void) {
   }
   if (vccVoltage < 11 ) {
    DEBUGln("Vcc is too low!!!");
+   sendVccMessage = true;
     // disbale regulator 
   }
 
@@ -190,7 +193,7 @@ boolean doShortChecks(void) {
   DEBUG(tempInC);
   DEBUG(", ");
   if ( tempInC >= HIGH_TEMP_ALARM ) {
-    DEBUGln("HIGH TEMP ALARM"); 
+    DEBUGln("HIGH TEMP ALARM");
   } else if ( tempInC <= LOW_TEMP_ALARM ) {
     DEBUGln("LOW TEMP ALARM");  
   }

@@ -31,6 +31,7 @@ class Gps
     unsigned long getInitialFix(unsigned long);
     boolean getUpdatedFix(unsigned long, int);
     boolean drainNmea(void);
+    char* getdateTime(void);
     void init(void);
   private:
     int _powerPin;
@@ -53,6 +54,7 @@ class Gps
     TinyGPSCustom antenna;
     TinyGPSCustom fixqual;
     Sleep sleep;
+    char _dateTime[17];
     //int nmeaUpdated;
 };
 

@@ -29,6 +29,7 @@ getInitialFix	KEYWORD 2
 getUpdatedFix	KEYWORD 2
 drainNmea	KEYWORD 2
 setupGPS	KEYWORD 2
+getdateTime	KEYWORD 2
 blink	KEYWORD 2
 getFirstDsAdd	KEYWORD 2
 dsSetResolution	KEYWORD 2
