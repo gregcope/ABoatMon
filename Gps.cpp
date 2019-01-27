@@ -18,7 +18,7 @@ void Gps::init(void) {
   // looking for
   // $PGTOP,11,3,6F
   // 1 = short, 2 = internal, 3 = external
-  TinyGPSCustom antenna(nmea, "PGTOP", 2); // PGTOP sentence, 2nd element  
+  TinyGPSCustom antenna(nmea, "PGTOP", 2); // PGTOP sentence, 2nd element
 }
 
 boolean Gps::on(void) {
@@ -34,8 +34,8 @@ boolean Gps::on(void) {
     // spitting something out so assume on!
     return true;
   } else {
-    return false;  
-  } 
+    return false;
+  }
 }
 
 void Gps::off(void) {
@@ -48,12 +48,12 @@ void Gps::off(void) {
 }
 
 boolean Gps::isOn(void) {
-  // return state 
+  // return state
   // on == true
   // off == false
   //DEBUG("gps state is:");
   //DEBUGln(_powerState);
-  return _powerState;  
+  return _powerState;
 }
 
 boolean Gps::updateFix(unsigned long timeout, int updates) {
@@ -65,10 +65,10 @@ boolean Gps::updateFix(unsigned long timeout, int updates) {
   // return true or false
 
   DEBUG("updateFix: ")
-  
+
   nmeaTimeoutMs = millis() + timeout;
   nmeaUpdates = nmea.sentencesWithFix() + updates;
-  
+
   // make sure GPS is on (may not be needed)
   if ( !isOn() ) {
     //DEBUGln("gps is off, turning it on")
@@ -83,9 +83,9 @@ boolean Gps::updateFix(unsigned long timeout, int updates) {
   //DEBUG(nmeaTimeoutMs)
   //DEBUG(", millis is: ")
   //DEBUGln(millis())
-  
+
   while ( nmeaTimeoutMs > millis() ) {
-    
+
     drainNmea();
 
     //if ( nmea.location.isUpdated() ) {
@@ -93,7 +93,7 @@ boolean Gps::updateFix(unsigned long timeout, int updates) {
     //  DEBUGln("nmea.location.isUpdated")
     //  nmeaUpdated ++;
     //}
-    
+
     // when we have 10 fix updates (10 secs ish)
     // return
     //DEBUG("nmea.sentencesWithFix():")
@@ -103,50 +103,50 @@ boolean Gps::updateFix(unsigned long timeout, int updates) {
       DEBUGln(updates);
       return true;
     }
-    
+
   }
 
-    DEBUG("nmeaUpdates: ")
-    DEBUG(nmeaUpdates)
-    DEBUG(", nmea.sentencesWithFix(): ")
-    DEBUG(nmea.sentencesWithFix())
-    DEBUG(", nmeaTimeoutMs: ")
-    DEBUG(nmeaTimeoutMs)
-    DEBUG(", millis is: ")
-    DEBUG(millis())
-    DEBUG(", fixqual: ");
-    DEBUG(fixqual.value());
-    DEBUG(", antenna: ");
-    DEBUGln(antenna.value());
+  DEBUG("nmeaUpdates: ")
+  DEBUG(nmeaUpdates)
+  DEBUG(", nmea.sentencesWithFix(): ")
+  DEBUG(nmea.sentencesWithFix())
+  DEBUG(", nmeaTimeoutMs: ")
+  DEBUG(nmeaTimeoutMs)
+  DEBUG(", millis is: ")
+  DEBUG(millis())
+  DEBUG(", fixqual: ");
+  DEBUG(fixqual.value());
+  DEBUG(", antenna: ");
+  DEBUGln(antenna.value());
 
   if ( ( nmeaUpdates - nmea.sentencesWithFix() ) < 10 ) {
-      // got some fixes, just not 10 ...
-      return true;
+    // got some fixes, just not 10 ...
+    return true;
   }
   // fell out of timeout with insufficient nmea updates
   return false;
 }
 
 boolean Gps::getUpdatedFix(unsigned long timeout, int updates) {
-  
+
   on();
   updateFix(timeout, updates);
   off();
 
   DEBUG("getUpdatedFix: ");
-  
+
   if ( nmea.location.isUpdated() ) {
     printGPSData();
-    return true; 
+    return true;
   } else {
     // give it another go
-    //DEBUGln("No GPS update - giving it another go updateFix()")  
+    //DEBUGln("No GPS update - giving it another go updateFix()")
     //updateFix(timeout);
     //if ( nmea.location.isUpdated() ) {
-      //printGPSData(); 
+    //printGPSData();
     //} else {
-      DEBUGln("No GPS update")  
-      return false;
+    DEBUGln("No GPS update")
+    return false;
     //}
   }
   return true;
@@ -168,7 +168,7 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
   //nmeaUpdated = 0;
 
   on();
-  
+
   DEBUGln("getInitialFix");
 
   while ( !gpsFixTimeoutReached ) {
@@ -185,12 +185,12 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
       //return 0;
     }
     //while ( nmeaUpdated < 9 ) {
-      //drainNmea();
-   //   if ( nmea.hdop.isUpdated() ) {
-   //     nmeaUpdated ++;
-   //     DEBUG(".");  
-   //   }
-   // }
+    //drainNmea();
+    //   if ( nmea.hdop.isUpdated() ) {
+    //     nmeaUpdated ++;
+    //     DEBUG(".");
+    //   }
+    // }
 
     // see if we got a sensible fix
     DEBUG("getInitialFix: ");
@@ -212,7 +212,7 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
     if (nmea.location.isUpdated() ) {
       DEBUG("TRUE");
     } else {
-      DEBUG("FALSE");  
+      DEBUG("FALSE");
     }
 
     DEBUG(", HDOP:");
@@ -231,14 +231,14 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
     DEBUG(fixqual.value());
     DEBUG(", antenna: ");
     DEBUGln(antenna.value());
-    
+
     // do we have an acceptable fix yet?
     if ( ( hdop != 0 && hdop <= ACCEPTABLE_GPS_HDOP_FOR_FIX )  && initialHDOP == 0 ) {
       DEBUGln("gpsFix is true - we have an inital acceptable fix!!!!");
       DEBUG("nmea.hdop.value(): ");
       DEBUGln(hdop);
       // stops this if statement next time
-      initialHDOP = hdop;  
+      initialHDOP = hdop;
       gpsTimeToFixMs = now - gpsTimerStart;
       DEBUG("gpsTimeToFixMs: ");
       DEBUGln(gpsTimeToFixMs);
@@ -247,12 +247,12 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
       //return gpsTimeToFixMs;
     }
 
-   // do we have a good fix?
-   if ( hdop != 0 && hdop <= GOOD_GPS_HDOP_FOR_FIX ) {
+    // do we have a good fix?
+    if ( hdop != 0 && hdop <= GOOD_GPS_HDOP_FOR_FIX ) {
       DEBUGln("gpsFix is true, hdop low - we have a good fix!!!!");
       DEBUG("nmea.hdop.value(): ");
       DEBUGln(hdop);
-      finalHDOP = hdop;  
+      finalHDOP = hdop;
       gpsTimeToFixMs = now - gpsTimerStart;
       DEBUG("gpsTimeToFixMs: ");
       DEBUGln(gpsTimeToFixMs);
@@ -263,25 +263,25 @@ unsigned long Gps::getInitialFix(unsigned long timeout) {
 
     // we reached the timeout ... too bad
     if ( ( gpsFixTimeoutMs <= now ) && initialHDOP == 0) {
-      
+
       //gpsFixTimeoutReached = true;
       // we failed to get a fix ...
       DEBUGln("We failed to get fix !!!");
       off();
-      return 0; 
+      return 0;
     }
-    
+
     // we reached a timeout, lets bomb
     if ( gpsFixTimeoutMs <= now ) {
       gpsFixTimeoutReached = true;
     }
 
- 
+
   } // we fell out of loop with a reasonable GPS fix.
 
   DEBUGln("We only got a reasonable fix !!!");
   DEBUG("gpsTimeToFixMs: ");
-  DEBUGln(gpsTimeToFixMs); 
+  DEBUGln(gpsTimeToFixMs);
   printGPSData();
   off();
   return gpsTimeToFixMs;
@@ -303,20 +303,31 @@ boolean Gps::drainNmea(void) {
       // updates nmea.passedChecksum()
     }
   }
-  
+
   return serial1Output;
 }
 
 char* Gps::getdateTime() {
-  //2008-09-15T15:53:00
-  //20190127T130140Z
-  //8+T+6+Z+Null = 16
+  // function to get recent GPS dateTime in short ISO 8601 format
+  // if not recent, fireup GPS
+  // format: 20190127T130140Z
+  // Num of chars: 8+T+6+Z+Null = 17
+  // Code semipinched from;
+  // https://github.com/mikalhart/TinyGPSPlus/blob/master/examples/FullExample/FullExample.ino
 
+  // initial state ...
+  strcpy(_dateTime, "NO GPS DATE TIME");
   // update nmea data if it is older than 2 secs
   if ( nmea.date.age() > 2000 ) {
     on();
     updateFix(5000, 3);
     off();
+  }
+
+  if ( nmea.date.age() > 2000 ) {
+    // did not get an update
+    // so return default of "NO GPS DATE TIME"
+    return _dateTime;
   }
 
   // format the _dateTime string
@@ -330,7 +341,7 @@ void Gps::setupGPS(void) {
 
   // Function to setup GPS
   DEBUG("in setupGPS")
-  
+
   // http://forums.adafruit.com/viewtopic.php?f=19&p=143502
   //DEBUGln("  Enable SBAS sat search");
   Serial1.print("$PMTK313,1*2E\r\n");  // Enable to search a SBAS satellite
@@ -349,13 +360,13 @@ void Gps::printGPSData(void) {
 
   Serial.print(F("GPS Location: "));
   if (nmea.location.isValid())
-  { 
+  {
     Serial.print(nmea.location.lat(), 6);
     Serial.print(F(","));
     Serial.print(nmea.location.lng(), 6);
   }
   else
-  { 
+  {
     Serial.print(F("INVALID"));
   }
 
@@ -363,22 +374,22 @@ void Gps::printGPSData(void) {
   // YYYY-MM-DDTHHMMSSCCZ
   Serial.print(F(", Date/Time: "));
   if (nmea.date.isValid())
-  { 
+  {
     Serial.print(nmea.date.year());
     Serial.print(F("-"));
     Serial.print(nmea.date.month());
-    Serial.print(F("-")); 
+    Serial.print(F("-"));
     if (nmea.date.day() < 10) Serial.print(F("0"));
     Serial.print(nmea.date.day());
   }
   else
-  { 
+  {
     Serial.print(F("INVALID"));
   }
 
   Serial.print(F("T"));
   if (nmea.time.isValid())
-  { 
+  {
     if (nmea.time.hour() < 10) Serial.print(F("0"));
     Serial.print(nmea.time.hour());
     Serial.print(F(":"));
@@ -393,9 +404,9 @@ void Gps::printGPSData(void) {
     Serial.print("Z");
   }
   else
-  { 
+  {
     Serial.print(F("INVALID"));
-  } 
+  }
 
   Serial.print(F(", "));
   if (nmea.hdop.isValid())
@@ -427,7 +438,7 @@ void Gps::printGPSData(void) {
   {
     Serial.print(F("INVALID"));
   }
- 
+
   Serial.println();
   Serial.flush();
 }

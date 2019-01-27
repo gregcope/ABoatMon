@@ -112,7 +112,8 @@ float vccVoltage = 0;
 String messageStr = "";
 //byte needToSendMessage = false;
 boolean sendBatMessage = false;
-boolean sendTempMessage = false;
+boolean sendHighTempMessage = false;
+boolean sendLowTempMessage = false;
 boolean sendBilgeMessage = false;
 boolean sendNoGpsFixMessage = false;
 boolean sendGeoFenceMessage = false;
@@ -162,12 +163,9 @@ boolean doShortChecks(void) {
   // check bilge switch
   if ( bilgeSwitch.isClosed() ) {
     // oh no ....
+    sendBilgeMessage = true;
     DEBUGln("bilge switch is closed... oh uh!");
-    
-  } else {
-      DEBUGln("bilge switch is okay... oh uh!"); 
-  }
-
+  } 
   // read battery
   //lipoBatteryVolts = lipo.read();
 
@@ -193,12 +191,17 @@ boolean doShortChecks(void) {
   DEBUG(tempInC);
   DEBUG(", ");
   if ( tempInC >= HIGH_TEMP_ALARM ) {
+    sendHighTempMessage = true;
     DEBUGln("HIGH TEMP ALARM");
   } else if ( tempInC <= LOW_TEMP_ALARM ) {
+    sendLowTempMessage = true;
     DEBUGln("LOW TEMP ALARM");  
   }
 
-  // finish
+  // send a message?
+  sendMessage();  
+
+  // update cyclecount and return
   cycleCount++;
   return true;  
 }
@@ -216,6 +219,10 @@ boolean doLongChecks(void) {
   // otherwise time to do long checks
   DEBUGln("doLongChecks: ");
   //gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);  
+
+  // send a message?
+  sendMessage();  
+
   return true;
 }
 
@@ -235,6 +242,9 @@ boolean doHourlyChecks(void) {
   gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);
     
   // TODO: calc number of cycles left to get to hourly checks
+  
+  // send a message?
+  sendMessage();  
 
   return true;
 }
@@ -244,5 +254,20 @@ boolean doDailyChecks(void) {
   // function to do daily checks
   // always returns true as we want to send a message
   DEBUGln("doDailyChecks: ");
+  // send a message?
+  sendMessage();  
+
   return true;
 }
+
+void sendMessage(void) {
+  // check to send a message?
+  if ( !sendBatMessage || !sendHighTempMessage || !sendLowTempMessage || !sendBilgeMessage || !sendNoGpsFixMessage || !sendGeoFenceMessage || !sendVccMessage ) {
+    // no need to send a message
+    return;  
+  }
+  // send a message
+  DEBUGln("Need to send a message");
+
+  return;
+}  
