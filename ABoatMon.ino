@@ -111,10 +111,11 @@ float vccVoltage = 0;
 // Message varriables
 String messageStr = "";
 byte needToSendMessage = 0;
-byte batMessageSent = 0;
-byte bilgeMessageSent = 0;
-byte gpsNoFixMessageSent = 0;
-byte gpsGeoFenceMessageSent = 0; 
+byte sendBatMessage = 0;
+byte sendBilgeMessage = 0;
+byte sendNoGpsFixMessage = 0;
+byte sendGeoFenceMessage = 0;
+byte sendVccMessage = 0;
 
 //
 // Code from here on ...
@@ -140,6 +141,7 @@ void loop() {
   // do checks
   doShortChecks();
   doLongChecks();
+  doHourlyChecks();
   doDailyChecks();
 
   // done
@@ -178,7 +180,7 @@ boolean doShortChecks(void) {
    vcc.regOff(); 
   }
   if (vccVoltage < 11 ) {
-   DEBUGln("Vcc is too low: ");
+   DEBUGln("Vcc is too low!!!");
     // disbale regulator 
   }
 
@@ -219,6 +221,8 @@ boolean doHourlyChecks(void) {
   // returns wether to send a message
 
   if ( cycleCount <= HOUR_CYCLES ) {
+    DEBUG("cycleCount is: ");
+    DEBUGln(cycleCount);
     // if not time yet, return false
     return false;
   }
