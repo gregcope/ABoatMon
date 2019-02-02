@@ -316,6 +316,7 @@ boolean sendDailyMessage(void) {
 void checkLocation(void) {
 
   // update location
+  // TODO: Logic if no updated fix
   gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);
   // check location vs last location
   // work out distance(orgLat, orgLon, lat, lon);
@@ -335,7 +336,6 @@ void sendMessage(void) {
 
   // send a message!!!!
   // like 20190127T20:20:20-LIPO:5.0v-VCC:50.0v-TEMP:99.9c-BILGE:OK-LAT:NNNNN:LON:YYYYYY:DIS:NNNNNm
-
   
   //Get a dateTime String
   //sprintf(dateTimeStr, gps.getdateTime());
