@@ -65,9 +65,14 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 #define UPDATE_GPS_FIX_TIMEOUT_MSECS 60000 // 60 secs
 #define UPDATE_GPS_NUMBER_OF_FIXES 15 // 10 secs
 
-// Temp alarm settings
+// Alarm settings
 #define LOW_TEMP_ALARM 2 // or could be 0 or -1
 #define HIGH_TEMP_ALARM 85
+#define REG_OFF_VOLTS 12.8
+#define REG_ON_VOLTS 13
+#define VCC_LOW_ALARM 11.2
+#define LIPO_BATTERY_ALARM 3.1
+
 
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
@@ -100,18 +105,23 @@ double fixLng = 181; // invalid Lat
 double alarmLat = 181; // invalid Lat
 double alarmLng = 181; // invalid Lat
 
-// LipoBattery
-float lipoBatteryAlarm = 3.1;
-float lipoBatteryVolts = 0;
-char lipoBatteryVoltsString[10]; //longest battery voltage reading message = 9chars
+// LipoBattery, Vcc and Temp variables & buffer strings
+float lipoVolts = 0;
+char lipoStr[10];
+float vccVolts= 0;
+char vccStr[10];
+char tempStr[11];
+float tempInC;
+char bilgeStr[12];
+char latStr[4];
+char lonStr[4];
 
-// Vcc
-float vccVoltage = 0;
 
 // Message varriables
-String messageStr = "";
-//byte needToSendMessage = false;
-boolean sendBatMessage = false;
+//String messageStr = "";
+char message[200];
+
+boolean sendLipoMessage = false;
 boolean sendHighTempMessage = false;
 boolean sendLowTempMessage = false;
 boolean sendBilgeMessage = false;
@@ -140,15 +150,95 @@ void loop() {
   megaLed.on();
   DEBUGln("loop ...");
 
+  // assign some defaults
+  sprintf(lipoStr, "LIPO:5.0v");
+  sprintf(vccStr, "VCC:50.0v");
+  sprintf(tempStr, "TEMP:99.9c");
+  sprintf(bilgeStr, "BILGE:OK");
+  tempInC = -100;
+
   // do checks
   doShortChecks();
   doLongChecks();
   doHourlyChecks();
   doDailyChecks();
 
+  // if we need to
+  sendMessage();
+
   // done
   megaLed.off();
   sleep.kip8Secs();
+}
+
+void checkLipo(void) {
+
+  // read lipo battery
+  lipoVolts = lipo.read();
+
+  // check if alarm
+  if ( lipoVolts <= LIPO_BATTERY_ALARM ) {
+    sendLipoMessage = true;
+  }
+  // format string ... even if we do not need it 
+  dtostrf(lipoVolts,3,1,lipoStr);
+  DEBUG("lipoVolts: ");
+  DEBUGln(lipoVolts);
+}
+
+void checkVcc() {
+  // read Vcc and enable regulator
+  // do this each short iteration as we
+  // will have to wait for temp anyway
+  // so might either micro sleep or do something useful!
+  vccVolts = vcc.read();
+  DEBUG("vcc is: ");
+  DEBUG(vccVolts);
+  DEBUGln("V");
+
+  // check reg
+  if ( vccVolts > REG_ON_VOLTS ) {
+   vcc.regOn();
+  } else if (vccVolts < REG_OFF_VOLTS ) {
+   vcc.regOff(); 
+  }
+  if (vccVolts < VCC_LOW_ALARM ) {
+   DEBUGln("Vcc is too low!!!");
+   sendVccMessage = true;
+    // disbale regulator 
+  }
+   // format string ... even if we do not need it 
+  dtostrf(vccVolts,3,1,vccStr);
+  DEBUG("vccVolts: ");
+  DEBUGln(vccVolts);
+}
+
+void checkBilge(void) {
+  // check bilge switch
+  if ( bilgeSwitch.isClosed() ) {
+    // oh no ....
+    sendBilgeMessage = true;
+    sprintf(bilgeStr, "BILGE:ALARM");
+  }
+  DEBUG("bilgeStr: ");
+  DEBUGln(bilgeStr);  
+}
+
+void checkTemp(void) {
+
+  // blocking read temp
+  tempInC = temp.read();
+  if ( tempInC >= HIGH_TEMP_ALARM ) {
+    sendHighTempMessage = true;
+    DEBUGln("HIGH TEMP ALARM");
+  } else if ( tempInC <= LOW_TEMP_ALARM ) {
+    sendLowTempMessage = true;
+    DEBUGln("LOW TEMP ALARM");  
+  }
+  dtostrf(tempInC,3,1,tempStr);
+  DEBUG("tempStr: ");
+  DEBUGln(tempStr);
+  
 }
 
 boolean doShortChecks(void) {
@@ -160,46 +250,10 @@ boolean doShortChecks(void) {
   // kick off temp convert
   temp.startConvert();
 
-  // check bilge switch
-  if ( bilgeSwitch.isClosed() ) {
-    // oh no ....
-    sendBilgeMessage = true;
-    DEBUGln("bilge switch is closed... oh uh!");
-  } 
-  // read battery
-  //lipoBatteryVolts = lipo.read();
-
-  // read Vcc and enable regulator
-  vccVoltage = vcc.read();
-  DEBUG("vcc is: ");
-  DEBUG(vccVoltage);
-  DEBUGln("V");
-  if ( vccVoltage > 13 ) {
-   vcc.regOn();
-  } else if (vccVoltage < 12.8 ) {
-   vcc.regOff(); 
-  }
-  if (vccVoltage < 11 ) {
-   DEBUGln("Vcc is too low!!!");
-   sendVccMessage = true;
-    // disbale regulator 
-  }
-
-  // read temp
-  DEBUG("Temp is: ");
-  float tempInC = temp.read();
-  DEBUG(tempInC);
-  DEBUG(", ");
-  if ( tempInC >= HIGH_TEMP_ALARM ) {
-    sendHighTempMessage = true;
-    DEBUGln("HIGH TEMP ALARM");
-  } else if ( tempInC <= LOW_TEMP_ALARM ) {
-    sendLowTempMessage = true;
-    DEBUGln("LOW TEMP ALARM");  
-  }
-
-  // send a message?
-  sendMessage();  
+  checkLipo();
+  checkVcc();
+  checkBilge();
+  checkTemp();
 
   // update cyclecount and return
   cycleCount++;
@@ -233,6 +287,7 @@ boolean doHourlyChecks(void) {
   if ( cycleCount <= HOUR_CYCLES ) {
     DEBUG("cycleCount is: ");
     DEBUGln(cycleCount);
+    DEBUGln("Not running now!");
     // if not time yet, return false
     return false;
   }
@@ -255,19 +310,24 @@ boolean doDailyChecks(void) {
   // always returns true as we want to send a message
   DEBUGln("doDailyChecks: ");
   // send a message?
-  sendMessage();  
-
+  sendDailyMessage();
   return true;
+}
+
+void sendDailyMessage(void) {
+  // function to send daily message
+  // 20190127T20:20:20-B:3.5-V:12.5-T:20.5-LA: LO   
 }
 
 void sendMessage(void) {
   // check to send a message?
-  if ( !sendBatMessage || !sendHighTempMessage || !sendLowTempMessage || !sendBilgeMessage || !sendNoGpsFixMessage || !sendGeoFenceMessage || !sendVccMessage ) {
+  if ( !sendLipoMessage || !sendHighTempMessage || !sendLowTempMessage || !sendBilgeMessage || !sendNoGpsFixMessage || !sendGeoFenceMessage || !sendVccMessage ) {
     // no need to send a message
     return;  
   }
   // send a message
+  // make it up of relevant bits?
   DEBUGln("Need to send a message");
-
+  char batString[10];
   return;
 }  
