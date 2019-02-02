@@ -113,13 +113,15 @@ char vccStr[10];
 char tempStr[11];
 float tempInC;
 char bilgeStr[12];
-char latStr[4];
-char lonStr[4];
+char latStr[2]; // lat string
+char lonStr[2]; // lon string
+char disStr[6]; // in 99999m distance in 24hrs ... would not work in a fast yacht!
 
 
 // Message varriables
 //String messageStr = "";
-char message[200];
+char messageStr[200];
+char dateTimeStr[19];
 
 boolean sendLipoMessage = false;
 boolean sendHighTempMessage = false;
@@ -161,6 +163,7 @@ void loop() {
   // do checks
   doShortChecks();
   doHourlyChecks();
+  sendDailyMessage();
 
   // if we need to
   sendMessage();
@@ -259,24 +262,24 @@ boolean doShortChecks(void) {
   return true;  
 }
 
-boolean doLongChecks(void) {
+//boolean doLongChecks(void) {
 
   // function to do long checks
   // returns weather to send a message
 
-  if ( cycleCount <= FOURMIN_CYCLES ) {
+  //if ( cycleCount <= FOURMIN_CYCLES ) {
     // if not time yet, return false
-    return false;
-  }
+    //return false;
+  //}
 
   // otherwise time to do long checks
-  DEBUGln("doLongChecks: ");
+  //DEBUGln("doLongChecks: ");
 
-  checkLocation();
+  //checkLocation();
   //gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);  
 
-  return true;
-}
+  //return true;
+//}
 
 boolean doHourlyChecks(void) {
   // function to do hourly checks
@@ -304,37 +307,59 @@ boolean sendDailyMessage(void) {
 
   // function to do daily checks
   // always returns true as we want to send a message
-  DEBUGln("doDailyChecks: ");
+  DEBUGln("set sendDailyMessageFlag to true");
   // send a message?
   sendDailyMessageFlag = true;
   return true;
 }
-
-//void sendDailyMessage(void) {
-  // function to send daily message
-  // 20190127T20:20:20-B:3.5-V:12.5-T:20.5-LA: LO
-//  sendMessage();
-//  sendDailyMessage = false;   
-//}
 
 void checkLocation(void) {
 
   // update location
   gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);
   // check location vs last location
-  // work out distance
-  // update distance moved
+  // work out distance(orgLat, orgLon, lat, lon);
+  //gps.getLat(*lat);
+  //gps.getLon(*Lon);
+  //gps.distance(*orgLat, *orgLon, *lat, *lon, *distance);
+  // update latStr, lonStr, disStr
 }
 
 void sendMessage(void) {
   // check to send a message?
+  // basically ANY alarms OR daily message
   if ( !sendLipoMessage || !sendHighTempMessage || !sendLowTempMessage || !sendBilgeMessage || !sendNoGpsFixMessage || !sendGeoFenceMessage || !sendVccMessage || !sendDailyMessageFlag ) {
     // no need to send a message
     return;  
   }
 
   // send a message!!!!
+  // like 20190127T20:20:20-LIPO:5.0v-VCC:50.0v-TEMP:99.9c-BILGE:OK-LAT:NNNNN:LON:YYYYYY:DIS:NNNNNm
+
   
-  // make it up of relevant bits?
-  DEBUGln("Need to send a message");
+  //Get a dateTime String
+  //sprintf(dateTimeStr, gps.getdateTime());
+
+  // going to try and pinch some power;
+  vcc.regOn();
+
+  //Put the message together
+  sprintf(messageStr, "%s-%s-%s-%s-%s-%s-%s-%s", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, disStr);  
+  DEBUG("Message is: ");
+  DEBUGln(messageStr);
+  
+  // message sent tidy up
+  // done swich off regulator
+  vcc.regOff();
+  
+  // clear flags
+  sendLipoMessage = false;
+  sendHighTempMessage = false;
+  sendLowTempMessage = false;
+  sendBilgeMessage = false;
+  sendNoGpsFixMessage = false;
+  sendGeoFenceMessage = false;
+  sendVccMessage = false;
+  sendDailyMessageFlag = false;
+  // done
 }  
