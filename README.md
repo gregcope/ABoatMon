@@ -8,8 +8,7 @@ Intro
 
 A reimplementation, and extension of https://github.com/gregcope/piboatmon, as the original consumed too much power.  This is designed with the following goals;
 * Be very, very low power and
-* Chargable from 12-24V Vehicle
-* Has a rechargable LIPO battery
+* Monitor and charge from 12-24V
 
 The present version is made from COTS parts to make life easy at the deign/proto stage.  However the code should be transferable.
 
@@ -34,25 +33,41 @@ External Libs
 
 Internal Classes
 ========
-* Device - A base, or standlone class to control power to devices via a Digital pin
 * Config - A class to provide a config object to store Eeprom state
 * CRC8 - CRC checksum (for config saving)
 * Sleep - Simple wrapper to LowPower sleep
+* Buton - A simple button monitor
+* Fona - Drive a fona to send data
+* Gps - Drive a GPS and feed a TinyGPS++ object with other helper methods
+* Led - A simple LED driver
+* Lipo - A class to ADC a Lipo value
+* Temp - A class with simple, non-sleeping temp measurements
+* Vcc - A class to ADC the VCC, as well as enable/disable a regulartor (that drives the 5v Lipo charger)
 
 High Level Logic
 ================
 
 * Switches is on setup configures all the required parts
 * Loop every 8 secs and checks;
-* Bilge switch
-* Every 4 mins checks the batteries
-* and if above 13.7v (ie charging) enables the onboard lipo charger
-* Reports bilge switch or low BatV
+   * Start the temp conversion 
+   * Lipo volts
+   * VCC (and enable regulator if Vcc > 13 and switch off if low)
+   * Bilge switch
+   * read temp (blocks)
 * Every Hour;
-* Checkst the above
-* Checks location
-* If any of the above are out of band;
-* Send a message
+   * Checks the above
+   * Checks location
+* If out of band, send a message as an alarm
+* Daily
+   * Send a message
+
+VCC logic - Sacrifical Charging
+================
+The idea is that if VCC is 13v plus then a charge source is on and we can hence enable the regulator.  If the VCC is above REG_ON_VOLTS (13v) enable the regulator to start the LIPO charger.  If below REG_OFF_VOLTS (12.8) stop regulator
+
+Message Sending
+================
+To save possible expensive bandwidth the message is compressed.  Ideally it would be JSON.  However it is optimised for speed and bandwidth costs.  It needs to be parsed on arrival.
 
 HowTo
 =====
