@@ -128,6 +128,7 @@ boolean sendBilgeMessage = false;
 boolean sendNoGpsFixMessage = false;
 boolean sendGeoFenceMessage = false;
 boolean sendVccMessage = false;
+boolean sendDailyMessageFlag = false;
 
 //
 // Code from here on ...
@@ -159,9 +160,7 @@ void loop() {
 
   // do checks
   doShortChecks();
-  doLongChecks();
   doHourlyChecks();
-  doDailyChecks();
 
   // if we need to
   sendMessage();
@@ -272,10 +271,9 @@ boolean doLongChecks(void) {
 
   // otherwise time to do long checks
   DEBUGln("doLongChecks: ");
-  //gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);  
 
-  // send a message?
-  sendMessage();  
+  checkLocation();
+  //gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);  
 
   return true;
 }
@@ -294,40 +292,49 @@ boolean doHourlyChecks(void) {
   // time to do hour checks
   DEBUGln("doHourlyChecks: ");
 
-  gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);
+  checkLocation();
     
   // TODO: calc number of cycles left to get to hourly checks
   
   // send a message?
-  sendMessage();  
-
   return true;
 }
 
-boolean doDailyChecks(void) {
+boolean sendDailyMessage(void) {
 
   // function to do daily checks
   // always returns true as we want to send a message
   DEBUGln("doDailyChecks: ");
   // send a message?
-  sendDailyMessage();
+  sendDailyMessageFlag = true;
   return true;
 }
 
-void sendDailyMessage(void) {
+//void sendDailyMessage(void) {
   // function to send daily message
-  // 20190127T20:20:20-B:3.5-V:12.5-T:20.5-LA: LO   
+  // 20190127T20:20:20-B:3.5-V:12.5-T:20.5-LA: LO
+//  sendMessage();
+//  sendDailyMessage = false;   
+//}
+
+void checkLocation(void) {
+
+  // update location
+  gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);
+  // check location vs last location
+  // work out distance
+  // update distance moved
 }
 
 void sendMessage(void) {
   // check to send a message?
-  if ( !sendLipoMessage || !sendHighTempMessage || !sendLowTempMessage || !sendBilgeMessage || !sendNoGpsFixMessage || !sendGeoFenceMessage || !sendVccMessage ) {
+  if ( !sendLipoMessage || !sendHighTempMessage || !sendLowTempMessage || !sendBilgeMessage || !sendNoGpsFixMessage || !sendGeoFenceMessage || !sendVccMessage || !sendDailyMessageFlag ) {
     // no need to send a message
     return;  
   }
-  // send a message
+
+  // send a message!!!!
+  
   // make it up of relevant bits?
   DEBUGln("Need to send a message");
-  char batString[10];
-  return;
 }  
