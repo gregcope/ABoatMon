@@ -21,8 +21,11 @@ class Sleep
     void kip8Secs(void);
     void kip2Secs(void);
     void kip1Sec(void);
+    uint32_t time(void);
   private:
-    unsigned long runTime;
+    //unsigned long runTime;
+    uint32_t _time = 0;
+    uint32_t _now = 0;
 };
 
 #endif

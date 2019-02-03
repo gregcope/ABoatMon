@@ -36,8 +36,8 @@ boolean Vcc::regIsOn(void) {
 
 
 float Vcc::read(void) {
-  Serial.println("Vcc reading vcc");
-  Serial.flush();
+  //Serial.println("Vcc reading vcc");
+  //Serial.flush();
   vccReadings = 0 ;
   vccVolts = 0;
   analogRead(_voltageDividerPin);

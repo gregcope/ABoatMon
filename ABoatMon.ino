@@ -133,8 +133,6 @@ boolean sendVccMessage = false;
 boolean sendDailyMessageFlag = false;
 
 
-uint32_t time = 0;
-uint32_t now = 0;
 
 //
 // Code from here on ...
@@ -153,7 +151,6 @@ void setup() {
 
 void loop() {
 
-  now = millis();
   // start of loop
   megaLed.on();
   DEBUGln("loop ...");
