@@ -33,6 +33,8 @@ class Gps
     boolean drainNmea(void);
     char* getdateTime(void);
     void init(void);
+    double* getLat(void);
+    double* getLon(void);
   private:
     int _powerPin;
     boolean _powerState;

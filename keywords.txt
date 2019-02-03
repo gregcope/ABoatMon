@@ -30,6 +30,8 @@ getUpdatedFix	KEYWORD 2
 drainNmea	KEYWORD 2
 setupGPS	KEYWORD 2
 getdateTime	KEYWORD 2
+getLat	KEYWORD 2
+getLon	KEYWORD 2
 blink	KEYWORD 2
 getFirstDsAdd	KEYWORD 2
 dsSetResolution	KEYWORD 2
@@ -37,6 +39,7 @@ dsConvertCommand KEYWORD 2
 kip8Secs	KEYWORD 2
 kip2Secs	KEYWORD 2
 kip1Sec	KEYWORD 2
+time KEYWORD 2
 isVoltageLow KEYWORD 2
 regIsOn	KEYWORD 2
 regOn	KEYWORD 2
@@ -45,7 +48,6 @@ regOff	KEYWORD 2
 doShortChecks KEYWORD 2
 doDailyChecks KEYWORD 2
 doHourlyChecks	KEYWORD 2
-doLongCheckks KEYWORD 2
 
 ######################################
 # Constants (LITERAL1)
