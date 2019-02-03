@@ -368,7 +368,19 @@ double Gps::distanceMoved(double lat, double lon) {
     off();
   }
 
+  Serial.print("org lat/lon: ");
+  Serial.print(lat, 6);
+  Serial.print(",");
+  Serial.print(lon, 6);
+  Serial.print(", new lat/lon: ");
+  Serial.print(nmea.location.lat(), 6);
+  Serial.print(",");
+  Serial.print(nmea.location.lng(), 6);
+  Serial.print(", distance: ");
+  
   _distance = nmea.distanceBetween(nmea.location.lat(), nmea.location.lng(), lat, lon);
+ Serial.println(_distance);
+
   return _distance;
 }
 
