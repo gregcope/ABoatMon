@@ -27,7 +27,10 @@ Sleep::Sleep() {
 }
 
 uint32_t Sleep::time(void){
-  return _now + _time;  
+  // actual time is time + millis() - now
+  // first boot this should be just millis()
+  // after any sleep should be adjusted for sleep
+  return _time + millis() - _now;  
 }
 
 void Sleep::kip8Secs(void) {
