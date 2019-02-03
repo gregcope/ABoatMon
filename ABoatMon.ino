@@ -103,10 +103,10 @@ unsigned long cycleCount = 0;
 // GPS / Nmea vars
 //unsigned long nmeaSentenceTimeOutMs = 0;
 //boolean nmeaSentenceTimeoutReached = false;
-double fixLat = 181; // invalid Lat
-double fixLng = 181; // invalid Lat
-double alarmLat = 181; // invalid Lat
-double alarmLng = 181; // invalid Lat
+//double fixLat = 181; // invalid Lat
+//double fixLng = 181; // invalid Lat
+//double alarmLat = 181; // invalid Lat
+//double alarmLng = 181; // invalid Lat
 double orgLat = 0; // Last recorded Lat
 double orgLon = 0; // Last recorded lon
 double distance = 10000; // distance moved (default)
@@ -121,6 +121,7 @@ float tempInC;
 char bilgeStr[12];
 char latStr[10]; // lat string
 char lonStr[10]; // lon string
+char distanceStr[6];
 //char disStr[6]; // in 99999m distance in 24hrs ... would not work in a fast yacht!
 
 
@@ -137,8 +138,6 @@ boolean sendNoGpsFixMessage = false;
 boolean sendGeoFenceMessage = false;
 boolean sendVccMessage = false;
 boolean sendDailyMessageFlag = false;
-
-
 
 //
 // Code from here on ...
@@ -346,10 +345,9 @@ void checkLocation(void) {
 
   dtostrf(orgLat, 9,6, latStr);  //first number is length, last is numbers after decimal
   dtostrf(orgLon, 9,6, lonStr);
-  DEBUG("lat: ");
-  Serial.print(orgLat, 6);
-  DEBUG(", lon: ");
-  Serial.println(orgLon, 6);
+  dtostrf(distance, 9,2, distanceStr);
+  DEBUG("distance: ");
+  Serial.println(distanceStr);
 }
 
 void sendMessage(void) {
@@ -370,7 +368,7 @@ void sendMessage(void) {
   vcc.regOn();
 
   //Put the message together
-  sprintf(messageStr, "'%s-%sv,%sv,%sc,%s,%s,%s,%dm'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, distance);  
+  sprintf(messageStr, "'%s,%sv,%sv,%sc,%s,%s,%s,%dm'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, distanceStr);  
   DEBUG("Message is: ");
   DEBUGln(messageStr);
   

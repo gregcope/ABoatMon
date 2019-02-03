@@ -17,8 +17,12 @@
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
 #define DEBUGln(input) {Serial.println(input); Serial.flush();}
-#define ACCEPTABLE_GPS_HDOP_FOR_FIX 200 // was 160
-#define GOOD_GPS_HDOP_FOR_FIX 145
+//#define ACCEPTABLE_GPS_HDOP_FOR_FIX 200 // was 160
+//#define GOOD_GPS_HDOP_FOR_FIX 145
+
+#define ACCEPTABLE_GPS_HDOP_FOR_FIX 400 // was 160
+#define GOOD_GPS_HDOP_FOR_FIX 200
+
 
 class Gps
 {
