@@ -56,6 +56,7 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 // Static defines
 #define FOURMIN_CYCLES 30 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
 #define HOUR_CYCLES 450 // 8 sec sleep * 450 cyles == 3600 secs or 1 hour
+#define DAILY_CYCLES 10800 // 8 sec sleep * 10800 cycles == 86400 secs or 1 day
 
 //#define INITIAL_GPS_FIX_TIMEOUT_MSECS 300000 // time to try and get a fix in msecs is 300 secs, or 5 mins
 //#define INITIAL_GPS_FIX_TIMEOUT_MSECS 600000 // time to try and get a fix in msecs is 600 secs, or 10 mins
@@ -104,6 +105,9 @@ double fixLat = 181; // invalid Lat
 double fixLng = 181; // invalid Lat
 double alarmLat = 181; // invalid Lat
 double alarmLng = 181; // invalid Lat
+double orgLat = 0; // Last recorded Lat
+double orgLon = 0; // Last recorded lon
+double distance = 10000; // distance moved (default)
 
 // LipoBattery, Vcc and Temp variables & buffer strings
 float lipoVolts = 0;
@@ -144,8 +148,8 @@ void setup() {
   temp.init();
   //yep burn CPU for 1/2 sec... to let stuff settle
   delay(500);
-  //gps.init();
-  //gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
+  gps.init();
+  gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
   DEBUGln("setup Done");
 }
 
@@ -258,7 +262,7 @@ boolean doShortChecks(void) {
   checkVcc();
   checkBilge();
   checkTemp();
-
+  checkLocation();
   // update cyclecount and return
   cycleCount++;
   return true;  
@@ -307,6 +311,14 @@ boolean doHourlyChecks(void) {
 
 boolean sendDailyMessage(void) {
 
+
+  if ( cycleCount <= DAILY_CYCLES ) {
+    DEBUG("cycleCount is: ");
+    DEBUG(cycleCount);
+    DEBUGln(", sendDailyMessage : Not running now!");
+    // if not time yet, return false
+    return false;
+  }
   // function to do daily checks
   // always returns true as we want to send a message
   DEBUGln("set sendDailyMessageFlag to true");
@@ -322,10 +334,13 @@ void checkLocation(void) {
   gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);
   // check location vs last location
   // work out distance(orgLat, orgLon, lat, lon);
-  //gps.getLat(*lat);
-  //gps.getLon(*Lon);
-  //gps.distance(&orgLat, &orgLon, &lat, &lon, &distance);
-  // update latStr, lonStr, disStr
+  //gps.getLat(lat);
+  //gps.getLon(Lon);
+  distance = gps.distanceMoved(orgLat, orgLon);
+  // max 99999m moved in an interation or 99Km ~ as a boat could move 15km odd in an hour easily
+  // record where we are for next time
+  orgLat = gps.getLat();
+  orgLon = gps.getLon();
 }
 
 void sendMessage(void) {
@@ -346,7 +361,7 @@ void sendMessage(void) {
   vcc.regOn();
 
   //Put the message together
-  sprintf(messageStr, "'%s-%sv-%sv-%sc-%s-%s-%s-%s'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, disStr);  
+  sprintf(messageStr, "'%s-%sv-%sv-%sc-%s-%d-%d-%dm'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, orgLat, orgLon, distance);  
   DEBUG("Message is: ");
   DEBUGln(messageStr);
   

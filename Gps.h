@@ -33,8 +33,9 @@ class Gps
     boolean drainNmea(void);
     char* getdateTime(void);
     void init(void);
-    double* getLat(void);
-    double* getLon(void);
+    double getLat(void);
+    double getLon(void);
+    double distanceMoved(double, double);
   private:
     int _powerPin;
     boolean _powerState;
@@ -58,6 +59,7 @@ class Gps
     Sleep sleep;
     char _dateTime[17];
     //int nmeaUpdated;
+    double _distance;
 };
 
 #endif
