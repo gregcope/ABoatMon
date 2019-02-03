@@ -132,6 +132,10 @@ boolean sendGeoFenceMessage = false;
 boolean sendVccMessage = false;
 boolean sendDailyMessageFlag = false;
 
+
+uint32_t time = 0;
+uint32_t now = 0;
+
 //
 // Code from here on ...
 //
@@ -149,6 +153,7 @@ void setup() {
 
 void loop() {
 
+  now = millis();
   // start of loop
   megaLed.on();
   DEBUGln("loop ...");
@@ -184,8 +189,8 @@ void checkLipo(void) {
   }
   // format string ... even if we do not need it 
   dtostrf(lipoVolts,3,1,lipoStr);
-  DEBUG("lipoVolts: ");
-  DEBUGln(lipoVolts);
+  //DEBUG("lipoVolts: ");
+  //DEBUGln(lipoVolts);
 }
 
 void checkVcc() {
@@ -194,9 +199,9 @@ void checkVcc() {
   // will have to wait for temp anyway
   // so might either micro sleep or do something useful!
   vccVolts = vcc.read();
-  DEBUG("vcc is: ");
-  DEBUG(vccVolts);
-  DEBUGln("V");
+  //DEBUG("vcc is: ");
+  //DEBUG(vccVolts);
+  //DEBUGln("V");
 
   // check reg
   if ( vccVolts > REG_ON_VOLTS ) {
@@ -205,14 +210,14 @@ void checkVcc() {
    vcc.regOff(); 
   }
   if (vccVolts < VCC_LOW_ALARM ) {
-   DEBUGln("Vcc is too low!!!");
+   //DEBUGln("Vcc is too low!!!");
    sendVccMessage = true;
     // disbale regulator 
   }
    // format string ... even if we do not need it 
   dtostrf(vccVolts,3,1,vccStr);
-  DEBUG("vccVolts: ");
-  DEBUGln(vccVolts);
+  //DEBUG("vccVolts: ");
+  //DEBUGln(vccVolts);
 }
 
 void checkBilge(void) {
@@ -222,8 +227,8 @@ void checkBilge(void) {
     sendBilgeMessage = true;
     sprintf(bilgeStr, "BILGE:ALARM");
   }
-  DEBUG("bilgeStr: ");
-  DEBUGln(bilgeStr);  
+  //DEBUG("bilgeStr: ");
+  //DEBUGln(bilgeStr);  
 }
 
 void checkTemp(void) {
@@ -238,8 +243,8 @@ void checkTemp(void) {
     DEBUGln("LOW TEMP ALARM");  
   }
   dtostrf(tempInC,3,1,tempStr);
-  DEBUG("tempStr: ");
-  DEBUGln(tempStr);
+  //DEBUG("tempStr: ");
+  //DEBUGln(tempStr);
   
 }
 
@@ -287,8 +292,8 @@ boolean doHourlyChecks(void) {
 
   if ( cycleCount <= HOUR_CYCLES ) {
     DEBUG("cycleCount is: ");
-    DEBUGln(cycleCount);
-    DEBUGln("Not running now!");
+    DEBUG(cycleCount);
+    DEBUGln(", doHourlyChecks : Not running now!");
     // if not time yet, return false
     return false;
   }
@@ -322,7 +327,7 @@ void checkLocation(void) {
   // work out distance(orgLat, orgLon, lat, lon);
   //gps.getLat(*lat);
   //gps.getLon(*Lon);
-  //gps.distance(*orgLat, *orgLon, *lat, *lon, *distance);
+  //gps.distance(&orgLat, &orgLon, &lat, &lon, &distance);
   // update latStr, lonStr, disStr
 }
 
@@ -331,7 +336,7 @@ void sendMessage(void) {
   // basically ANY alarms OR daily message
   if ( !sendLipoMessage || !sendHighTempMessage || !sendLowTempMessage || !sendBilgeMessage || !sendNoGpsFixMessage || !sendGeoFenceMessage || !sendVccMessage || !sendDailyMessageFlag ) {
     // no need to send a message
-    return;  
+    //return;  
   }
 
   // send a message!!!!
@@ -344,7 +349,7 @@ void sendMessage(void) {
   vcc.regOn();
 
   //Put the message together
-  sprintf(messageStr, "%s-%s-%s-%s-%s-%s-%s-%s", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, disStr);  
+  sprintf(messageStr, "'%s-%sv-%sv-%sc-%s-%s-%s-%s'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, disStr);  
   DEBUG("Message is: ");
   DEBUGln(messageStr);
   

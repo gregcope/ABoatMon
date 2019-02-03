@@ -18,7 +18,7 @@ Temp::Temp(int power, int pin) : myds(pin) {
 void Temp::init(void) {
   // turn device on
   // find ds18B20 address
-  DEBUGln("Temp: init");
+  //DEBUGln("Temp: init");
   on();
   getFirstDsAdd(myds, _dsAddr);
   //DEBUGln("_dsAddr is: ");
@@ -43,7 +43,7 @@ float Temp::read() {
   // block whilst we await a ready DS18B20
   // hard coded to 9bit sho should take less than 100ms
   
-  DEBUGln("Temp: read");
+  //DEBUGln("Temp: read");
   while (!myds.read()) {
     // block (do nothing)
   }
@@ -127,7 +127,7 @@ void Temp::startConvert(void) {
   // switch DS18B20 on
   // set resolution
   // call temp convert command
-  DEBUGln("Temp: startConvert");
+  //DEBUGln("Temp: startConvert");
   on();
   dsSetResolution(myds, _dsAddr);
   starttime = millis();
@@ -135,7 +135,7 @@ void Temp::startConvert(void) {
 }
 
 void Temp::dsConvertCommand(OneWire myds, byte addr[8]) {
-  DEBUGln("Temp: dsConvertCommand");
+  //DEBUGln("Temp: dsConvertCommand");
   myds.reset();
   myds.select(addr);
   // start conversion, with parasite power on at the end 
@@ -144,7 +144,7 @@ void Temp::dsConvertCommand(OneWire myds, byte addr[8]) {
 
 void Temp::dsSetResolution(OneWire myds, byte addr[8]) {
 
-  DEBUGln("Temp: dsSetResolution");
+  //DEBUGln("Temp: dsSetResolution");
   // Set 9 bit config
   myds.reset();
   myds.select(addr);
@@ -162,9 +162,9 @@ void Temp::getFirstDsAdd(OneWire myds, byte firstadd[]){
   byte i;
   byte addr[8];
   
-  DEBUGln("Looking for 1-Wire devices...");
+  //DEBUGln("Looking for 1-Wire devices...");
   while(myds.search(addr)) {
-    DEBUGln("Found \'1-Wire\' device with address: ");
+    //DEBUGln("Found \'1-Wire\' device with address: ");
     for( i = 0; i < 8; i++) {
       firstadd[i]=addr[i];
       DEBUG("0x");
@@ -177,14 +177,14 @@ void Temp::getFirstDsAdd(OneWire myds, byte firstadd[]){
       }
     }
     if ( OneWire::crc8( addr, 7) != addr[7]) {
-        DEBUGln("CRC is not valid!");
+        //DEBUGln("CRC is not valid!");
         return;
     }
      // the first ROM byte indicates which chip
-    DEBUGln("");
+    //DEBUGln("");
 
-    DEBUG("address:");
-    DEBUGln(addr[0]);
+    //DEBUG("address:");
+    //DEBUGln(addr[0]);
     
     return;
   } 
@@ -193,11 +193,11 @@ void Temp::getFirstDsAdd(OneWire myds, byte firstadd[]){
 void Temp::on(void) {
   // Switch device on by putting pin HIGH
   digitalWrite(_powerPin, HIGH);
-  DEBUGln("Temp device on!");
+  //DEBUGln("Temp device on!");
 }
 
 void Temp::off(void) {
   // turn off the Device by putting pin LOW
   digitalWrite(_powerPin, LOW);
-  DEBUGln("Temp device off!");
+  //DEBUGln("Temp device off!");
 }
