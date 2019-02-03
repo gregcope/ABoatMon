@@ -331,7 +331,7 @@ char* Gps::getdateTime() {
   }
 
   // format the _dateTime string
-  sprintf(_dateTime, "%04d/%02d/%02dT%02d:%02d:%02dZ", nmea.date.year(), nmea.date.month(), nmea.date.day(), nmea.time.hour(), nmea.time.minute(), nmea.time.second());
+  sprintf(_dateTime, "%04d%02d%02dT%02d:%02d:%02dZ", nmea.date.year(), nmea.date.month(), nmea.date.day(), nmea.time.hour(), nmea.time.minute(), nmea.time.second());
 
   // return
   return _dateTime;
@@ -345,7 +345,8 @@ double Gps::getLon(void) {
     updateFix(5000, 3);
     off();
   }
-  
+  DEBUG("nmea.location.lng(): ");
+  DEBUGln(nmea.location.lng());
   return nmea.location.lng();
 }
 
@@ -357,7 +358,8 @@ double Gps::getLat(void) {
     updateFix(5000, 3);
     off();
   }
-
+  DEBUG("nmea.location.lat(): ");
+  DEBUGln(nmea.location.lat());
   return nmea.location.lat();
 }
 

@@ -61,6 +61,8 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 //#define INITIAL_GPS_FIX_TIMEOUT_MSECS 300000 // time to try and get a fix in msecs is 300 secs, or 5 mins
 //#define INITIAL_GPS_FIX_TIMEOUT_MSECS 600000 // time to try and get a fix in msecs is 600 secs, or 10 mins
 #define INITIAL_GPS_FIX_TIMEOUT_MSECS 900000 // time to try and get a fix in msecs is 900 secs, or 15 mins
+#define INITIAL_GPS_FIX_TIMEOUT_MSECS 1200000 // time to try and get a fix in msecs is 1200 secs, or 20 mins
+
 
 //#define UPDATE_GPS_FIX_TIMEOUT_MSECS 15000 // 15 secs
 #define UPDATE_GPS_FIX_TIMEOUT_MSECS 60000 // 60 secs
@@ -117,9 +119,9 @@ char vccStr[10];
 char tempStr[11];
 float tempInC;
 char bilgeStr[12];
-char latStr[2]; // lat string
-char lonStr[2]; // lon string
-char disStr[6]; // in 99999m distance in 24hrs ... would not work in a fast yacht!
+//char latStr[2]; // lat string
+//char lonStr[2]; // lon string
+//char disStr[6]; // in 99999m distance in 24hrs ... would not work in a fast yacht!
 
 
 // Message varriables
@@ -361,7 +363,7 @@ void sendMessage(void) {
   vcc.regOn();
 
   //Put the message together
-  sprintf(messageStr, "'%s-%sv-%sv-%sc-%s-%d-%d-%dm'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, orgLat, orgLon, distance);  
+  sprintf(messageStr, "'%s-%sv-%sv-%sc-%s-%d-%d-%dm'", gps.getdateTime(), lipoStr, vccStr, tempStr, bilgeStr, orgLat, orgLon, distance);  
   DEBUG("Message is: ");
   DEBUGln(messageStr);
   
