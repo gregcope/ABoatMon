@@ -345,8 +345,6 @@ double Gps::getLon(void) {
     updateFix(5000, 3);
     off();
   }
-  DEBUG("nmea.location.lng(): ");
-  DEBUGln(nmea.location.lng());
   return nmea.location.lng();
 }
 
@@ -358,8 +356,6 @@ double Gps::getLat(void) {
     updateFix(5000, 3);
     off();
   }
-  DEBUG("nmea.location.lat(): ");
-  DEBUGln(nmea.location.lat());
   return nmea.location.lat();
 }
 

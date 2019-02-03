@@ -119,8 +119,8 @@ char vccStr[10];
 char tempStr[11];
 float tempInC;
 char bilgeStr[12];
-//char latStr[2]; // lat string
-//char lonStr[2]; // lon string
+char latStr[10]; // lat string
+char lonStr[10]; // lon string
 //char disStr[6]; // in 99999m distance in 24hrs ... would not work in a fast yacht!
 
 
@@ -343,6 +343,13 @@ void checkLocation(void) {
   // record where we are for next time
   orgLat = gps.getLat();
   orgLon = gps.getLon();
+
+  dtostrf(orgLat, 9,6, latStr);  //first number is length, last is numbers after decimal
+  dtostrf(orgLon, 9,6, lonStr);
+  DEBUG("lat: ");
+  Serial.print(orgLat, 6);
+  DEBUG(", lon: ");
+  Serial.println(orgLon, 6);
 }
 
 void sendMessage(void) {
@@ -354,16 +361,16 @@ void sendMessage(void) {
   }
 
   // send a message!!!!
-  // like 20190127T20:20:20-LIPO:5.0v-VCC:50.0v-TEMP:99.9c-BILGE:OK-LAT:NNNNN:LON:YYYYYY:DIS:NNNNNm
+  // like 20190127T20:20:20-LIPO:5.0v-VCC:50.0v-TEMP:99.9c,BILGE:OK,LAT:NNNNN:LON:YYYYYY:DIS:NNNNNm
   
   //Get a dateTime String
-  //sprintf(dateTimeStr, gps.getdateTime());
+  sprintf(dateTimeStr, gps.getdateTime());
 
   // going to try and pinch some power;
   vcc.regOn();
 
   //Put the message together
-  sprintf(messageStr, "'%s-%sv-%sv-%sc-%s-%d-%d-%dm'", gps.getdateTime(), lipoStr, vccStr, tempStr, bilgeStr, orgLat, orgLon, distance);  
+  sprintf(messageStr, "'%s-%sv,%sv,%sc,%s,%s,%s,%dm'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, distance);  
   DEBUG("Message is: ");
   DEBUGln(messageStr);
   
