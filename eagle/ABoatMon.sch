@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.3.0">
+<eagle version="9.1.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -7890,6 +7890,7 @@ https://forums.adafruit.com/viewtopic.php?f=22&amp;t=41452</text>
 <approved hash="113,1,170.417,81.5061,VCC,,,,,"/>
 <approved hash="113,1,38.3371,117.066,LIPO,,,,,"/>
 <approved hash="113,1,212.683,135.958,JST,,,,,"/>
+<approved hash="113,1,212.683,106.748,J5,,,,,"/>
 </errors>
 </schematic>
 </drawing>
