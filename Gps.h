@@ -40,6 +40,7 @@ class Gps
     double getLat(void);
     double getLon(void);
     double distanceMoved(double, double);
+    double haversine(double, double, double, double);
   private:
     int _powerPin;
     boolean _powerState;

@@ -16,6 +16,7 @@
 // External includes
 // https://github.com/mikalhart/TinyGPSPlus/releases 
 #include <TinyGPS++.h>
+//#include <stdlib.h>
 
 // internal classes/includes
 //#include "Config.h"
@@ -109,6 +110,8 @@ unsigned long cycleCount = 0;
 //double alarmLng = 181; // invalid Lat
 double orgLat = 0; // Last recorded Lat
 double orgLon = 0; // Last recorded lon
+double newLat = 0;
+double newLon = 0;
 double distance = 10000; // distance moved (default)
 
 // LipoBattery, Vcc and Temp variables & buffer strings
@@ -119,9 +122,9 @@ char vccStr[10];
 char tempStr[11];
 float tempInC;
 char bilgeStr[12];
-char latStr[10]; // lat string
-char lonStr[10]; // lon string
-char distanceStr[6];
+char latStr[30]; // lat string
+char lonStr[30]; // lon string
+char distanceStr[30];
 //char disStr[6]; // in 99999m distance in 24hrs ... would not work in a fast yacht!
 
 
@@ -145,7 +148,7 @@ boolean sendDailyMessageFlag = false;
 void setup() {
   Serial.begin(9600);
   Serial.flush();
-  DEBUGln("setup Start 13");
+  DEBUGln("setup Start 14");
   temp.init();
   //yep burn CPU for 1/2 sec... to let stuff settle
   delay(500);
@@ -335,19 +338,29 @@ void checkLocation(void) {
   gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);
   // check location vs last location
   // work out distance(orgLat, orgLon, lat, lon);
-  //gps.getLat(lat);
-  //gps.getLon(Lon);
-  distance = gps.distanceMoved(orgLat, orgLon);
-  // max 99999m moved in an interation or 99Km ~ as a boat could move 15km odd in an hour easily
-  // record where we are for next time
-  orgLat = gps.getLat();
-  orgLon = gps.getLon();
+  newLat = gps.getLat();
+  newLon = gps.getLon();
+//  distance = gps.distanceMoved(orgLat, orgLon);
+  distance = gps.haversine(newLat, newLon, orgLat, orgLon);
+  // save where we are now
+  orgLat = newLat;
+  orgLon = newLon;
 
-  dtostrf(orgLat, 9,6, latStr);  //first number is length, last is numbers after decimal
-  dtostrf(orgLon, 9,6, lonStr);
+  // convert Double to string
+  dtostrf(newLat, 10, 6, latStr);  //first number is length, last is numbers after decimal
+  dtostrf(newLon, 10, 6, lonStr);
+
+  //dtostrf(orgLon, 8, 6, lonStr);
+  // https://ukhas.org.uk/guides:common_coding_errors_payload_testing
+  //print_float(newLat, latStr, 30);
+  //print_float(newLon, lonStr, 30);
+
+  DEBUG("-----lat is: ");
+  DEBUG(latStr);
+  DEBUG("lon is: ");
+  DEBUGln(lonStr);
+
   dtostrf(distance, 9,2, distanceStr);
-  DEBUG("distance: ");
-  Serial.println(distanceStr);
 }
 
 void sendMessage(void) {
@@ -367,8 +380,13 @@ void sendMessage(void) {
   // going to try and pinch some power;
   vcc.regOn();
 
+  DEBUG("-----lat is: ");
+  DEBUG(latStr);
+  DEBUG("lon is: ");
+  DEBUGln(lonStr);
+
   //Put the message together
-  sprintf(messageStr, "'%s,%sv,%sv,%sc,%s,%s,%s,%dm'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, distanceStr);  
+  sprintf(messageStr, "'%s,%sv,%sv,%sc,%s,%s,%s,%sm'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, distanceStr);  
   DEBUG("Message is: ");
   DEBUGln(messageStr);
   
@@ -386,4 +404,11 @@ void sendMessage(void) {
   sendVccMessage = false;
   sendDailyMessageFlag = false;
   // done
-}  
+}
+
+void print_float(float what, char *where, int buf_size) {
+    int i1 = what;
+    long i2 = labs(lround((what - i1) * 1000000));
+ 
+    snprintf(where, buf_size, "%s%i.%06li", (what < 0 ? "-" : ""), labs(i1), i2);
+}
