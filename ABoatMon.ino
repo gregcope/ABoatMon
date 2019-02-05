@@ -347,18 +347,9 @@ void checkLocation(void) {
   orgLon = newLon;
 
   // convert Double to string
+  // https://ukhas.org.uk/guides:common_coding_errors_payload_testing
   dtostrf(newLat, 10, 6, latStr);  //first number is length, last is numbers after decimal
   dtostrf(newLon, 10, 6, lonStr);
-
-  //dtostrf(orgLon, 8, 6, lonStr);
-  // https://ukhas.org.uk/guides:common_coding_errors_payload_testing
-  //print_float(newLat, latStr, 30);
-  //print_float(newLon, lonStr, 30);
-
-  DEBUG("-----lat is: ");
-  DEBUG(latStr);
-  DEBUG("lon is: ");
-  DEBUGln(lonStr);
 
   dtostrf(distance, 9,2, distanceStr);
 }
@@ -380,11 +371,6 @@ void sendMessage(void) {
   // going to try and pinch some power;
   vcc.regOn();
 
-  DEBUG("-----lat is: ");
-  DEBUG(latStr);
-  DEBUG("lon is: ");
-  DEBUGln(lonStr);
-
   //Put the message together
   sprintf(messageStr, "'%s,%sv,%sv,%sc,%s,%s,%s,%sm'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, distanceStr);  
   DEBUG("Message is: ");
@@ -404,11 +390,4 @@ void sendMessage(void) {
   sendVccMessage = false;
   sendDailyMessageFlag = false;
   // done
-}
-
-void print_float(float what, char *where, int buf_size) {
-    int i1 = what;
-    long i2 = labs(lround((what - i1) * 1000000));
- 
-    snprintf(where, buf_size, "%s%i.%06li", (what < 0 ? "-" : ""), labs(i1), i2);
 }
