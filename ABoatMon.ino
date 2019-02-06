@@ -67,7 +67,7 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 
 //#define UPDATE_GPS_FIX_TIMEOUT_MSECS 15000 // 15 secs
 #define UPDATE_GPS_FIX_TIMEOUT_MSECS 60000 // 60 secs
-#define UPDATE_GPS_NUMBER_OF_FIXES 15 // 10 secs
+#define UPDATE_GPS_NUMBER_OF_FIXES 30 // 10 secs
 
 // Alarm settings
 #define LOW_TEMP_ALARM 2 // or could be 0 or -1
@@ -198,7 +198,7 @@ void checkLipo(void) {
   //DEBUGln(lipoVolts);
 }
 
-void checkVcc() {
+void checkVcc(void) {
   // read Vcc and enable regulator
   // do this each short iteration as we
   // will have to wait for temp anyway
@@ -338,8 +338,9 @@ void checkLocation(void) {
   gps.getUpdatedFix(UPDATE_GPS_FIX_TIMEOUT_MSECS, UPDATE_GPS_NUMBER_OF_FIXES);
   // check location vs last location
   // work out distance(orgLat, orgLon, lat, lon);
-  newLat = gps.getLat();
-  newLon = gps.getLon();
+  //newLat = gps.getLat();
+  //newLon = gps.getLon();
+  gps.getLocation(newLat, newLon);
 //  distance = gps.distanceMoved(orgLat, orgLon);
   distance = gps.haversine(newLat, newLon, orgLat, orgLon);
   // save where we are now

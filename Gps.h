@@ -36,9 +36,9 @@ class Gps
     boolean getUpdatedFix(unsigned long, int);
     boolean drainNmea(void);
     char* getdateTime(void);
+    //void getdateTime(char*);
     void init(void);
-    double getLat(void);
-    double getLon(void);
+    void getLocation(double&, double&);
     double distanceMoved(double, double);
     double haversine(double, double, double, double);
   private:

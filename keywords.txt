@@ -30,8 +30,7 @@ getUpdatedFix	KEYWORD 2
 drainNmea	KEYWORD 2
 setupGPS	KEYWORD 2
 getdateTime	KEYWORD 2
-getLat	KEYWORD 2
-getLon	KEYWORD 2
+getLocation KEYWORD 2
 blink	KEYWORD 2
 getFirstDsAdd	KEYWORD 2
 dsSetResolution	KEYWORD 2

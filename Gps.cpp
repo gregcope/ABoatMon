@@ -337,7 +337,7 @@ char* Gps::getdateTime() {
   return _dateTime;
 }
 
-double Gps::getLon(void) {
+void Gps::getLocation(double &newLat, double &newLon) {
 
   // if location is 2 seconds or more old, update
   if ( nmea.location.age() > 2000 ) {
@@ -345,19 +345,10 @@ double Gps::getLon(void) {
     updateFix(5000, 3);
     off();
   }
-  return nmea.location.lng();
+  newLat = nmea.location.lat();
+  newLon = nmea.location.lng();  
 }
 
-double Gps::getLat(void) {
-
-  // if location is 2 seconds or more old, update
-  if ( nmea.location.age() > 2000 ) {
-    on();
-    updateFix(5000, 3);
-    off();
-  }
-  return nmea.location.lat();
-}
 
 double Gps::distanceMoved(double lat, double lon) {
 
