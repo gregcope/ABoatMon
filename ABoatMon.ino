@@ -315,7 +315,6 @@ boolean doHourlyChecks(void) {
 
 boolean sendDailyMessage(void) {
 
-
   if ( cycleCount <= DAILY_CYCLES ) {
     DEBUG("cycleCount is: ");
     DEBUG(cycleCount);
