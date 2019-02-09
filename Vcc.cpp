@@ -49,7 +49,7 @@ float Vcc::read(void) {
     }
 
   vccVolts = VCC_FORMULA(vccReadings / 10.0);
-  //DEBUGln(lipoBatteryVolts);
+  //DEBUGln(vccVolts);
   return(vccVolts);
 
   //  dtostrf(batteryVolts,3,2, BATstr); //update the BATStr which gets sent every BATT_CYCLES or along with the MOTION message

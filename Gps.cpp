@@ -350,7 +350,7 @@ void Gps::getLocation(double &newLat, double &newLon) {
 }
 
 
-double Gps::distanceMoved(double lat, double lon) {
+void Gps::distanceMoved(double &lat, double &lon, double &distance) {
 
   // if location is 2 seconds or more old, update
   if ( nmea.location.age() > 2000 ) {
@@ -370,10 +370,10 @@ double Gps::distanceMoved(double lat, double lon) {
   Serial.print(", distance: ");
   
   //_distance = nmea.distanceBetween(nmea.location.lat(), nmea.location.lng(), lat, lon);
-  _distance = haversine(nmea.location.lat(), nmea.location.lng(), lat, lon);
-  Serial.println(_distance);
+  distance = haversine(nmea.location.lat(), nmea.location.lng(), lat, lon);
+  //Serial.println(_distance);
 
-  return _distance;
+  //return _distance;
 }
 
 

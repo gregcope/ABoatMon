@@ -16,7 +16,7 @@
 // External includes
 // https://github.com/mikalhart/TinyGPSPlus/releases 
 #include <TinyGPS++.h>
-//#include <stdlib.h>
+
 
 // internal classes/includes
 //#include "Config.h"
@@ -63,7 +63,6 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 //#define INITIAL_GPS_FIX_TIMEOUT_MSECS 600000 // time to try and get a fix in msecs is 600 secs, or 10 mins
 #define INITIAL_GPS_FIX_TIMEOUT_MSECS 900000 // time to try and get a fix in msecs is 900 secs, or 15 mins
 #define INITIAL_GPS_FIX_TIMEOUT_MSECS 1200000 // time to try and get a fix in msecs is 1200 secs, or 20 mins
-
 
 //#define UPDATE_GPS_FIX_TIMEOUT_MSECS 15000 // 15 secs
 #define UPDATE_GPS_FIX_TIMEOUT_MSECS 60000 // 60 secs
@@ -152,8 +151,8 @@ void setup() {
   temp.init();
   //yep burn CPU for 1/2 sec... to let stuff settle
   delay(500);
-  gps.init();
-  gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
+  //gps.init();
+  //gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
   DEBUGln("setup Done");
 }
 
@@ -176,7 +175,7 @@ void loop() {
   sendDailyMessage();
 
   // if we need to
-  sendMessage();
+//sendMessage();
 
   // done
   megaLed.off();
@@ -204,9 +203,9 @@ void checkVcc(void) {
   // will have to wait for temp anyway
   // so might either micro sleep or do something useful!
   vccVolts = vcc.read();
-  //DEBUG("vcc is: ");
-  //DEBUG(vccVolts);
-  //DEBUGln("V");
+  DEBUG("vcc is: ");
+  DEBUG(vccVolts);
+  DEBUGln("V");
 
   // check reg
   if ( vccVolts > REG_ON_VOLTS ) {
@@ -266,7 +265,7 @@ boolean doShortChecks(void) {
   checkVcc();
   checkBilge();
   checkTemp();
-  checkLocation();
+//checkLocation();
   // update cyclecount and return
   cycleCount++;
   return true;  
@@ -341,7 +340,8 @@ void checkLocation(void) {
   //newLon = gps.getLon();
   gps.getLocation(newLat, newLon);
 //  distance = gps.distanceMoved(orgLat, orgLon);
-  distance = gps.haversine(newLat, newLon, orgLat, orgLon);
+//  distance = gps.haversine(newLat, newLon, orgLat, orgLon);
+  gps.distanceMoved(orgLat, orgLon, distance);
   // save where we are now
   orgLat = newLat;
   orgLon = newLon;

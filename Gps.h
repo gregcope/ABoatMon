@@ -39,7 +39,8 @@ class Gps
     //void getdateTime(char*);
     void init(void);
     void getLocation(double&, double&);
-    double distanceMoved(double, double);
+    //double distanceMoved(double, double);
+    void distanceMoved(double&, double&, double&);
     double haversine(double, double, double, double);
   private:
     int _powerPin;
