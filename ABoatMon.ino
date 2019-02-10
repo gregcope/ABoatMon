@@ -9,7 +9,7 @@
  * Look at https://github.com/cdl1051/DS18B20_NROO/blob/master/DS18B20.h
  * https://lowpowerlab.com/forum/projects/temperature-sensing-with-ds18b20/msg18040/#msg18040
  * https://lowpowerlab.com/forum/moteino/improvedoptimized-ds18b201wire-read/msg14975/#msg14975
- * 
+ * s
  * 
  */ 
 
@@ -151,8 +151,8 @@ void setup() {
   temp.init();
   //yep burn CPU for 1/2 sec... to let stuff settle
   delay(500);
-  //gps.init();
-  //gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
+  gps.init();
+  gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
   DEBUGln("setup Done");
 }
 
@@ -175,7 +175,7 @@ void loop() {
   sendDailyMessage();
 
   // if we need to
-//sendMessage();
+  sendMessage();
 
   // done
   megaLed.off();
@@ -235,7 +235,7 @@ void checkBilge(void) {
   //DEBUGln(bilgeStr);  
 }
 
-void checkTemp(void) {
+void checkReadTemp(void) {
 
   // blocking read temp
   tempInC = temp.read();
@@ -258,17 +258,22 @@ boolean doShortChecks(void) {
   // returns wether to send a message
   DEBUGln("doShortChecks");
   
-  // kick off temp convert
-  temp.startConvert();
-
+  checkAsyncTemp();
   checkLipo();
   checkVcc();
   checkBilge();
-  checkTemp();
-//checkLocation();
+  checkReadTemp();
+  checkLocation();
   // update cyclecount and return
   cycleCount++;
   return true;  
+}
+
+void checkAsyncTemp(void) {
+
+  // kick off temp conversion
+  temp.startConvert();
+  
 }
 
 //boolean doLongChecks(void) {
@@ -372,7 +377,8 @@ void sendMessage(void) {
   vcc.regOn();
 
   //Put the message together
-  sprintf(messageStr, "'%s,%sv,%sv,%sc,%s,%s,%s,%sm'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, distanceStr);  
+  sprintf(messageStr, "'1,%s,%sv,%sv,%sc,%s,%s,%s,%sm'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, distanceStr);
+  removeSpaces(messageStr);
   DEBUG("Message is: ");
   DEBUGln(messageStr);
   
@@ -391,3 +397,17 @@ void sendMessage(void) {
   sendDailyMessageFlag = false;
   // done
 }
+
+// https://www.geeksforgeeks.org/remove-spaces-from-a-given-string/
+void removeSpaces(char *str) { 
+    // To keep track of non-space character count 
+    int count = 0; 
+  
+    // Traverse the given string. If current character 
+    // is not space, then place it at index 'count++' 
+    for (int i = 0; str[i]; i++) 
+        if (str[i] != ' ') 
+            str[count++] = str[i]; // here count is 
+                                   // incremented 
+    str[count] = '\0'; 
+} 
