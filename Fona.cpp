@@ -5,6 +5,7 @@ Fona::Fona(int enablePin) {
   // Constructor
   // Takes an int as pin to power up
   _enablePin = enablePin;
+  pinMode(_enablePin, OUTPUT);
 }
 
 boolean Fona::on(void) {
@@ -13,6 +14,7 @@ boolean Fona::on(void) {
   _powerState = true;
   Serial.begin(9600);
   Serial.flush();
+  DEBUGln("Fona on!");
   if ( Serial.available() > 0) {
     // spitting something out so assume on!
     return true;

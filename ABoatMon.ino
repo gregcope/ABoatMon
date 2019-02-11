@@ -33,7 +33,7 @@
 #define MEGA_LED 15
 #define D12_GPS_ENABLE 12
 #define BUTTON_LED 26
-#define BUTTON 25
+#define BUTTON_SWITCH 25
 #define BILGE_SWITCH 3 // Other line from BilgeSwitch to GND
 
 //#define LIPO_VOLTAGE_DIVIDER 24 // D24 is same as A0
@@ -47,9 +47,6 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 #define VCC_12V_24V_VOLTAGE_DIVIDER A5 
 #define VCC_12V_24V_ENABLE 19
 
-#define FONA_TX 8  // serial
-#define FONA_RX 9  // serial
-#define FONA_POWER 30
 #define FONA_KEY 14
 #define FONA_PS 18
 #define FONA_NETSTAT 13
@@ -88,11 +85,12 @@ Sleep sleep;
 Gps gps(D12_GPS_ENABLE);
 Lipo lipo(LIPO_VOLTAGE_DIVIDER);
 Vcc vcc(VCC_12V_24V_ENABLE, VCC_12V_24V_VOLTAGE_DIVIDER);
-Fona fona(FONA_POWER);
+Fona fona(FONA_KEY);
 Led megaLed(MEGA_LED);
 Led switchLed(BUTTON_LED);
 Temp temp(TEMP_POWER, TEMP_DATA);
 Button bilgeSwitch(BILGE_SWITCH);
+Button switchButton(BUTTON_SWITCH);
 
 // Cycle Vars
 unsigned long cycleCount = 0;
@@ -120,7 +118,7 @@ float vccVolts= 0;
 char vccStr[10];
 char tempStr[11];
 float tempInC;
-char bilgeStr[12];
+char bilgeStr[4];
 char latStr[30]; // lat string
 char lonStr[30]; // lon string
 char distanceStr[30];
@@ -147,7 +145,9 @@ boolean sendDailyMessageFlag = false;
 void setup() {
   Serial.begin(9600);
   Serial.flush();
-  DEBUGln("setup Start 14");
+  DEBUGln("setup Start 15");
+  //fona.on();
+  //fonaOnMillis = millis();
   temp.init();
   //yep burn CPU for 1/2 sec... to let stuff settle
   delay(500);
@@ -166,7 +166,7 @@ void loop() {
   sprintf(lipoStr, "LIPO:5.0v");
   sprintf(vccStr, "VCC:50.0v");
   sprintf(tempStr, "TEMP:99.9c");
-  sprintf(bilgeStr, "BILGE:OK");
+  sprintf(bilgeStr, "B:F");
   tempInC = -100;
 
   // do checks
@@ -229,7 +229,7 @@ void checkBilge(void) {
   if ( bilgeSwitch.isClosed() ) {
     // oh no ....
     sendBilgeMessage = true;
-    sprintf(bilgeStr, "BILGE:ALARM");
+    sprintf(bilgeStr, "B:T");
   }
   //DEBUG("bilgeStr: ");
   //DEBUGln(bilgeStr);  
