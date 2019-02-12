@@ -1,6 +1,10 @@
+#include <Adafruit_FONA.h>
+
 #include <Arduino.h>
 #include "Fona.h"
 
+
+//https://learn.adafruit.com/adafruit-fona-mini-gsm-gprs-cellular-phone-module?view=all#pinouts
 Fona::Fona(int enablePin) {
   // Constructor
   // Takes an int as pin to power up
@@ -15,6 +19,9 @@ boolean Fona::on(void) {
   Serial.begin(9600);
   Serial.flush();
   DEBUGln("Fona on!");
+  delay(2001);
+  DEBUGln("should still be on Fona on!");
+  digitalWrite(_enablePin, HIGH);
   if ( Serial.available() > 0) {
     // spitting something out so assume on!
     return true;

@@ -51,6 +51,11 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 #define FONA_PS 18
 #define FONA_NETSTAT 13
 
+//oled https://lowpowerlab.com/forum/moteinomega/moteino-(mega)-oled-and-u8g/msg7305/#msg7305
+#define OLED_﻿SDA 17
+#define OLED_﻿SCL 16
+#define OLED_POWER 20
+
 // Static defines
 #define FOURMIN_CYCLES 30 // 8 sec sleep * 30 cycles = 240 secs or 4 mins
 #define HOUR_CYCLES 450 // 8 sec sleep * 450 cyles == 3600 secs or 1 hour
@@ -146,7 +151,7 @@ void setup() {
   Serial.begin(9600);
   Serial.flush();
   DEBUGln("setup Start 15");
-  //fona.on();
+  fona.on();
   //fonaOnMillis = millis();
   temp.init();
   //yep burn CPU for 1/2 sec... to let stuff settle

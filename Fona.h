@@ -12,6 +12,11 @@
 
 #include <Arduino.h>
 
+#define APN_URL mobile.o2.co.uk
+#define APN_USERNAME o2web
+#define APN_PASSWORD password
+
+
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
 #define DEBUGln(input) {Serial.println(input); Serial.flush();}
 
