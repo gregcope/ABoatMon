@@ -25,7 +25,7 @@
 #include "Gps.h"
 #include "Lipo.h"
 #include "Vcc.h"
-#include "Fona.h"
+#include "Modem.h"
 #include "Led.h"
 #include "Temp.h"
 
@@ -90,7 +90,7 @@ Sleep sleep;
 Gps gps(D12_GPS_ENABLE);
 Lipo lipo(LIPO_VOLTAGE_DIVIDER);
 Vcc vcc(VCC_12V_24V_ENABLE, VCC_12V_24V_VOLTAGE_DIVIDER);
-Fona fona(FONA_KEY);
+Modem modem(FONA_KEY);
 Led megaLed(MEGA_LED);
 Led switchLed(BUTTON_LED);
 Temp temp(TEMP_POWER, TEMP_DATA);
@@ -151,8 +151,8 @@ void setup() {
   Serial.begin(9600);
   Serial.flush();
   DEBUGln("setup Start 15");
-  fona.on();
-  //fonaOnMillis = millis();
+  modem.on();
+  //modemOnMillis = millis();
   temp.init();
   //yep burn CPU for 1/2 sec... to let stuff settle
   delay(500);
