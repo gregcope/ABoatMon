@@ -25,7 +25,7 @@
 // 3.876V is 780 = 0.004969230769
 //#define BATT_FORMULA(reading) reading * 0.004969230769
 // 3.86 is 777 = 0.004967824968
-#define BATT_FORMULA(reading) reading * 0.004967824968
+//#define BATT_FORMULA(reading) reading * 0.004967824968
 // 3.85 is 776 = 0.004961340206
 #define BATT_FORMULA(reading) reading * 0.004961340206
 
