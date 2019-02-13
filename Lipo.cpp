@@ -14,8 +14,8 @@ float Lipo::read(void) {
   analogRead(_voltageDividerPin);
     for (byte i=0; i<10; i++) {
       //take 10 samples, and average
-      //DEBUG("analogRead: ");
-      //DEBUGln(analogRead(_voltageDividerPin));
+      DEBUG("analogRead: ");
+      DEBUGln(analogRead(_voltageDividerPin));
       lipoBatteryReadings+=analogRead(_voltageDividerPin);
     }
 

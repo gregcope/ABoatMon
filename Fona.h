@@ -12,6 +12,7 @@
 
 #include <Arduino.h>
 
+// https://support.giffgaff.com/t5/Help-Support/Using-Giffgaff-2G-sim-in-Adafruit-FONA/td-p/18143791
 #define APN_URL mobile.o2.co.uk
 #define APN_USERNAME o2web
 #define APN_PASSWORD password

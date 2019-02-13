@@ -3,6 +3,9 @@
 #include <Arduino.h>
 #include "Fona.h"
 
+// https://www.baldengineer.com/hologram-io-connects-fona-mqtt.html
+// https://www.hackster.io/baldengineer/fona-gps-tracker-2c2bbd
+// https://github.com/baldengineer/fona-gps-tracker/blob/master/MQTT-FONA-Teensy32-GPS.ino
 
 //https://learn.adafruit.com/adafruit-fona-mini-gsm-gprs-cellular-phone-module?view=all#pinouts
 Fona::Fona(int enablePin) {
