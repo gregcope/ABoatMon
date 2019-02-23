@@ -3,7 +3,7 @@
 /*
  * gps
  * 
- * Library to manage a gps device
+ * Library to manage a gps device with tinyGPS++
  * 
  * Greg Cope <greg.cope@gmail.com>
  * 
