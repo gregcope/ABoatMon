@@ -12,7 +12,8 @@
 
 #include <Arduino.h>
 //https://github.com/SlashDevin/NeoGPS/blob/master/extras/doc/Installing.md
-#include <TinyGPS++.h>
+#include <NMEAGPS.h>
+#include "GPSport.h"
 #include "Sleep.h"
 
 // debug functions
@@ -60,6 +61,7 @@ class Gns
     //int finalHDOP;
     //int hdop; 
     //TinyGPSPlus nmea;
+    static NMEAGPS  gps;
     //TinyGPSCustom antenna;
     //TinyGPSCustom fixqual;
     Sleep sleep;
