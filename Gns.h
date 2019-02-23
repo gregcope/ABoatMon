@@ -54,7 +54,7 @@ class Gns
     //unsigned long gpsTimerStart;
     //unsigned long gpsTimeToFixMs;
     //boolean gpsFixTimeoutReached;
-    //void setupGPS(void);
+    void setupGNS(void);
     //void printGPSData(void);
     //int initialHDOP;
     //int finalHDOP;
