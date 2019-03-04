@@ -83,23 +83,6 @@ void Gns::setupGNS(void) {
   DEBUGln(" ... done")
 }
 
-
-boolean Gns::drainNmea(void) {
-
-  // grab all avaliable data and feed it to the gps nmea parser
-  // returns fix state
-
-  //DEBUG_PORT.println( F("Looking for GPS device on " GPS_PORT_NAME) );
-
-  while ( gpsPort.available() ) {
-    gps.decode( gpsPort.read() );
-    //DEBUG_PORT.print( '.' );
-    // gooble up any serial output and parse
-  }
-
-  return fix.valid.status;
-}
-
 unsigned long Gns::getInitialFix(unsigned long timeout) {
 
   // get an initial fix
@@ -132,7 +115,7 @@ unsigned long Gns::getInitialFix(unsigned long timeout) {
 
     // update the nmea object lots of times
     // which updates gps object struct gps_fix
-    if ( updateFix(12000, 10) ) {
+    if ( updateFix(12000) ) {
       // do nothing - it works
     } else {
       // no nmea ... bail
@@ -167,8 +150,8 @@ unsigned long Gns::getInitialFix(unsigned long timeout) {
 
     DEBUG(", HDOP: ");
     DEBUG(hdop);
-    DEBUG(", gps.ava: ");
-    DEBUG( gps.available() );
+    DEBUG(", Serial1.ava: ");
+    DEBUG(Serial1.available());
     DEBUG(", ACCEPTABLE HDOP: ");
     DEBUG(ACCEPTABLE_GNS_HDOP_FOR_FIX);
     DEBUG(", initial HDOP: ");
@@ -233,24 +216,20 @@ unsigned long Gns::getInitialFix(unsigned long timeout) {
   return gnsTimeToFixMs;
 }
 
-boolean Gns::updateFix(unsigned long timeout, int updates) {
+boolean Gns::updateFix(unsigned long timeout) {
 
   // takes a nmea timeout and number of updates to do
   // assume timeout is 12 secs - 12000
-  // run until the nmea object is updated
-  // at least 10 times?
-  // gps object struct gps_fix
+  // update gps object struct gps_fix
   // return true or false if we got a fix
 
-  // TODO: remove updates
+  fixes = 0;
 
   DEBUG("Gns::updateFix with timeout: ")
-  DEBUG(timeout)
-  DEBUG(", updates: ")
-  DEBUGln(updates)
-  
+  DEBUGln(timeout)
+
+  // set timeout
   nmeaTimeoutMs = millis() + timeout;
-  nmeaUpdates = 0;
 
   // make sure GPS is on
   if ( !isOn() ) {
@@ -258,19 +237,21 @@ boolean Gns::updateFix(unsigned long timeout, int updates) {
     on();
   }
 
+  DEBUGln("Gns::updateFix - about to drain nmea");
+
   // drain the Serial gpsPort for required time
-  while ( nmeaTimeoutMs > millis() ) {
-    drainNmea();
-    nmeaUpdates ++;
+  while (nmeaTimeoutMs > millis()) {
+    while (gps.available( gpsPort )) {
+        fixes ++;
+        fix = gps.read();
+        DEBUGln("Gns::updateFix - internal fix"); 
+      }
   }
 
   DEBUG("Gns::updateFix reached nmeaTimeoutMs - ");
   DEBUG(nmeaTimeoutMs);
-  DEBUG(", updates: ");
-  DEBUGln(nmeaUpdates);
-  
-  // update fix datastructures (may or maynot be valid)
-  fix = gps.read();
+  DEBUG(", fixes: ");
+  DEBUGln(fixes);
 
   // if we have a fix return true, else return false)
   if ( fix.valid.location ) {

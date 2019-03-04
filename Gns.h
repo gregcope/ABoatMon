@@ -37,10 +37,10 @@ class Gns
     boolean on(void);
     void off(void);
     boolean isOn(void);
-    boolean updateFix(unsigned long, int);
+    boolean updateFix(unsigned long);
     unsigned long getInitialFix(unsigned long);
     //boolean getUpdatedFix(unsigned long, int);
-    boolean drainNmea(void);
+    //int drainNmea(void);
     //char* getdateTime(void);
     //void getLocation(double&, double&);
     //double distanceMoved(double, double);
@@ -51,7 +51,9 @@ class Gns
     boolean _powerState;
     //boolean nmeaOutput;
     //boolean serial1Output;
-    int nmeaUpdates;
+    //int nmeaUpdates;
+    //int sentencesUpdated;
+    int fixes;
     unsigned long nmeaTimeoutMs;
     unsigned long gnsFixTimeoutMs;
     unsigned long now;

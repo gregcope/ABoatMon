@@ -91,7 +91,7 @@ const int LIPO_VOLTAGE_DIVIDER = 0;
 // tinyGPS is a nmea feed parser
 Sleep sleep;
 Gps gps(D12_GPS_ENABLE);
-Gns gns(D12_GPS_ENABLE);
+//Gns gns(D12_GPS_ENABLE);
 Lipo lipo(LIPO_VOLTAGE_DIVIDER);
 Vcc vcc(VCC_12V_24V_ENABLE, VCC_12V_24V_VOLTAGE_DIVIDER);
 Modem modem(FONA_KEY);
@@ -160,10 +160,10 @@ void setup() {
   temp.init();
   //yep burn CPU for 1/2 sec... to let stuff settle
   delay(500);
-//  gps.init();
+  gps.init();
   // gns.init(); // don't need a neoGPS init - not using antenna output
-//  gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
-  gns.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
+  gps.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
+  //gns.getInitialFix(INITIAL_GPS_FIX_TIMEOUT_MSECS);
   DEBUGln("setup Done");
 }
 

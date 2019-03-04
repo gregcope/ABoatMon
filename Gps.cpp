@@ -330,7 +330,7 @@ char* Gps::getdateTime() {
     return _dateTime;
   }
 
-  // format the _dateTime string
+  // format the _dateTime stringx
   sprintf(_dateTime, "%04d%02d%02dT%02d:%02d:%02dZ", nmea.date.year(), nmea.date.month(), nmea.date.day(), nmea.time.hour(), nmea.time.minute(), nmea.time.second());
 
   // return
@@ -347,6 +347,29 @@ void Gps::getLocation(double &newLat, double &newLon) {
   }
   newLat = nmea.location.lat();
   newLon = nmea.location.lng();  
+}
+
+void Gps::getRawLocation(char &charLat, char &charLon) {
+
+//  sprintf(&lat, "%c%02c%
+  // if location is 2 seconds or more old, update
+  if ( nmea.location.age() > 2000 ) {
+    on();
+    updateFix(5000, 3);
+    off();
+  }
+
+  // converting rawLat deg / billionths into longs
+  // https://www.disk91.com/2016/technology/internet-of-things-technology/simple-lora-gps-tracker-based-on-rn2483-and-l80/
+  // payload testing
+  // https://ukhas.org.uk/guides:common_coding_errors_payload_testing
+  // simple GPS lib
+  // http://www.technoblogy.com/show?10WT
+
+  // sprintf config
+  // http://www.cplusplus.com/reference/cstdio/printf/
+  sprintf(&charLat, "%s%i.%08li",  nmea.location.rawLat().negative ? "-" : "+", nmea.location.rawLat().deg, nmea.location.rawLat().billionths);
+  sprintf(&charLat, "%s%i.%08li",  nmea.location.rawLng().negative ? "-" : "+", nmea.location.rawLng().deg, nmea.location.rawLng().billionths);  
 }
 
 
@@ -417,6 +440,17 @@ void Gps::printGPSData(void) {
     Serial.print(nmea.location.lat(), 6);
     Serial.print(F(","));
     Serial.print(nmea.location.lng(), 6);
+
+
+ Serial.print(F("GPS raw loc (deg then billionths): "));
+  char s[30];
+  char t[30];
+  sprintf(s, "%s%i.%09li",  nmea.location.rawLat().negative ? "-" : "+", nmea.location.rawLat().deg, nmea.location.rawLat().billionths);
+  sprintf(t, "%s%i.%09li",  nmea.location.rawLng().negative ? "-" : "+", nmea.location.rawLng().deg, nmea.location.rawLng().billionths);  
+  Serial.print(s);
+  Serial.print(",");
+  Serial.print(t);
+    
   }
   else
   {
