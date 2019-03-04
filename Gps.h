@@ -14,6 +14,14 @@
 #include <TinyGPS++.h>
 #include "Sleep.h"
 
+// Notes
+  // converting rawLat deg / billionths into longs
+  // https://www.disk91.com/2016/technology/internet-of-things-technology/simple-lora-gps-tracker-based-on-rn2483-and-l80/
+  // payload testing
+  // https://ukhas.org.uk/guides:common_coding_errors_payload_testing
+  // simple GPS lib
+  // http://www.technoblogy.com/show?10WT
+
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
 #define DEBUGln(input) {Serial.println(input); Serial.flush();}
