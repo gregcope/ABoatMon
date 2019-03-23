@@ -84,6 +84,15 @@ boolean Gps::updateFix(unsigned long timeout, int updates) {
   //DEBUG(", millis is: ")
   //DEBUGln(millis())
 
+  // https://forum.arduino.cc/index.php?topic=503368.0
+  // currentMillis = millis();  //get the current time
+  //if (currentMillis - startMillis >= period)  //test whether the period has elapsed
+  // {
+  //  analogWrite(ledPin, brightness);    //set the brightness of the LED
+  //  brightness += increment;    //will wrap round from 255 to 0 because brightness is an unsigned data type
+  //  startMillis = currentMillis;  //IMPORTANT to save the start time of the current LED brightness
+  //}
+
   while ( nmeaTimeoutMs > millis() ) {
 
     drainNmea();

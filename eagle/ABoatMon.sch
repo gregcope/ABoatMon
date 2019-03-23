@@ -7270,7 +7270,7 @@ This footprint was designed to help hold the alignment of a through-hole compone
 </libraries>
 <attributes>
 <attribute name="CNAME" value="MoteinoMega ABoatMon Shield"/>
-<attribute name="CREVISION" value="0.899"/>
+<attribute name="CREVISION" value="0.949"/>
 <attribute name="DESIGNER" value="gregcope@gmail.com"/>
 </attributes>
 <variantdefs>

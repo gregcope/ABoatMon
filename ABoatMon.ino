@@ -388,6 +388,10 @@ void sendMessage(void) {
   vcc.regOn();
 
   //Put the message together
+  // first 1 is API version
+  // https://docs.rockblock.rock7.com/docs/compressing-your-data
+  // RockBLOCK 9603 would be nice
+  // basically send ints 13.7v should be 137, ie drop the V, and decimal
   sprintf(messageStr, "'1,%s,%sv,%sv,%sc,%s,%s,%s,%sm'", dateTimeStr, lipoStr, vccStr, tempStr, bilgeStr, latStr, lonStr, distanceStr);
   removeSpaces(messageStr);
   DEBUG("Message is: ");
