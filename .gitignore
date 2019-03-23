@@ -83,3 +83,6 @@ eagle.epf
 
 # zip files
 *.zip
+
+# MacOSX files
+.DS_Store
