@@ -21,6 +21,10 @@
   // https://ukhas.org.uk/guides:common_coding_errors_payload_testing
   // simple GPS lib
   // http://www.technoblogy.com/show?10WT
+  // distance using lat/lon * 1000000
+  // https://forum.arduino.cc/index.php?topic=393511.msg3232854#msg3232854
+  // we have billionths
+  // e.g. 0.449678333*1000000000 = 449678333
 
 // debug functions
 #define DEBUG(input)   {Serial.print(input); Serial.flush();}
