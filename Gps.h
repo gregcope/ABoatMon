@@ -35,7 +35,6 @@
 #define ACCEPTABLE_GPS_HDOP_FOR_FIX 400 // was 160
 #define GOOD_GPS_HDOP_FOR_FIX 200
 
-
 class Gps
 {
   public:
@@ -79,6 +78,9 @@ class Gps
     char _dateTime[17];
     //int nmeaUpdated;
     double _distance;
+    long billion = 1000000000L;
+    long latBillionths;
+    long lonBillionths;
 };
 
 #endif
