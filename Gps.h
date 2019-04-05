@@ -50,6 +50,7 @@ class Gps
     //void getdateTime(char*);
     void init(void);
     void getLocation(double&, double&);
+    void getLocationBillionths(long&, long&);
     void getRawLocation(char &charLat, char &charLon);
     //double distanceMoved(double, double);
     void distanceMoved(double&, double&, double&);

@@ -346,6 +346,18 @@ char* Gps::getdateTime() {
   return _dateTime;
 }
 
+void Gps::getLocationBillionths(long &newLatBillionths, long &newLonBillionths) {
+
+  // if location is 2 seconds or more old, update
+  if ( nmea.location.age() > 2000 ) {
+    on();
+    updateFix(5000, 3);
+    off();
+  }
+  newLatBillionths = (nmea.location.rawLat().deg * billion) + (nmea.location.rawLat().billionths * billion);
+  newLonBillionths = (nmea.location.rawLng().deg * billion) + (nmea.location.rawLng().billionths * billion);
+}
+
 void Gps::getLocation(double &newLat, double &newLon) {
 
   // if location is 2 seconds or more old, update
