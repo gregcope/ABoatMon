@@ -25,7 +25,7 @@
 #include "Button.h"
 #include "Sleep.h"
 #include "Gps.h"
-#include "Gns.h"
+//#include "Gns.h"
 #include "Lipo.h"
 #include "Vcc.h"
 #include "Modem.h"
